@@ -1,15 +1,18 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue'
 
-import TInput from '../components/form/TInput.vue'
-import TButton from '../components/form/TButton.vue'
-import TSelect from '../components/form/TSelect.vue'
-import TCheckbox from '../components/form/TCheckbox.vue'
-import TDatePicker from '../components/form/TDatePicker.vue'
-import TTable from '../components/table/TTable.vue'
-import TProgressBar from '../components/TProgressBar.vue'
-import TConfirmDialog from '../components/dialog/TConfirmDialog.vue'
-import TDialog from '../components/dialog/TDialog.vue'
+import {
+  TConfirmDialog,
+  TDialog,
+  TButton,
+  TCheckbox,
+  TDatePicker,
+  TInput,
+  TOption,
+  TSelect,
+  TTable,
+  TProgressBar
+} from '../../index'
 
 const model = ref({
   username: '',
