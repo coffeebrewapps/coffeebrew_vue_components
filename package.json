@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "bundle": "esbuild ./tmp/assets/index-*.js --bundle --outfile=dist/index.js",
+    "bundle": "esbuild ./tmp/assets/index-*.js --bundle --outfile=dist/index.js && esbuild ./tmp/assets/index-*.css --bundle --loader:.ttf=file --loader:.woff2=file --outfile=dist/index.css",
     "preview": "vite preview"
   },
   "devDependencies": {
