@@ -5,13 +5,16 @@
   "repository": "git@github.com-coffeebrewapps:coffeebrewapps/coffeebrew_vue_components.git",
   "author": "Coffee Brew Apps <coffeebrewapps@gmail.com>",
   "license": "MIT",
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "bundle": "esbuild ./tmp/assets/index-*.js --bundle --outfile=dist/index.js",
     "preview": "vite preview"
   },
   "devDependencies": {
     "create-vue": "^3.6.1",
+    "esbuild": "^0.17.18",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
