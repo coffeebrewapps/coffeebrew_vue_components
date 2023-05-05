@@ -5,16 +5,23 @@
   "repository": "git@github.com-coffeebrewapps:coffeebrewapps/coffeebrew_vue_components.git",
   "author": "Coffee Brew Apps <coffeebrewapps@gmail.com>",
   "license": "MIT",
-  "main": "index.js",
+  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/coffeebrew_vue_components.umd.cjs",
+  "module": "./dist/coffeebrew_vue_components.js",
+  "exports": {
+    ".": {
+      "import": "./dist/coffeebrew_vue_components.js",
+      "require": "./dist/coffeebrew_vue_components.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "bundle": "esbuild ./tmp/assets/index-*.js --bundle --outfile=dist/index.js && esbuild ./tmp/assets/index-*.css --bundle --loader:.ttf=file --loader:.woff2=file --outfile=dist/index.css",
     "preview": "vite preview"
   },
   "devDependencies": {
     "create-vue": "^3.6.1",
-    "esbuild": "^0.17.18",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
