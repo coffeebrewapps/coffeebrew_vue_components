@@ -1,3 +1,4 @@
+import TAlert from './js/dialog/TAlert.vue'
 import TConfirmDialog from './js/dialog/TConfirmDialog.vue'
 import TDialog from './js/dialog/TDialog.vue'
 
@@ -14,6 +15,7 @@ import TProgressBar from './js/TProgressBar.vue'
 import './css/main.css'
 
 export {
+  TAlert,
   TConfirmDialog,
   TDialog,
   TButton,
