@@ -7,12 +7,12 @@
   "license": "MIT",
   "type": "module",
   "files": ["dist"],
-  "main": "./dist/coffeebrew_vue_components.umd.cjs",
-  "module": "./dist/coffeebrew_vue_components.js",
+  "main": "./dist/coffeebrew-vue-components.umd.cjs",
+  "module": "./dist/coffeebrew-vue-components.js",
   "exports": {
     ".": {
-      "import": "./dist/coffeebrew_vue_components.js",
-      "require": "./dist/coffeebrew_vue_components.umd.cjs"
+      "import": "./dist/coffeebrew-vue-components.js",
+      "require": "./dist/coffeebrew-vue-components.umd.cjs"
     }
   },
   "scripts": {

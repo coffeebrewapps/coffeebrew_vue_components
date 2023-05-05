@@ -18,7 +18,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
       name: 'CoffeebrewVueComponents',
-      fileName: 'coffeebrew_vue_components'
+      fileName: 'coffeebrew-vue-components'
     },
     rollupOptions: {
       external: ['vue'],
