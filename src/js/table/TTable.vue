@@ -196,7 +196,7 @@ function pageRight() {
               v-for="(header, i) in headers"
               class="col"
             >
-              <slot name="header-col" v-bind="{ header, i }">
+              <slot :name="`header-col.${header.key}`" v-bind="{ header, i }">
                 {{ header.label }}
               </slot> <!-- slot:header-col -->
             </th>
@@ -239,7 +239,7 @@ function pageRight() {
                 v-for="header in headers"
                 class="col"
               >
-                <slot name="data-col" v-bind="{ header, row, i }">
+                <slot :name="`data-col.${header.key}`" v-bind="{ header, row, i }">
                   {{ row[header.key] }}
                 </slot>
               </td>
