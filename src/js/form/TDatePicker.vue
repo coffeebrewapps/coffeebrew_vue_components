@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 
 const today = new Date()
 const defaultMinDate = new Date(today.getFullYear() - 10, 1, 1)
@@ -197,6 +197,18 @@ function selectDay(val) {
   showDayPicker.value = false
   emit('update:modelValue', computedSelectedDate)
 }
+
+function initDateFromModelValue() {
+  if (!props.modelValue) { return }
+
+  selectYear(props.modelValue.getFullYear())
+  selectMonth(props.modelValue.getMonth())
+  selectDay(props.modelValue.getDate())
+}
+
+onMounted(() => {
+  initDateFromModelValue()
+})
 </script>
 
 <template>
