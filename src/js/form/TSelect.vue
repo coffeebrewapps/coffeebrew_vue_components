@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 
 import TOption from './TOption.vue'
 
@@ -66,6 +66,10 @@ function selectOption(val) {
   selectedOption.value = val
   emit('update:modelValue', val)
 }
+
+onMounted(() => {
+  selectOption(props.modelValue)
+})
 </script>
 
 <template>
