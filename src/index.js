@@ -8,6 +8,7 @@ import TDatePicker from './js/form/TDatePicker.vue'
 import TInput from './js/form/TInput.vue'
 import TOption from './js/form/TOption.vue'
 import TSelect from './js/form/TSelect.vue'
+import TSelectTable from './js/form/TSelectTable.vue'
 
 import TTable from './js/table/TTable.vue'
 import TProgressBar from './js/TProgressBar.vue'
@@ -24,6 +25,7 @@ export {
   TInput,
   TOption,
   TSelect,
+  TSelectTable,
   TTable,
   TProgressBar
 }
