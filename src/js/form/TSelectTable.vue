@@ -25,15 +25,32 @@ const props = defineProps({
     type: String,
     default: 'Input'
   },
+  optionsLoading: {
+    type: Boolean,
+    default: false
+  },
   options: {
     type: Array,
     default() {
       return []
     }
+  },
+  optionsLength: {
+    type: Number,
+    default: 0
+  },
+  pagination: {
+    type: Object,
+    default() {
+      return {
+        limit: 5,
+        client: true
+      }
+    }
   }
 })
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
 const tableDialog = ref(false)
 const errorMessage = ref('')
@@ -67,18 +84,18 @@ function checkboxClass(row) {
   }
 }
 
-function optionsForSelect() {
+const selectedOptions = ref({})
+
+function initOptions() {
   return props.options.reduce((o, opt) => {
-    if (!!props.modelValue && typeof props.modelValue !== 'String') {
+    if (!!props.modelValue) {
       o[opt.value] = !!props.modelValue.find(v => v === opt.value)
     } else {
-      o[opt.value] = props.modelValue === opt.value
+      o[opt.value] = false
     }
     return o
   }, {})
 }
-
-const selectedOptions = ref(optionsForSelect())
 
 const selectedValues = computed(() => {
   return Object.keys(selectedOptions.value).filter((o) => {
@@ -101,10 +118,12 @@ function updateSelected(row) {
   emit('update:modelValue', selectedValues.value)
 }
 
-function updateOffsetAndReload() {
+function updateOffsetAndReload(offset) {
+  emit('offsetChange', offset)
 }
 
 onMounted(() => {
+  selectedOptions.value = initOptions()
 })
 </script>
 
@@ -160,9 +179,9 @@ onMounted(() => {
         :headers="tableHeaders"
         :data="options"
         :actions="actions"
-        :loading="false"
-        :total-data="options.length"
-        :pagination="{ limit: 5, client: true }"
+        :loading="optionsLoading"
+        :total-data="optionsLength"
+        :pagination="pagination"
         @offset-change="updateOffsetAndReload"
       >
 
