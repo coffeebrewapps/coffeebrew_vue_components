@@ -18,7 +18,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const checked = ref(false)
+const checked = ref(props.modelValue)
 
 const computedControlClass = computed(() => {
   if (props.label.length <= 10) {
