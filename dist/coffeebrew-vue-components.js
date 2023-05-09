@@ -239,7 +239,7 @@ const we = { class: "input-label" }, Se = {
   },
   emits: ["update:modelValue"],
   setup(e, { emit: r }) {
-    const l = e, a = w(!1), n = d(() => l.label.length <= 10 ? "input-control sm" : l.label.length > 10 && l.label.length <= 30 ? "input-control md" : "input-control lg"), _ = d(() => a.value ? "input-field checked" : "input-field");
+    const l = e, a = w(l.modelValue), n = d(() => l.label.length <= 10 ? "input-control sm" : l.label.length > 10 && l.label.length <= 30 ? "input-control md" : "input-control lg"), _ = d(() => a.value ? "input-field checked" : "input-field");
     function p() {
       a.value = !a.value, r("update:modelValue", a.value);
     }
@@ -256,7 +256,7 @@ const we = { class: "input-label" }, Se = {
       e.errorMessage.length > 0 ? (o(), i("div", Se, f(e.errorMessage), 1)) : P("", !0)
     ], 64));
   }
-}, Wt = /* @__PURE__ */ N(Ce, [["__scopeId", "data-v-12000660"]]);
+}, Wt = /* @__PURE__ */ N(Ce, [["__scopeId", "data-v-5ea6b79c"]]);
 const L = (e) => (G("data-v-d86d3630"), e = e(), H(), e), De = { class: "input-label" }, Te = { class: "selected" }, Ve = ["value"], Ie = ["value"], Me = ["value"], Be = /* @__PURE__ */ L(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-calendar-days" })
 ], -1)), xe = { class: "year picker" }, Pe = /* @__PURE__ */ L(() => /* @__PURE__ */ t("div", { class: "title" }, "Year", -1)), Fe = { class: "options" }, Ne = ["value", "onClick"], ze = { class: "value" }, Oe = /* @__PURE__ */ L(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-caret-right" }, null, -1)), Ye = /* @__PURE__ */ L(() => /* @__PURE__ */ t("div", { class: "title" }, "Month", -1)), Ae = { class: "options" }, Le = ["value", "onClick"], je = { class: "value" }, Re = /* @__PURE__ */ L(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-caret-right" }, null, -1)), We = /* @__PURE__ */ L(() => /* @__PURE__ */ t("div", { class: "title" }, "Day", -1)), Je = { class: "options" }, Ee = ["value", "onClick"], Ue = { class: "value" }, qe = {
