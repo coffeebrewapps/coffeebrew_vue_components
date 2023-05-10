@@ -77,35 +77,22 @@ const computedInputControlClass = computed(() => {
 })
 
 function checkboxClass(row) {
-  if (selectedOptions.value[row.value]) {
+  const found = selectedValues.value.find(v => v === row.value)
+  if (found) {
     return `checkbox checked`
   } else {
     return `checkbox`
   }
 }
 
-const selectedOptions = ref({})
-
-function initOptions() {
-  return props.options.reduce((o, opt) => {
-    if (!!props.modelValue) {
-      o[opt.value] = !!props.modelValue.find(v => v === opt.value)
-    } else {
-      o[opt.value] = false
-    }
-    return o
-  }, {})
-}
-
 const selectedValues = computed(() => {
-  return Object.keys(selectedOptions.value).filter((o) => {
-    return selectedOptions.value[o]
-  })
+  return props.modelValue
 })
 
 const selectedOptionsForDisplay = computed(() => {
   return selectedValues.value.map((selected) => {
-    return props.options.find(o => o.value === selected).label
+    const found = (props.options || []).find(o => o.value === selected) || {}
+    return found.label
   })
 })
 
@@ -114,8 +101,14 @@ function toggleSelect() {
 }
 
 function updateSelected(row) {
-  selectedOptions.value[row.value] = !selectedOptions.value[row.value]
-  emit('update:modelValue', selectedValues.value)
+  const found = selectedValues.value.findIndex(v => v === row.value)
+  let updated = []
+  if (found) {
+    updated = Array.from(selectedValues.value).splice(found, 1)
+  } else {
+    updated = Array.from(selectedValues.value).push(row.value)
+  }
+  emit('update:modelValue', updated)
 }
 
 function updateOffsetAndReload(offset) {
@@ -123,7 +116,6 @@ function updateOffsetAndReload(offset) {
 }
 
 onMounted(() => {
-  selectedOptions.value = initOptions()
 })
 </script>
 
