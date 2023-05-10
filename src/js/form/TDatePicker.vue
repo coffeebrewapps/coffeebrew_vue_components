@@ -85,34 +85,25 @@ const computedDayPickerClass = computed(() => {
 })
 
 const computedSelectedDate = computed(() => {
-  if (!selectedYear.value) { return null }
-  if (!selectedMonth.value) { return null }
-  if (!selectedDay.value) { return null }
-  return new Date(selectedYear.value, selectedMonth.value, selectedDay.value)
+  const year = selectedYear.value || (new Date()).getFullYear()
+  const month = selectedMonth.value || (new Date()).getMonth()
+  const day = selectedDay.value || (new Date()).getDate()
+  return new Date(year, month, day)
 })
 
 const displayYear = computed(() => {
-  if (selectedYear.value) {
-    return formatDateParts(selectedYear.value, 1, 1).split('-')[0]
-  } else {
-    return formatDate(new Date()).split('-')[0]
-  }
+  const year = selectedYear.value || (new Date()).getFullYear()
+  return formatDateParts(year, 1, 1).split('-')[0]
 })
 
 const displayMonth = computed(() => {
-  if (selectedMonth.value) {
-    return formatDateParts(1900, selectedMonth.value, 1).split('-')[1]
-  } else {
-    return formatDate(new Date()).split('-')[1]
-  }
+  const month = selectedMonth.value || (new Date()).getMonth()
+  return formatDateParts(1900, month, 1).split('-')[1]
 })
 
 const displayDay = computed(() => {
-  if (selectedDay.value) {
-    return formatDateParts(1900, 1, selectedDay.value).split('-')[2]
-  } else {
-    return formatDate(new Date()).split('-')[2]
-  }
+  const day = selectedDay.value || (new Date()).getDate()
+  return formatDateParts(1900, 1, day).split('-')[2]
 })
 
 function daysInMonth(year, month) {
@@ -123,11 +114,7 @@ function daysInMonth(year, month) {
 }
 
 function formatDate(date) {
-  const year = date.toLocaleString('default', { year: 'numeric' })
-  const month = date.toLocaleString('default', { month: '2-digit' })
-  const day = date.toLocaleString('default', { day: '2-digit' })
-
-  return [year, month, day].join('-');
+  return formatDateParts(date.getFullYear(), date.getMonth(), date.getDate())
 }
 
 function formatDateParts(year, month, day) {
@@ -160,7 +147,7 @@ function setYearClass(val) {
 }
 
 function setMonthClass(val) {
-  if (val === selectedMonth.value) {
+  if (parseInt(val) === selectedMonth.value) {
     return `option selected`
   } else {
     return `option`
@@ -199,11 +186,10 @@ function selectDay(val) {
 }
 
 function initDateFromModelValue() {
-  if (!props.modelValue) { return }
-
-  selectYear(props.modelValue.getFullYear())
-  selectMonth(props.modelValue.getMonth())
-  selectDay(props.modelValue.getDate())
+  const initDate = props.modelValue || (new Date())
+  selectYear(initDate.getFullYear())
+  selectMonth(initDate.getMonth())
+  selectDay(initDate.getDate())
 }
 
 onMounted(() => {
