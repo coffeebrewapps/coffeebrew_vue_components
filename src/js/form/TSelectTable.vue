@@ -101,14 +101,14 @@ function toggleSelect() {
 }
 
 function updateSelected(row) {
-  const found = selectedValues.value.findIndex(v => v === row.value)
-  let updated = []
-  if (found) {
-    updated = Array.from(selectedValues.value).splice(found, 1)
+  const dup = Array.from(selectedValues.value)
+  const found = dup.findIndex(v => v === row.value)
+  if (found < 0) {
+    dup.push(row.value)
   } else {
-    updated = Array.from(selectedValues.value).push(row.value)
+    dup.splice(found, 1)
   }
-  emit('update:modelValue', updated)
+  emit('update:modelValue', dup)
 }
 
 function updateOffsetAndReload(offset) {
