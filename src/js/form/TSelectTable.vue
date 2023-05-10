@@ -155,37 +155,37 @@ onMounted(() => {
     >
       {{ errorMessage }}
     </div>
+
+    <TDialog
+      v-if="tableDialog"
+      v-model="tableDialog"
+      title="Select"
+      :width="800"
+      :height="600"
+      class="options-dialog"
+    >
+      <template #body>
+        <TTable
+          :name="name"
+          :headers="tableHeaders"
+          :data="options"
+          :actions="actions"
+          :loading="optionsLoading"
+          :total-data="optionsLength"
+          :pagination="pagination"
+          @offset-change="updateOffsetAndReload"
+        >
+
+          <template #data-action="{ row, action, i }">
+            <div
+              :class="checkboxClass(row)"
+            >
+            </div>
+          </template>
+        </TTable>
+      </template>
+    </TDialog>
   </div>
-
-  <TDialog
-    v-if="tableDialog"
-    v-model="tableDialog"
-    title="Select"
-    :width="800"
-    :height="600"
-    class="options-dialog"
-  >
-    <template #body>
-      <TTable
-        :name="name"
-        :headers="tableHeaders"
-        :data="options"
-        :actions="actions"
-        :loading="optionsLoading"
-        :total-data="optionsLength"
-        :pagination="pagination"
-        @offset-change="updateOffsetAndReload"
-      >
-
-        <template #data-action="{ row, action, i }">
-          <div
-            :class="checkboxClass(row)"
-          >
-          </div>
-        </template>
-      </TTable>
-    </template>
-  </TDialog>
 </template>
 
 <style scoped>
