@@ -89,10 +89,18 @@ const selectedValues = computed(() => {
   return props.modelValue
 })
 
+const cachedOptionLabel = ref({})
+
 const selectedOptionsForDisplay = computed(() => {
   return selectedValues.value.map((selected) => {
-    const found = (props.options || []).find(o => o.value === selected) || {}
-    return found.label
+    if (!!cachedOptionLabel[selected]) {
+      return cachedOptionLabel[selected]
+    } else {
+      const found = (props.options || []).find(o => o.value === selected) || {}
+      const label = found.label
+      cachedOptionLabel[selected] = label
+      return label
+    }
   })
 })
 
