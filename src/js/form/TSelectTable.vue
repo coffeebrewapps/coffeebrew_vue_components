@@ -86,13 +86,21 @@ function checkboxClass(row) {
 }
 
 const selectedValues = computed(() => {
-  return props.modelValue.map(v => v.value)
+  if (props.modelValue) {
+    return props.modelValue.map(v => v.value)
+  } else {
+    return []
+  }
 })
 
 const cachedOptionLabel = ref({})
 
 const selectedOptionsForDisplay = computed(() => {
-  return props.modelValue.map(v => v.label)
+  if (props.modelValue) {
+    return props.modelValue.map(v => v.label)
+  } else {
+    return []
+  }
 })
 
 function toggleSelect() {
@@ -100,7 +108,7 @@ function toggleSelect() {
 }
 
 function updateSelected(row) {
-  const dup = Array.from(props.modelValue)
+  const dup = Array.from(props.modelValue || [])
   const found = selectedValues.value.findIndex(v => v === row.value)
   if (found < 0) { // not exists
     dup.push({ value: row.value, label: row.label })
