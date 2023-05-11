@@ -758,6 +758,7 @@ onMounted(() => {
 }
 
 .input-field .picker .options {
+  scroll-behavior: smooth;
   height: 150px;
   overflow-y: scroll;
 }
