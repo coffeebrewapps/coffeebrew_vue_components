@@ -86,22 +86,13 @@ function checkboxClass(row) {
 }
 
 const selectedValues = computed(() => {
-  return props.modelValue
+  return props.modelValue.map(v => v.value)
 })
 
 const cachedOptionLabel = ref({})
 
 const selectedOptionsForDisplay = computed(() => {
-  return selectedValues.value.map((selected) => {
-    if (!!cachedOptionLabel[selected]) {
-      return cachedOptionLabel[selected]
-    } else {
-      const found = (props.options || []).find(o => o.value === selected) || {}
-      const label = found.label
-      cachedOptionLabel[selected] = label
-      return label
-    }
-  })
+  return props.modelValue.map(v => v.label)
 })
 
 function toggleSelect() {
@@ -109,10 +100,10 @@ function toggleSelect() {
 }
 
 function updateSelected(row) {
-  const dup = Array.from(selectedValues.value)
-  const found = dup.findIndex(v => v === row.value)
-  if (found < 0) {
-    dup.push(row.value)
+  const dup = Array.from(props.modelValue)
+  const found = selectedValues.value.findIndex(v => v === row.value)
+  if (found < 0) { // not exists
+    dup.push({ value: row.value, label: row.label })
   } else {
     dup.splice(found, 1)
   }
