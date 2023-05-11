@@ -318,7 +318,7 @@ const L = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
         return d.setMonth(d.getMonth() + 1), d.setDate(d.getDate() - 1), Array.from(Array(d.getDate())).map((z, le) => le + 1);
       } else
         return Array.from(Array(30)).map((d, z) => z + 1);
-    }), $ = Array.from(Array(24)).map((a, V) => V), I = Array.from(Array(60)).map((a, V) => V), _ = Array.from(Array(60)).map((a, V) => V), N = u("yearPicker"), T = u("monthPicker"), b = u("dayPicker"), y = u("hourPicker"), v = u("minutePicker"), S = u("secondPicker"), k = u("yearOptions"), B = u("monthOptions"), H = u("dayOptions"), de = u("hourOptions"), he = u("minuteOptions"), me = u("secondOptions"), ye = u([]), ge = u([]), _e = u([]), ke = u([]), be = u([]), $e = u([]), te = u("collapsed"), E = u(), U = u(), W = u(), R = u(), F = u(), Y = u();
+    }), $ = Array.from(Array(24)).map((a, V) => V), I = Array.from(Array(60)).map((a, V) => V), _ = Array.from(Array(60)).map((a, V) => V), N = u("yearPicker"), T = u("monthPicker"), k = u("dayPicker"), y = u("hourPicker"), v = u("minutePicker"), S = u("secondPicker"), b = u("yearOptions"), B = u("monthOptions"), H = u("dayOptions"), de = u("hourOptions"), he = u("minuteOptions"), me = u("secondOptions"), ye = u([]), ge = u([]), _e = u([]), ke = u([]), be = u([]), $e = u([]), te = u("collapsed"), E = u(), U = u(), W = u(), R = u(), F = u(), Y = u();
     u();
     const ae = u(!1), X = u(!1), G = u(!1), K = u(!1), q = u(!1), J = u(!1), Ie = c(() => l.displayTime ? l.hour12 ? "input-control display-time hour12" : "input-control display-time hour24" : "input-control"), Be = c(() => `input-field ${te.value}`.trim()), Ae = c(() => ae.value ? "year picker show" : "year picker hide"), Re = c(() => X.value ? "month picker show" : "month picker hide"), Fe = c(() => G.value ? "day picker show" : "day picker hide"), Ye = c(() => l.displayTime && K.value ? "hour picker show" : "hour picker hide"), ze = c(() => l.displayTime && q.value ? "minute picker show" : "minute picker hide"), Le = c(() => l.displayTime && J.value ? "second picker show" : "second picker hide"), we = c(() => {
       const a = E.value || (/* @__PURE__ */ new Date()).getFullYear(), V = U.value || (/* @__PURE__ */ new Date()).getMonth(), d = W.value || (/* @__PURE__ */ new Date()).getDate(), z = R.value || 0, le = F.value || 0, fe = Y.value || 0;
@@ -378,7 +378,7 @@ const L = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
     function Te() {
       if (E.value) {
         const a = ye.value[m.indexOf(E.value)];
-        k.value.scrollTop = a.offsetTop;
+        b.value.scrollTop = a.offsetTop;
       }
       if (U.value) {
         const a = ge.value[U.value];
@@ -432,7 +432,7 @@ const L = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
       });
     }, { threshold: [0] });
     return ee(() => {
-      Z.observe(N.value), Z.observe(T.value), Z.observe(b.value), l.displayTime && (Z.observe(y.value), Z.observe(v.value), Z.observe(S.value)), tt();
+      Z.observe(N.value), Z.observe(T.value), Z.observe(k.value), l.displayTime && (Z.observe(y.value), Z.observe(v.value), Z.observe(S.value)), tt();
     }), (a, V) => (o(), i("div", {
       class: p(n(Ie))
     }, [
@@ -489,7 +489,7 @@ const L = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
           t("div", {
             class: "options",
             ref_key: "yearOptions",
-            ref: k
+            ref: b
           }, [
             (o(!0), i(M, null, A(n(m), (d) => (o(), i("div", {
               class: p(Ge(d)),
@@ -531,7 +531,7 @@ const L = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
         t("div", {
           class: p(n(Fe)),
           ref_key: "dayPicker",
-          ref: b
+          ref: k
         }, [
           Ft,
           t("div", {
@@ -816,7 +816,7 @@ const ca = (e) => (re("data-v-386634d6"), e = e(), ce(), e), da = { class: "inpu
             label: T.label,
             size: e.size,
             selected: $(T.value),
-            onSelect: (b) => I(T.value)
+            onSelect: (k) => I(T.value)
           }, null, 8, ["value", "label", "size", "selected", "onSelect"]))), 256))
         ])
       ], 2),
@@ -833,7 +833,7 @@ const ga = { class: "progress-bar" }, _a = {
     },
     speed: {
       type: Number,
-      default: 10
+      default: 100
     },
     bidirection: {
       type: Boolean,
@@ -845,31 +845,31 @@ const ga = { class: "progress-bar" }, _a = {
     }
   },
   setup(e) {
-    const f = e, l = u("forward"), s = u(null), r = u(null), g = u(), m = c(() => `bar forward-bar ${l.value}`), C = c(() => f.bidirection ? `bar reverse-bar ${l.value}` : "bar reverse-bar hide");
+    const f = e, l = u("forward"), s = u("forwardBar"), r = u("reverseBar"), g = u(), m = c(() => `bar forward-bar ${l.value}`), C = c(() => f.bidirection ? `bar reverse-bar ${l.value}` : "bar reverse-bar hide");
     ee(() => {
       g.value = setInterval($, f.speed);
     });
-    function w(b) {
-      return parseInt(b.style.width.split("%")[0]);
+    function w(k) {
+      return k ? parseInt(k.style.width.split("%")[0]) : 0;
     }
     function $() {
       f.bidirection ? _() : I();
     }
     function I() {
-      const b = w(s.value);
-      b === 100 ? f.indefinite ? N(s.value) : clearInterval(g.value) : T(s.value, "forward", b);
+      const k = w(s.value);
+      k === 100 ? f.indefinite ? N(s.value) : clearInterval(g.value) : T(s.value, "forward", k);
     }
     function _() {
-      const b = w(s.value), y = w(r.value);
-      l.value === "forward" && b === 100 ? (l.value = "reverse", T(s.value, "reverse", b), T(r.value, "forward", y)) : l.value === "reverse" && y === 100 ? (l.value = "forward", T(s.value, "forward", b), T(r.value, "reverse", y)) : l.value === "forward" ? (T(s.value, "forward", b), T(r.value, "reverse", y)) : l.value === "reverse" && (T(s.value, "reverse", b), T(r.value, "forward", y));
+      const k = w(s.value), y = w(r.value);
+      l.value === "forward" && k === 100 ? (l.value = "reverse", T(s.value, "reverse", k), T(r.value, "forward", y)) : l.value === "reverse" && y === 100 ? (l.value = "forward", T(s.value, "forward", k), T(r.value, "reverse", y)) : l.value === "forward" ? (T(s.value, "forward", k), T(r.value, "reverse", y)) : l.value === "reverse" && (T(s.value, "reverse", k), T(r.value, "forward", y));
     }
-    function N(b) {
-      b.style.width = "0%";
+    function N(k) {
+      k.style.width = "0%";
     }
-    function T(b, y, v) {
-      y === "forward" ? b.style.width = [(v + f.step).toString(), "%"].join("") : b.style.width = [(v - f.step).toString(), "%"].join("");
+    function T(k, y, v) {
+      k && (y === "forward" ? k.style.width = [(v + f.step).toString(), "%"].join("") : k.style.width = [(v - f.step).toString(), "%"].join(""));
     }
-    return (b, y) => (o(), i("div", ga, [
+    return (k, y) => (o(), i("div", ga, [
       t("div", {
         class: p(n(m)),
         style: { width: "0%" },
@@ -884,7 +884,7 @@ const ga = { class: "progress-bar" }, _a = {
       }, null, 2)
     ]));
   }
-}, ka = /* @__PURE__ */ j(_a, [["__scopeId", "data-v-554f77de"]]);
+}, ka = /* @__PURE__ */ j(_a, [["__scopeId", "data-v-8639eecf"]]);
 const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "table-container" }, $a = { class: "table-actions" }, wa = { class: "actions" }, Ta = ["onClick"], Sa = { class: "tooltip" }, Ca = { class: "header" }, Da = { class: "row" }, Va = { class: "col" }, Pa = {
   key: 0,
   class: "col"
@@ -951,7 +951,7 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
       start: s.value + 1,
       end: s.value + r.value
     }), N = c(() => _.value.start === 1 ? "pager left" : "pager left show"), T = c(() => _.value.end === $.value ? "pager right" : "pager right show");
-    function b() {
+    function k() {
       _.value.start === 1 || (s.value - r.value < 0 ? s.value = 0 : s.value = s.value - r.value), f("offsetChange", s.value);
     }
     function y() {
@@ -968,15 +968,15 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
             ], !0)
           ], 2),
           t("div", wa, [
-            (o(!0), i(M, null, A(e.tableActions, (k) => (o(), i("div", {
+            (o(!0), i(M, null, A(e.tableActions, (b) => (o(), i("div", {
               class: "action",
-              onClick: (B) => k.click(e.data)
+              onClick: (B) => b.click(e.data)
             }, [
-              D(v.$slots, "table-action", x(O({ action: k, data: e.data })), () => [
+              D(v.$slots, "table-action", x(O({ action: b, data: e.data })), () => [
                 t("i", {
-                  class: p(k.icon)
+                  class: p(b.icon)
                 }, null, 2),
-                t("span", Sa, h(k.name), 1)
+                t("span", Sa, h(b.name), 1)
               ], !0)
             ], 8, Ta))), 256))
           ])
@@ -988,9 +988,9 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
         t("thead", Ca, [
           t("tr", Da, [
             D(v.$slots, "header-row", x(O({ headers: e.headers, actions: e.actions })), () => [
-              (o(!0), i(M, null, A(e.headers, (k, B) => (o(), i("th", Va, [
-                D(v.$slots, `header-col.${k.key}`, x(O({ header: k, i: B })), () => [
-                  se(h(k.label), 1)
+              (o(!0), i(M, null, A(e.headers, (b, B) => (o(), i("th", Va, [
+                D(v.$slots, `header-col.${b.key}`, x(O({ header: b, i: B })), () => [
+                  se(h(b.label), 1)
                 ], !0)
               ]))), 256)),
               e.actions.length > 0 ? (o(), i("th", Pa, [
@@ -1007,23 +1007,23 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
           ])) : P("", !0)
         ]),
         t("tbody", Ma, [
-          n(g) ? P("", !0) : (o(!0), i(M, { key: 0 }, A(n(I), (k, B) => (o(), i("tr", Ia, [
-            D(v.$slots, "data-row", x(O({ headers: e.headers, row: k, actions: e.actions, i: B })), () => [
-              D(v.$slots, "data-content", x(O({ headers: e.headers, row: k, i: B })), () => [
+          n(g) ? P("", !0) : (o(!0), i(M, { key: 0 }, A(n(I), (b, B) => (o(), i("tr", Ia, [
+            D(v.$slots, "data-row", x(O({ headers: e.headers, row: b, actions: e.actions, i: B })), () => [
+              D(v.$slots, "data-content", x(O({ headers: e.headers, row: b, i: B })), () => [
                 (o(!0), i(M, null, A(e.headers, (H) => (o(), i("td", Ba, [
-                  D(v.$slots, `data-col.${H.key}`, x(O({ header: H, row: k, i: B })), () => [
-                    se(h(k[H.key]), 1)
+                  D(v.$slots, `data-col.${H.key}`, x(O({ header: H, row: b, i: B })), () => [
+                    se(h(b[H.key]), 1)
                   ], !0)
                 ]))), 256))
               ], !0),
               e.actions.length > 0 ? (o(), i("td", Aa, [
-                D(v.$slots, "data-actions", x(O({ row: k, actions: e.actions, i: B })), () => [
+                D(v.$slots, "data-actions", x(O({ row: b, actions: e.actions, i: B })), () => [
                   t("div", Ra, [
                     (o(!0), i(M, null, A(e.actions, (H) => (o(), i("div", {
                       class: "action",
-                      onClick: (de) => H.click(k, B)
+                      onClick: (de) => H.click(b, B)
                     }, [
-                      D(v.$slots, "data-action", x(O({ row: k, action: H, i: B })), () => [
+                      D(v.$slots, "data-action", x(O({ row: b, action: H, i: B })), () => [
                         t("i", {
                           class: p(H.icon)
                         }, null, 2),
@@ -1038,10 +1038,10 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
         ])
       ], 2),
       t("div", za, [
-        D(v.$slots, "pagination", x(O({ pageLeft: b, pageRight: y, start: n(_).start, end: n(_).end, total: n($) })), () => [
+        D(v.$slots, "pagination", x(O({ pageLeft: k, pageRight: y, start: n(_).start, end: n(_).end, total: n($) })), () => [
           t("div", {
             class: p(n(N)),
-            onClick: S[0] || (S[0] = (k) => b())
+            onClick: S[0] || (S[0] = (b) => k())
           }, [
             D(v.$slots, "pager-left", {}, () => [
               La
@@ -1056,7 +1056,7 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
           ]),
           t("div", {
             class: p(n(T)),
-            onClick: S[1] || (S[1] = (k) => y())
+            onClick: S[1] || (S[1] = (b) => y())
           }, [
             D(v.$slots, "pager-right", {}, () => [
               Ua
@@ -1138,7 +1138,7 @@ const Ja = (e) => (re("data-v-4b4a798c"), e = e(), ce(), e), qa = { class: "inpu
       if (I[y])
         return I[y];
       {
-        const S = ((l.options || []).find((k) => k.value === y) || {}).label;
+        const S = ((l.options || []).find((b) => b.value === y) || {}).label;
         return I[y] = S, S;
       }
     }));
@@ -1146,10 +1146,10 @@ const Ja = (e) => (re("data-v-4b4a798c"), e = e(), ce(), e), qa = { class: "inpu
       s.value = !s.value;
     }
     function T(y) {
-      const v = Array.from($.value), S = v.findIndex((k) => k === y.value);
+      const v = Array.from($.value), S = v.findIndex((b) => b === y.value);
       S < 0 ? v.push(y.value) : v.splice(S, 1), f("update:modelValue", v);
     }
-    function b(y) {
+    function k(y) {
       f("offsetChange", y);
     }
     return ee(() => {
@@ -1187,9 +1187,9 @@ const Ja = (e) => (re("data-v-4b4a798c"), e = e(), ce(), e), qa = { class: "inpu
             loading: e.optionsLoading,
             "total-data": e.optionsLength,
             pagination: e.pagination,
-            onOffsetChange: b
+            onOffsetChange: k
           }, {
-            "data-action": ne(({ row: S, action: k, i: B }) => [
+            "data-action": ne(({ row: S, action: b, i: B }) => [
               t("div", {
                 class: p(w(S))
               }, null, 2)
