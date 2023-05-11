@@ -2,8 +2,8 @@
 import { onMounted, computed, ref } from 'vue'
 
 const direction = ref('forward')
-const forwardBar = ref(null)
-const reverseBar = ref(null)
+const forwardBar = ref('forwardBar')
+const reverseBar = ref('reverseBar')
 const intervalId = ref()
 
 const props = defineProps({
@@ -13,7 +13,7 @@ const props = defineProps({
   },
   speed: {
     type: Number,
-    default: 10
+    default: 100
   },
   bidirection: {
     type: Boolean,
@@ -42,7 +42,11 @@ onMounted(() => {
 })
 
 function currentWidth(bar) {
-  return parseInt(bar.style.width.split('%')[0])
+  if (bar) {
+    return parseInt(bar.style.width.split('%')[0])
+  } else {
+    return 0
+  }
 }
 
 function animate() {
@@ -93,6 +97,7 @@ function resetWidth(bar) {
 }
 
 function step(bar, direction, current) {
+  if (!bar) { return }
   if (direction === 'forward') {
     bar.style.width = [(current + props.step).toString(), '%'].join('')
   } else {
