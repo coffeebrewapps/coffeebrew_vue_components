@@ -5,6 +5,7 @@ import TDialog from './js/dialog/TDialog.vue'
 import TButton from './js/form/TButton.vue'
 import TCheckbox from './js/form/TCheckbox.vue'
 import TDatePicker from './js/form/TDatePicker.vue'
+import TDateTimePicker from './js/form/TDateTimePicker.vue'
 import TInput from './js/form/TInput.vue'
 import TOption from './js/form/TOption.vue'
 import TSelect from './js/form/TSelect.vue'
@@ -23,6 +24,7 @@ export {
   TButton,
   TCheckbox,
   TDatePicker,
+  TDateTimePicker,
   TInput,
   TOption,
   TSelect,
