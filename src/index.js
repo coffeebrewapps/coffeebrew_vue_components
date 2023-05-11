@@ -10,7 +10,6 @@ import TInput from './js/form/TInput.vue'
 import TOption from './js/form/TOption.vue'
 import TSelect from './js/form/TSelect.vue'
 import TSelectTable from './js/form/TSelectTable.vue'
-import TTimePicker from './js/form/TTimePicker.vue'
 
 import TTable from './js/table/TTable.vue'
 import TProgressBar from './js/TProgressBar.vue'
@@ -29,7 +28,6 @@ export {
   TOption,
   TSelect,
   TSelectTable,
-  TTimePicker,
   TTable,
   TProgressBar
 }
