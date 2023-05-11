@@ -1,9 +1,9 @@
 import { ref as u, computed as c, onMounted as ee, openBlock as o, createElementBlock as i, normalizeClass as m, unref as n, createElementVNode as t, renderSlot as C, createTextVNode as se, toDisplayString as h, createBlock as oe, isRef as ve, withCtx as ne, createCommentVNode as V, createVNode as ue, Fragment as O, watch as lt, renderList as M, pushScopeId as re, popScopeId as ce, normalizeProps as P, guardReactiveProps as x } from "vue";
 const H = (e, v) => {
-  const l = e.__vccOpts || e;
+  const a = e.__vccOpts || e;
   for (const [s, r] of v)
-    l[s] = r;
-  return l;
+    a[s] = r;
+  return a;
 }, st = { class: "menu-bar" }, nt = { class: "container" }, ot = { class: "heading" }, it = { class: "body" }, ut = { class: "actions" }, rt = {
   __name: "TDialog",
   props: {
@@ -26,12 +26,12 @@ const H = (e, v) => {
   },
   emits: ["update:modelValue"],
   setup(e, { emit: v }) {
-    const l = e, s = u("dialog"), r = c(() => l.modelValue ? "dialog show" : "dialog hide");
+    const a = e, s = u("dialog"), r = c(() => a.modelValue ? "dialog show" : "dialog hide");
     function g() {
       v("update:modelValue", !1);
     }
     return ee(() => {
-      s.value.style.width = `${l.width}px`, s.value.style.height = `${l.height}px`, s.value.style.top = `calc((100vh - ${s.value.style.height}) / 2)`, s.value.style.left = `calc((100vw - ${s.value.style.width}) / 2)`;
+      s.value.style.width = `${a.width}px`, s.value.style.height = `${a.height}px`, s.value.style.top = `calc((100vh - ${s.value.style.height}) / 2)`, s.value.style.left = `calc((100vw - ${s.value.style.width}) / 2)`;
     }), (y, S) => (o(), i("div", {
       class: m(n(r)),
       ref_key: "dialog",
@@ -86,8 +86,8 @@ const H = (e, v) => {
   },
   emits: ["update:modelValue"],
   setup(e, { emit: v }) {
-    const l = e, s = u("dialog"), r = c({
-      get: () => l.modelValue,
+    const a = e, s = u("dialog"), r = c({
+      get: () => a.modelValue,
       set: (g) => {
         v("update:modelValue", g);
       }
@@ -132,7 +132,7 @@ const dt = { key: 0 }, ft = {
     click: null
   },
   setup(e, { emit: v }) {
-    const l = e, s = c(() => `button ${l.buttonType} ${l.size}`.trim()), r = c(() => `${l.icon} fa-lg`.trim());
+    const a = e, s = c(() => `button ${a.buttonType} ${a.size}`.trim()), r = c(() => `${a.icon} fa-lg`.trim());
     return (g, y) => (o(), i("div", {
       class: m(n(s)),
       onClick: y[0] || (y[0] = (S) => g.$emit("click"))
@@ -174,8 +174,8 @@ const vt = { class: "primary-text" }, pt = { class: "secondary-text" }, mt = {
   },
   emits: ["update:modelValue", "confirm", "cancel"],
   setup(e, { emit: v }) {
-    const l = e, s = u("dialog"), r = c({
-      get: () => l.modelValue,
+    const a = e, s = u("dialog"), r = c({
+      get: () => a.modelValue,
       set: (S) => {
         v("update:modelValue", S);
       }
@@ -239,7 +239,7 @@ const ht = { class: "input-label" }, yt = {
   },
   emits: ["update:modelValue"],
   setup(e, { emit: v }) {
-    const l = e, s = u(l.modelValue), r = c(() => l.label.length <= 10 ? "input-control sm" : l.label.length > 10 && l.label.length <= 30 ? "input-control md" : "input-control lg"), g = c(() => s.value ? "input-field checked" : "input-field");
+    const a = e, s = u(a.modelValue), r = c(() => a.label.length <= 10 ? "input-control sm" : a.label.length > 10 && a.label.length <= 30 ? "input-control md" : "input-control lg"), g = c(() => s.value ? "input-field checked" : "input-field");
     function y() {
       s.value = !s.value, v("update:modelValue", s.value);
     }
@@ -296,9 +296,9 @@ const Y = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
   },
   emits: ["update:modelValue"],
   setup(e, { emit: v }) {
-    const l = e, s = /* @__PURE__ */ new Date(), r = new Date(s.getFullYear() - 10, 1, 1), g = new Date(s.getFullYear() + 9, 12, 31), y = [
+    const a = e, s = /* @__PURE__ */ new Date(), r = new Date(s.getFullYear() - 10, 1, 1), g = new Date(s.getFullYear() + 9, 12, 31), y = [
       ...Array(g.getFullYear() - r.getFullYear()).keys()
-    ].map((a) => a + r.getFullYear()), S = [
+    ].map((l) => l + r.getFullYear()), S = [
       "Jan",
       "Feb",
       "Mar",
@@ -312,128 +312,128 @@ const Y = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
       "Nov",
       "Dec"
     ], $ = c(() => {
-      const a = E.value, D = U.value;
-      if (a && D) {
-        const d = new Date(a, D, 1);
+      const l = E.value, D = U.value;
+      if (l && D) {
+        const d = new Date(l, D, 1);
         return d.setMonth(d.getMonth() + 1), d.setDate(d.getDate() - 1), Array.from(Array(d.getDate())).map((F, le) => le + 1);
       } else
         return Array.from(Array(30)).map((d, F) => F + 1);
-    }), w = Array.from(Array(24)).map((a, D) => D), z = Array.from(Array(60)).map((a, D) => D), _ = Array.from(Array(60)).map((a, D) => D), N = u("yearPicker"), T = u("monthPicker"), f = u("dayPicker"), k = u("hourPicker"), p = u("minutePicker"), j = u("secondPicker"), b = u("yearOptions"), I = u("monthOptions"), L = u("dayOptions"), de = u("hourOptions"), me = u("minuteOptions"), he = u("secondOptions"), ye = u([]), ge = u([]), _e = u([]), ke = u([]), be = u([]), $e = u([]), te = u("collapsed"), E = u(), U = u(), W = u(), B = u(), A = u(), R = u();
+    }), w = Array.from(Array(24)).map((l, D) => D), z = Array.from(Array(60)).map((l, D) => D), _ = Array.from(Array(60)).map((l, D) => D), N = u("yearPicker"), T = u("monthPicker"), f = u("dayPicker"), k = u("hourPicker"), p = u("minutePicker"), j = u("secondPicker"), b = u("yearOptions"), I = u("monthOptions"), L = u("dayOptions"), de = u("hourOptions"), me = u("minuteOptions"), he = u("secondOptions"), ye = u([]), ge = u([]), _e = u([]), ke = u([]), be = u([]), $e = u([]), te = u("collapsed"), E = u(), U = u(), W = u(), B = u(), A = u(), R = u();
     u();
-    const ae = u(!1), X = u(!1), G = u(!1), K = u(!1), q = u(!1), J = u(!1), Ie = c(() => l.displayTime ? l.hour12 ? "input-control display-time hour12" : "input-control display-time hour24" : "input-control"), Be = c(() => `input-field ${te.value}`.trim()), Ae = c(() => ae.value ? "year picker show" : "year picker hide"), Re = c(() => X.value ? "month picker show" : "month picker hide"), Fe = c(() => G.value ? "day picker show" : "day picker hide"), Ye = c(() => l.displayTime && K.value ? "hour picker show" : "hour picker hide"), ze = c(() => l.displayTime && q.value ? "minute picker show" : "minute picker hide"), Ne = c(() => l.displayTime && J.value ? "second picker show" : "second picker hide"), we = c(() => {
-      const a = E.value || (/* @__PURE__ */ new Date()).getFullYear(), D = U.value || (/* @__PURE__ */ new Date()).getMonth(), d = W.value || (/* @__PURE__ */ new Date()).getDate(), F = B.value || 0, le = A.value || 0, fe = R.value || 0;
-      return new Date(a, D, d, F, le, fe);
+    const ae = u(!1), X = u(!1), G = u(!1), K = u(!1), q = u(!1), J = u(!1), Ie = c(() => a.displayTime ? a.hour12 ? "input-control display-time hour12" : "input-control display-time hour24" : "input-control"), Be = c(() => `input-field ${te.value}`.trim()), Ae = c(() => ae.value ? "year picker show" : "year picker hide"), Re = c(() => X.value ? "month picker show" : "month picker hide"), Fe = c(() => G.value ? "day picker show" : "day picker hide"), Ye = c(() => a.displayTime && K.value ? "hour picker show" : "hour picker hide"), ze = c(() => a.displayTime && q.value ? "minute picker show" : "minute picker hide"), Ne = c(() => a.displayTime && J.value ? "second picker show" : "second picker hide"), we = c(() => {
+      const l = E.value || (/* @__PURE__ */ new Date()).getFullYear(), D = U.value || (/* @__PURE__ */ new Date()).getMonth(), d = W.value || (/* @__PURE__ */ new Date()).getDate(), F = B.value || 0, le = A.value || 0, fe = R.value || 0;
+      return new Date(l, D, d, F, le, fe);
     }), Le = c(() => {
-      const a = E.value || (/* @__PURE__ */ new Date()).getFullYear();
-      return Q(a, 1, 1, 0, 0, 0).date.split("-")[0];
+      const l = E.value || (/* @__PURE__ */ new Date()).getFullYear();
+      return Q(l, 1, 1, 0, 0, 0).date.split("-")[0];
     }), He = c(() => {
-      const a = U.value || (/* @__PURE__ */ new Date()).getMonth();
-      return Q(1900, a, 1, 0, 0, 0).date.split("-")[1];
+      const l = U.value || (/* @__PURE__ */ new Date()).getMonth();
+      return Q(1900, l, 1, 0, 0, 0).date.split("-")[1];
     }), je = c(() => {
-      const a = W.value || (/* @__PURE__ */ new Date()).getDate();
-      return Q(1900, 1, a, 0, 0, 0).date.split("-")[2];
+      const l = W.value || (/* @__PURE__ */ new Date()).getDate();
+      return Q(1900, 1, l, 0, 0, 0).date.split("-")[2];
     }), Ue = c(() => {
-      const a = B.value || 0;
-      return Q(1900, 1, 1, a, 0, 0).time.split(" ")[0].split(":")[0];
+      const l = B.value || 0;
+      return Q(1900, 1, 1, l, 0, 0).time.split(" ")[0].split(":")[0];
     }), We = c(() => {
-      const a = A.value || 0;
-      return Q(1900, 1, 1, 0, a, 0).time.split(" ")[0].split(":")[1];
+      const l = A.value || 0;
+      return Q(1900, 1, 1, 0, l, 0).time.split(" ")[0].split(":")[1];
     }), Ee = c(() => {
-      const a = R.value || 0;
-      return Q(1900, 1, 1, 0, 0, a).time.split(" ")[0].split(":")[2];
+      const l = R.value || 0;
+      return Q(1900, 1, 1, 0, 0, l).time.split(" ")[0].split(":")[2];
     }), Je = c(() => {
-      const a = B.value || 0;
-      return Q(1900, 1, 1, a, 0, 0).time.split(" ")[1];
+      const l = B.value || 0;
+      return Q(1900, 1, 1, l, 0, 0).time.split(" ")[1];
     });
-    function Q(a, D, d, F, le, fe) {
-      const ie = new Date(a, D, d, F, le, fe);
-      a = ie.toLocaleString("default", { year: "numeric" }), D = ie.toLocaleString("default", { month: "2-digit" }), d = ie.toLocaleString("default", { day: "2-digit" });
-      const at = ie.toLocaleTimeString("en-US", { hour12: l.hour12, hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    function Q(l, D, d, F, le, fe) {
+      const ie = new Date(l, D, d, F, le, fe);
+      l = ie.toLocaleString("default", { year: "numeric" }), D = ie.toLocaleString("default", { month: "2-digit" }), d = ie.toLocaleString("default", { day: "2-digit" });
+      const at = ie.toLocaleTimeString("en-US", { hour12: a.hour12, hour: "2-digit", minute: "2-digit", second: "2-digit" });
       return {
-        date: [a, D, d].join("-"),
+        date: [l, D, d].join("-"),
         time: at
       };
     }
     function qe() {
       te.value === "collapsed" ? (te.value = "expanded", ae.value = !0, E.value && (X.value = !0), U.value && (G.value = !0), W.value && (K.value = !0), B.value && (q.value = !0), A.value && (J.value = !0)) : (te.value = "collapsed", ae.value = !1, X.value = !1, G.value = !1, K.value = !1, q.value = !1, J.value = !1);
     }
-    function Ge(a) {
-      return a === E.value ? "option selected" : "option";
+    function Ge(l) {
+      return l === E.value ? "option selected" : "option";
     }
-    function Ke(a) {
-      return parseInt(a) === parseInt(U.value) ? "option selected" : "option";
+    function Ke(l) {
+      return parseInt(l) === parseInt(U.value) ? "option selected" : "option";
     }
-    function Qe(a) {
-      return a === W.value ? "option selected" : "option";
+    function Qe(l) {
+      return l === W.value ? "option selected" : "option";
     }
-    function Xe(a) {
-      return a === B.value ? "option selected" : "option";
+    function Xe(l) {
+      return l === B.value ? "option selected" : "option";
     }
-    function Ze(a) {
-      return a === A.value ? "option selected" : "option";
+    function Ze(l) {
+      return l === A.value ? "option selected" : "option";
     }
-    function et(a) {
-      return a === R.value ? "option selected" : "option";
+    function et(l) {
+      return l === R.value ? "option selected" : "option";
     }
     function Te() {
       if (E.value) {
-        const a = ye.value[y.indexOf(E.value)];
-        b.value.scrollTop = a.offsetTop;
+        const l = ye.value[y.indexOf(E.value)];
+        b.value.scrollTop = l.offsetTop;
       }
       if (U.value) {
-        const a = ge.value[U.value];
-        I.value.scrollTop = a.offsetTop;
+        const l = ge.value[U.value];
+        I.value.scrollTop = l.offsetTop;
       }
       if (W.value) {
-        const a = _e.value[$.value.indexOf(W.value)];
-        L.value.scrollTop = a.offsetTop;
+        const l = _e.value[$.value.indexOf(W.value)];
+        L.value.scrollTop = l.offsetTop;
       }
       if (B.value) {
-        const a = ke.value[w.indexOf(B.value)];
-        de.value.scrollTop = a.offsetTop;
+        const l = ke.value[w.indexOf(B.value)];
+        de.value.scrollTop = l.offsetTop;
       }
       if (A.value) {
-        const a = be.value[z.indexOf(A.value)];
-        me.value.scrollTop = a.offsetTop;
+        const l = be.value[z.indexOf(A.value)];
+        me.value.scrollTop = l.offsetTop;
       }
       if (R.value) {
-        const a = $e.value[_.indexOf(R.value)];
-        he.value.scrollTop = a.offsetTop;
+        const l = $e.value[_.indexOf(R.value)];
+        he.value.scrollTop = l.offsetTop;
       }
     }
     lt([E, U, W, B, A, R], () => {
       Te();
     });
-    function Se(a) {
-      E.value = a, U.value = 0, W.value = 1, B.value = 0, A.value = 0, R.value = 0, X.value = !0, G.value = !1, K.value = !1, q.value = !1, J.value = !1;
+    function Se(l) {
+      E.value = l, U.value = 0, W.value = 1, B.value = 0, A.value = 0, R.value = 0, X.value = !0, G.value = !1, K.value = !1, q.value = !1, J.value = !1;
     }
-    function Ce(a) {
-      U.value = a, W.value = 1, B.value = 0, A.value = 0, R.value = 0, G.value = !0, K.value = !1, q.value = !1, J.value = !1;
+    function Ce(l) {
+      U.value = l, W.value = 1, B.value = 0, A.value = 0, R.value = 0, G.value = !0, K.value = !1, q.value = !1, J.value = !1;
     }
-    function De(a) {
-      W.value = a, B.value = 0, A.value = 0, R.value = 0, l.displayTime ? (K.value = !0, q.value = !1, J.value = !1) : (ae.value = !1, X.value = !1, G.value = !1, v("update:modelValue", we));
+    function De(l) {
+      W.value = l, B.value = 0, A.value = 0, R.value = 0, a.displayTime ? (K.value = !0, q.value = !1, J.value = !1) : (ae.value = !1, X.value = !1, G.value = !1, v("update:modelValue", we));
     }
-    function Ve(a) {
-      B.value = a, A.value = 0, R.value = 0, q.value = !0, J.value = !1;
+    function Ve(l) {
+      B.value = l, A.value = 0, R.value = 0, q.value = !0, J.value = !1;
     }
-    function Pe(a) {
-      A.value = a, R.value = 0, J.value = !0;
+    function Pe(l) {
+      A.value = l, R.value = 0, J.value = !0;
     }
-    function xe(a) {
-      te.value = "collapsed", R.value = a, ae.value = !1, X.value = !1, G.value = !1, K.value = !1, q.value = !1, J.value = !1, v("update:modelValue", we);
+    function xe(l) {
+      te.value = "collapsed", R.value = l, ae.value = !1, X.value = !1, G.value = !1, K.value = !1, q.value = !1, J.value = !1, v("update:modelValue", we);
     }
     function tt() {
-      const a = l.modelValue || /* @__PURE__ */ new Date();
-      Se(a.getFullYear()), Ce(a.getMonth()), De(a.getDate()), l.displayTime && (Ve(a.getHours()), Pe(a.getMinutes()), xe(a.getSeconds()));
+      const l = a.modelValue || /* @__PURE__ */ new Date();
+      Se(l.getFullYear()), Ce(l.getMonth()), De(l.getDate()), a.displayTime && (Ve(l.getHours()), Pe(l.getMinutes()), xe(l.getSeconds()));
     }
-    const Z = new IntersectionObserver((a) => {
-      a.forEach((D) => {
+    const Z = new IntersectionObserver((l) => {
+      l.forEach((D) => {
         D.isIntersecting === !0 && Te();
       });
     }, { threshold: [0] });
     return ee(() => {
-      Z.observe(N.value), Z.observe(T.value), Z.observe(f.value), l.displayTime && (Z.observe(k.value), Z.observe(p.value), Z.observe(j.value)), tt();
-    }), (a, D) => (o(), i("div", {
+      Z.observe(N.value), Z.observe(T.value), Z.observe(f.value), a.displayTime && (Z.observe(k.value), Z.observe(p.value), Z.observe(j.value)), tt();
+    }), (l, D) => (o(), i("div", {
       class: m(n(Ie))
     }, [
       t("div", _t, h(e.label), 1),
@@ -653,8 +653,8 @@ const Y = (e) => (re("data-v-78a68418"), e = e(), ce(), e), _t = { class: "input
   },
   emits: ["update:modelValue"],
   setup(e, { emit: v }) {
-    const l = e, s = c({
-      get: () => l.modelValue,
+    const a = e, s = c({
+      get: () => a.modelValue,
       set: (r) => {
         v("update:modelValue", r);
       }
@@ -700,14 +700,14 @@ const ta = { class: "input-control" }, aa = { class: "input-label" }, la = { cla
   },
   emits: ["update:modelValue"],
   setup(e) {
-    return (v, l) => (o(), i("div", ta, [
+    return (v, a) => (o(), i("div", ta, [
       t("div", aa, h(e.label), 1),
       t("div", la, [
         t("input", {
           type: e.type,
           class: m(e.size),
           value: e.modelValue,
-          onInput: l[0] || (l[0] = (s) => v.$emit("update:modelValue", s.target.value))
+          onInput: a[0] || (a[0] = (s) => v.$emit("update:modelValue", s.target.value))
         }, null, 42, sa)
       ]),
       e.errorMessage.length > 0 ? (o(), i("div", na, h(e.errorMessage), 1)) : V("", !0)
@@ -736,7 +736,7 @@ const ia = ["value"], ua = {
   },
   emits: ["select"],
   setup(e, { emit: v }) {
-    const l = e, s = c(() => l.selected ? `option selected ${l.size}`.trim() : `option ${l.size}`.trim());
+    const a = e, s = c(() => a.selected ? `option selected ${a.size}`.trim() : `option ${a.size}`.trim());
     return (r, g) => (o(), i("div", {
       class: m(n(s)),
       value: e.value,
@@ -780,8 +780,8 @@ const ca = (e) => (re("data-v-386634d6"), e = e(), ce(), e), da = { class: "inpu
   },
   emits: ["update:modelValue"],
   setup(e, { emit: v }) {
-    const l = e, s = u("collapsed"), r = u(""), g = c(() => `input-control ${l.size}`.trim()), y = c(() => `input-field ${s.value}`.trim()), S = c(() => {
-      const _ = l.options.find((N) => N.value === r.value);
+    const a = e, s = u("collapsed"), r = u(""), g = c(() => `input-control ${a.size}`.trim()), y = c(() => `input-field ${s.value}`.trim()), S = c(() => {
+      const _ = a.options.find((N) => N.value === r.value);
       return _ ? _.label : "";
     });
     function $() {
@@ -794,7 +794,7 @@ const ca = (e) => (re("data-v-386634d6"), e = e(), ce(), e), da = { class: "inpu
       s.value = "collapsed", r.value = _, v("update:modelValue", _);
     }
     return ee(() => {
-      z(l.modelValue);
+      z(a.modelValue);
     }), (_, N) => (o(), i("div", {
       class: m(n(g))
     }, [
@@ -845,7 +845,7 @@ const ga = { class: "progress-bar" }, _a = {
     }
   },
   setup(e) {
-    const v = e, l = u("forward"), s = u("forwardBar"), r = u("reverseBar"), g = u(), y = c(() => `bar forward-bar ${l.value}`), S = c(() => v.bidirection ? `bar reverse-bar ${l.value}` : "bar reverse-bar hide");
+    const v = e, a = u("forward"), s = u("forwardBar"), r = u("reverseBar"), g = u(), y = c(() => `bar forward-bar ${a.value}`), S = c(() => v.bidirection ? `bar reverse-bar ${a.value}` : "bar reverse-bar hide");
     ee(() => {
       g.value = setInterval(w, v.speed);
     });
@@ -861,7 +861,7 @@ const ga = { class: "progress-bar" }, _a = {
     }
     function _() {
       const f = $(s.value), k = $(r.value);
-      l.value === "forward" && f === 100 ? (l.value = "reverse", T(s.value, "reverse", f), T(r.value, "forward", k)) : l.value === "reverse" && k === 100 ? (l.value = "forward", T(s.value, "forward", f), T(r.value, "reverse", k)) : l.value === "forward" ? (T(s.value, "forward", f), T(r.value, "reverse", k)) : l.value === "reverse" && (T(s.value, "reverse", f), T(r.value, "forward", k));
+      a.value === "forward" && f === 100 ? (a.value = "reverse", T(s.value, "reverse", f), T(r.value, "forward", k)) : a.value === "reverse" && k === 100 ? (a.value = "forward", T(s.value, "forward", f), T(r.value, "reverse", k)) : a.value === "forward" ? (T(s.value, "forward", f), T(r.value, "reverse", k)) : a.value === "reverse" && (T(s.value, "reverse", f), T(r.value, "forward", k));
     }
     function N(f) {
       f.style.width = "0%";
@@ -944,7 +944,7 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
     "offsetChange"
   ],
   setup(e, { emit: v }) {
-    const l = e, s = u(0), r = u(l.pagination.limit), g = c(() => l.pagination.client ? !1 : l.loading), y = c(() => l.headers.length + (l.actions.length > 0 ? 1 : 0)), S = c(() => l.name && l.name.length > 0 ? "table-name show" : "table-name hide"), $ = c(() => l.dense ? "table dense" : "table"), w = c(() => l.pagination.client ? l.data.length : l.totalData), z = c(() => l.pagination.client ? l.data.slice(s.value, s.value + r.value) : l.data), _ = c(() => s.value + r.value > w.value ? {
+    const a = e, s = u(0), r = u(a.pagination.limit), g = c(() => a.pagination.client ? !1 : a.loading), y = c(() => a.headers.length + (a.actions.length > 0 ? 1 : 0)), S = c(() => a.name && a.name.length > 0 ? "table-name show" : "table-name hide"), $ = c(() => a.dense ? "table dense" : "table"), w = c(() => a.pagination.client ? a.data.length : a.totalData), z = c(() => a.pagination.client ? a.data.slice(s.value, s.value + r.value) : a.data), _ = c(() => s.value + r.value > w.value ? {
       start: s.value + 1,
       end: w.value
     } : {
@@ -1067,7 +1067,7 @@ const Me = (e) => (re("data-v-7832a2e2"), e = e(), ce(), e), ba = { class: "tabl
     ]));
   }
 }, Ea = /* @__PURE__ */ H(Wa, [["__scopeId", "data-v-7832a2e2"]]);
-const Ja = (e) => (re("data-v-35af7676"), e = e(), ce(), e), qa = { class: "input-label" }, Ga = { class: "select" }, Ka = { class: "selected" }, Qa = { class: "tag" }, Xa = /* @__PURE__ */ Ja(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
+const Ja = (e) => (re("data-v-516a06a9"), e = e(), ce(), e), qa = { class: "input-label" }, Ga = { class: "select" }, Ka = { class: "selected" }, Qa = { class: "tag" }, Xa = /* @__PURE__ */ Ja(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-magnifying-glass" })
 ], -1)), Za = {
   key: 0,
@@ -1119,7 +1119,7 @@ const Ja = (e) => (re("data-v-35af7676"), e = e(), ce(), e), qa = { class: "inpu
   },
   emits: ["update:modelValue", "offsetChange"],
   setup(e, { emit: v }) {
-    const l = e, s = u(!1), r = u(""), g = c(() => [
+    const a = e, s = u(!1), r = u(""), g = c(() => [
       { key: "value", type: "text", label: "Value" },
       { key: "label", type: "text", label: "Label" }
     ]), y = u([
@@ -1130,18 +1130,18 @@ const Ja = (e) => (re("data-v-35af7676"), e = e(), ce(), e), qa = { class: "inpu
           N(f);
         }
       }
-    ]), S = c(() => `input-control ${l.size}`);
+    ]), S = c(() => `input-control ${a.size}`);
     function $(f) {
       return w.value.find((p) => p === f.value) ? "checkbox checked" : "checkbox";
     }
-    const w = c(() => l.modelValue.map((f) => f.value));
+    const w = c(() => a.modelValue ? a.modelValue.map((f) => f.value) : []);
     u({});
-    const z = c(() => l.modelValue.map((f) => f.label));
+    const z = c(() => a.modelValue ? a.modelValue.map((f) => f.label) : []);
     function _() {
       s.value = !s.value;
     }
     function N(f) {
-      const k = Array.from(l.modelValue), p = w.value.findIndex((j) => j === f.value);
+      const k = Array.from(a.modelValue || []), p = w.value.findIndex((j) => j === f.value);
       p < 0 ? k.push({ value: f.value, label: f.label }) : k.splice(p, 1), v("update:modelValue", k);
     }
     function T(f) {
@@ -1196,7 +1196,7 @@ const Ja = (e) => (re("data-v-35af7676"), e = e(), ce(), e), qa = { class: "inpu
       }, 8, ["modelValue"])) : V("", !0)
     ], 2));
   }
-}, ul = /* @__PURE__ */ H(el, [["__scopeId", "data-v-35af7676"]]);
+}, ul = /* @__PURE__ */ H(el, [["__scopeId", "data-v-516a06a9"]]);
 export {
   al as TAlert,
   Oe as TButton,
