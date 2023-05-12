@@ -13,6 +13,10 @@ const props = defineProps({
       return []
     }
   },
+  multiple: {
+    type: Boolean,
+    default: true
+  },
   name: {
     type: String,
     default: ''
@@ -108,6 +112,14 @@ function toggleSelect() {
 }
 
 function updateSelected(row) {
+  if (props.multiple) {
+    emit('update:modelValue', updateMultipleSelected(row))
+  } else {
+    emit('update:modelValue', updateSingleSelected(row))
+  }
+}
+
+function updateMultipleSelected(row) {
   const dup = Array.from(props.modelValue || [])
   const found = selectedValues.value.findIndex(v => v === row.value)
   if (found < 0) { // not exists
@@ -115,7 +127,17 @@ function updateSelected(row) {
   } else {
     dup.splice(found, 1)
   }
-  emit('update:modelValue', dup)
+  return dup
+}
+
+function updateSingleSelected(row) {
+  const dup = Array.from(props.modelValue || [])
+  const found = selectedValues.value.findIndex(v => v === row.value)
+  if (found < 0) { // not exists
+    return [{ value: row.value, label: row.label }]
+  } else {
+    return []
+  }
 }
 
 function updateOffsetAndReload(offset) {
