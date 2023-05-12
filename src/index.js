@@ -14,7 +14,9 @@ import TSelectTable from './js/form/TSelectTable.vue'
 import TTable from './js/table/TTable.vue'
 import TProgressBar from './js/TProgressBar.vue'
 
-import './css/main.css'
+import '../public/fontawesome/css/fontawesome.min.css';
+import '../public/fontawesome/css/brands.min.css';
+import '../public/fontawesome/css/solid.min.css';
 
 export {
   TAlert,
