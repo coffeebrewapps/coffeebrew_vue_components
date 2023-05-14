@@ -32,6 +32,10 @@ const computedDialogClass = computed(() => {
   }
 })
 
+const showDialog = computed(() => {
+  return props.modelValue
+})
+
 function closeDialog() {
   emit('update:modelValue', false)
 }
@@ -46,7 +50,8 @@ onMounted(() => {
 
 <template>
   <div
-    :class="computedDialogClass"
+    v-if="showDialog"
+    class="dialog"
     ref="dialog"
   >
     <div
@@ -90,7 +95,6 @@ onMounted(() => {
 
 <style scoped>
 .dialog {
-  visibility: hidden;
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -102,14 +106,6 @@ onMounted(() => {
   color: var(--color-text);
   border: 1px solid var(--color-text);
   z-index: 99;
-}
-
-.dialog.show {
-  visibility: visible;
-}
-
-.dialog.hide {
-  visibility: hidden;
 }
 
 .dialog .menu-bar {
