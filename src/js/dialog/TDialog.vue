@@ -40,11 +40,20 @@ function closeDialog() {
   emit('update:modelValue', false)
 }
 
+const computedStyles = computed(() => {
+  if (dialog.value) {
+    const width = `${props.width}px`
+    const height = `${props.height}px`
+    const top = `calc((100vh - ${height}) / 2)`
+    const left = `calc((100vw - ${width}) / 2)`
+
+    return `width:${width}; height:${height}; top:${top}; left:${left};`
+  } else {
+    return ``
+  }
+})
+
 onMounted(() => {
-  dialog.value.style.width = `${props.width}px`
-  dialog.value.style.height = `${props.height}px`
-  dialog.value.style.top = `calc((100vh - ${dialog.value.style.height}) / 2)`
-  dialog.value.style.left = `calc((100vw - ${dialog.value.style.width}) / 2)`
 })
 </script>
 
@@ -53,6 +62,7 @@ onMounted(() => {
     v-if="showDialog"
     class="dialog"
     ref="dialog"
+    :style="computedStyles"
   >
     <div
       class="menu-bar"
