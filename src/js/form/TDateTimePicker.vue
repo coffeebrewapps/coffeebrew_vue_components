@@ -695,6 +695,7 @@ onMounted(() => {
   height: 20px;
   background-color: var(--color-background-soft);
   color: var(--color-text);
+  border: none;
 }
 
 .input-field .picker {
