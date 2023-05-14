@@ -80,6 +80,14 @@ const computedTableClass = computed(() => {
   }
 })
 
+function currentRowClass(i) {
+  if (i % 2 === 0) {
+    return `row even`
+  } else {
+    return `row odd`
+  }
+}
+
 const computedTotalData = computed(() => {
   if (props.pagination.client) {
     return props.data.length
@@ -230,7 +238,7 @@ function pageRight() {
       >
         <tr
           v-for="(row, i) in computedPaginatedData"
-          class="row"
+          :class="currentRowClass(i)"
           v-if="!computedLoading"
         >
           <slot name="data-row" v-bind="{ headers, row, actions, i }">
@@ -385,7 +393,7 @@ function pageRight() {
 
 .table {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
   border-collapse: collapse;
   padding: 4px;
 }
@@ -395,14 +403,18 @@ function pageRight() {
 }
 
 .header .col {
-  background-color: var(--color-border-hover);
   font-weight: bold;
+  font-size: 0.8rem;
 }
 
 .col {
   text-align: left;
   padding: 1rem;
-  border: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.body .row:hover {
+  background-color: var(--color-border-hover);
 }
 
 .body .row .actions {
