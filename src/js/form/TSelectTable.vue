@@ -5,6 +5,7 @@ import TDialog from '../dialog/TDialog.vue'
 import TInput from './TInput.vue'
 import TCheckbox from './TCheckbox.vue'
 import TTable from '../table/TTable.vue'
+import TButton from './TButton.vue'
 
 const props = defineProps({
   modelValue: {
@@ -111,6 +112,10 @@ function toggleSelect() {
   tableDialog.value = !tableDialog.value
 }
 
+function closeSelect() {
+  tableDialog.value = false
+}
+
 function updateSelected(row) {
   if (props.multiple) {
     emit('update:modelValue', updateMultipleSelected(row))
@@ -185,35 +190,41 @@ onMounted(() => {
       {{ errorMessage }}
     </div>
 
-    <TDialog
-      v-if="tableDialog"
-      v-model="tableDialog"
-      title="Select"
-      :width="800"
-      :height="600"
-      class="options-dialog"
-    >
-      <template #body>
-        <TTable
-          :name="name"
-          :headers="tableHeaders"
-          :data="options"
-          :actions="actions"
-          :loading="optionsLoading"
-          :total-data="optionsLength"
-          :pagination="pagination"
-          @offset-change="updateOffsetAndReload"
-        >
+    <Transition name="dialog">
+      <TDialog
+        v-if="tableDialog"
+        v-model="tableDialog"
+        title="Select"
+        :width="800"
+        :height="600"
+        class="options-dialog"
+      >
+        <template #body>
+          <TTable
+            :name="name"
+            :headers="tableHeaders"
+            :data="options"
+            :actions="actions"
+            :loading="optionsLoading"
+            :total-data="optionsLength"
+            :pagination="pagination"
+            @offset-change="updateOffsetAndReload"
+          >
 
-          <template #data-action="{ row, action, i }">
-            <div
-              :class="checkboxClass(row)"
-            >
-            </div>
-          </template>
-        </TTable>
-      </template>
-    </TDialog>
+            <template #data-action="{ row, action, i }">
+              <div
+                :class="checkboxClass(row)"
+              >
+              </div>
+            </template>
+          </TTable>
+        </template>
+
+        <template #actions>
+          <TButton button-type="text" value="Done" icon="fa-solid fa-check" @click="closeSelect()"/>
+        </template>
+      </TDialog>
+    </Transition>
   </div>
 </template>
 
