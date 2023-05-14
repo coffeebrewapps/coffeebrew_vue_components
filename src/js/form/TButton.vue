@@ -53,9 +53,9 @@ const computedIconClass = computed(() => {
   display: grid;
   align-items: center;
   margin: 2px 0 8px 0;
-  border: 1px solid var(--color-border);
   text-align: center;
-  height: 50px;
+  height: 35px;
+  font-size: 0.8rem;
 }
 
 .button:hover {
@@ -69,10 +69,16 @@ const computedIconClass = computed(() => {
 }
 
 .button.text {
-  display: grid;
-  grid-template-columns: 9fr 1fr;
-  padding: 12px;
-  border-radius: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border-radius: 4px;
+}
+
+.button.text span {
+  font-weight: 900;
 }
 
 .button.text.md {
@@ -88,6 +94,6 @@ const computedIconClass = computed(() => {
   align-items: center;
   justify-items: center;
   border-radius: 50%;
-  width: 50px;
+  width: 35px;
 }
 </style>
