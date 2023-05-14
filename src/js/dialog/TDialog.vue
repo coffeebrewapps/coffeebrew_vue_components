@@ -58,49 +58,51 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="showDialog"
-    class="dialog"
-    ref="dialog"
-    :style="computedStyles"
-  >
+  <Transition name="dialog">
     <div
-      class="menu-bar"
+      v-if="showDialog"
+      class="dialog"
+      ref="dialog"
+      :style="computedStyles"
     >
-      <slot name="menu-bar">
+      <div
+        class="menu-bar"
+      >
+        <slot name="menu-bar">
+          <div
+            class="menu-button close"
+            @click="closeDialog()"
+          ></div>
+        </slot>
+      </div>
+
+      <div
+        class="container"
+      >
         <div
-          class="menu-button close"
-          @click="closeDialog()"
-        ></div>
-      </slot>
-    </div>
+          class="heading"
+        >
+          <slot name="heading">
+            {{ title }}
+          </slot>
+        </div>
 
-    <div
-      class="container"
-    >
-      <div
-        class="heading"
-      >
-        <slot name="heading">
-          {{ title }}
-        </slot>
-      </div>
+        <div
+          class="body"
+        >
+          <slot name="body">
+          </slot>
+        </div>
 
-      <div
-        class="body"
-      >
-        <slot name="body">
-        </slot>
-      </div>
-
-      <div
-        class="actions"
-      >
-        <slot name="actions">
-        </slot>
+        <div
+          class="actions"
+        >
+          <slot name="actions">
+          </slot>
+        </div>
       </div>
     </div>
-  </div>
+  </Transition>
 </template>
 
 <style scoped>
