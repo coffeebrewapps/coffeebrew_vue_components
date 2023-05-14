@@ -117,6 +117,7 @@ onMounted(() => {
   background-color: var(--color-background);
   color: var(--color-text);
   border: 1px solid var(--color-text);
+  border-radius: 4px;
   z-index: 99;
 }
 
