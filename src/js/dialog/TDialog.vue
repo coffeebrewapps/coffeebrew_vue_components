@@ -159,6 +159,7 @@ onMounted(() => {
   justify-content: flex-start;
   text-align: center;
   height: 80%;
+  overflow-y: scroll;
 }
 
 .dialog .container .actions {
