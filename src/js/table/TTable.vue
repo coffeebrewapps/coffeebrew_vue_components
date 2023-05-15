@@ -42,6 +42,10 @@ const props = defineProps({
   dense: {
     type: Boolean,
     default: true
+  },
+  noDataText: {
+    type: String,
+    default: 'No data'
   }
 })
 
@@ -87,6 +91,14 @@ function currentRowClass(i) {
     return `row odd`
   }
 }
+
+const computedPaginationClass = computed(() => {
+  if (computedTotalData.value > 0) {
+    return `pagination show`
+  } else {
+    return `pagination hide`
+  }
+})
 
 const computedTotalData = computed(() => {
   if (props.pagination.client) {
@@ -235,6 +247,23 @@ function pageRight() {
 
       <tbody
         class="body"
+        v-if="computedTotalData === 0"
+      >
+        <tr
+          :class="currentRowClass(0)"
+        >
+          <td
+            class="col center"
+            :colspan="computedLoadingSpan"
+          >
+            {{ noDataText }}
+          </td>
+        </tr>
+      </tbody>
+
+      <tbody
+        class="body"
+        v-if="computedTotalData > 0"
       >
         <tr
           v-for="(row, i) in computedPaginatedData"
@@ -284,7 +313,7 @@ function pageRight() {
     </table>
 
     <div
-      class="pagination"
+      :class="computedPaginationClass"
     >
       <slot
         name="pagination"
@@ -344,6 +373,7 @@ function pageRight() {
   align-items: center;
   justify-content: center;
   height: 40px;
+  margin: 1rem 0;
 }
 
 .table-name {
@@ -413,6 +443,10 @@ function pageRight() {
   border-bottom: 1px solid var(--color-border);
 }
 
+.col.center {
+  text-align: center !important;
+}
+
 .body .row:hover {
   background-color: var(--color-border-hover);
 }
@@ -437,6 +471,10 @@ function pageRight() {
   align-items: center;
   justify-content: center;
   height: 40px;
+}
+
+.pagination.hide {
+  display: none;
 }
 
 .pagination .pager {
