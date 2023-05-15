@@ -27,6 +27,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  alignPickers: {
+    type: String,
+    default: 'center'
   }
 })
 
@@ -53,6 +57,7 @@ onMounted(() => {
     :label="label"
     :display-time="false"
     :disabled="disabled"
+    :align-pickers="alignPickers"
     :error-message="errorMessage"
   />
 </template>
