@@ -75,7 +75,7 @@ const U = (e, f) => {
       _: 3
     }));
   }
-}, ge = /* @__PURE__ */ U(mt, [["__scopeId", "data-v-3ffd1ae7"]]), ht = { class: "text" }, cl = {
+}, ge = /* @__PURE__ */ U(mt, [["__scopeId", "data-v-d9856122"]]), ht = { class: "text" }, cl = {
   __name: "TAlert",
   props: {
     modelValue: {
