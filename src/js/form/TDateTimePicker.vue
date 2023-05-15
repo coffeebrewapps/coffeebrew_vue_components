@@ -1,13 +1,43 @@
 <script setup>
 import { onMounted, computed, ref, watch } from 'vue'
 
-const today = new Date()
-const defaultMinDate = new Date(today.getFullYear() - 10, 1, 1)
-const defaultMaxDate = new Date(today.getFullYear() + 9, 12, 31)
+function notEmpty(val) {
+  return (typeof val !== 'undefined') && val !== null
+}
 
-const years = [
-  ...Array(defaultMaxDate.getFullYear() - defaultMinDate.getFullYear()).keys()
-].map(y => y + defaultMinDate.getFullYear())
+const today = new Date()
+
+const initDate = computed(() => {
+  if (!!props.modelValue) {
+    return props.modelValue
+  } else if (today < maxDate.value) {
+    return today
+  } else {
+    return minDate.value
+  }
+})
+
+const minDate = computed(() => {
+  if (!!props.min) {
+    return props.min
+  } else {
+    return new Date(today.getFullYear() - 10, 0, 1)
+  }
+})
+
+const maxDate = computed(() => {
+  if (!!props.max) {
+    return props.max
+  } else {
+    return new Date(today.getFullYear() + 9, 11, 31)
+  }
+})
+
+const years = computed(() => {
+  return [
+    ...Array(maxDate.value.getFullYear() - minDate.value.getFullYear()).keys()
+  ].map(y => y + minDate.value.getFullYear())
+})
 
 const months = [
   'Jan',
@@ -25,17 +55,13 @@ const months = [
 ]
 
 const days = computed(() => {
-  const year = selectedYear.value
-  const month = selectedMonth.value
+  const year = selectedYear.value || minDate.value.getFullYear()
+  const month = selectedMonth.value || minDate.value.getMonth()
 
-  if (year && month) {
-    const monthStart = new Date(year, month, 1)
-    monthStart.setMonth(monthStart.getMonth() + 1)
-    monthStart.setDate(monthStart.getDate() - 1)
-    return Array.from(Array(monthStart.getDate())).map((_, i) => (i + 1))
-  } else {
-    return Array.from(Array(30)).map((_, i) => (i + 1))
-  }
+  const monthStart = new Date(year, month, 1)
+  monthStart.setMonth(monthStart.getMonth() + 1)
+  monthStart.setDate(monthStart.getDate() - 1)
+  return Array.from(Array(monthStart.getDate())).map((_, i) => (i + 1))
 })
 
 const hours = Array.from(Array(24)).map((_v, i) => i)
@@ -45,15 +71,15 @@ const seconds = Array.from(Array(60)).map((_v, i) => i)
 const props = defineProps({
   modelValue: {
     type: Date,
-    default: new Date()
+    default: null
   },
   min: {
     type: Date,
-    default: new Date((new Date()).getFullYear() - 10, 1, 1)
+    default: null
   },
   max: {
     type: Date,
-    default: new Date((new Date()).getFullYear() + 9, 12, 31)
+    default: null
   },
   label: {
     type: String,
@@ -191,9 +217,9 @@ const computedSecondPickerClass = computed(() => {
 })
 
 const computedSelectedDate = computed(() => {
-  const year = selectedYear.value || (new Date()).getFullYear()
-  const month = selectedMonth.value || (new Date()).getMonth()
-  const day = selectedDay.value || (new Date()).getDate()
+  const year = selectedYear.value || minDate.value.getFullYear()
+  const month = selectedMonth.value || minDate.value.getMonth()
+  const day = selectedDay.value || minDate.value.getDate()
   const hour = selectedHour.value || 0
   const minute = selectedMinute.value || 0
   const second = selectedSecond.value || 0
@@ -201,38 +227,38 @@ const computedSelectedDate = computed(() => {
 })
 
 const displayYear = computed(() => {
-  const year = selectedYear.value || (new Date()).getFullYear()
-  return formatDateParts(year, 1, 1, 0, 0, 0).date.split('-')[0]
+  const year = selectedYear.value || minDate.value.getFullYear()
+  return formatDateParts(year, 0, 1, 0, 0, 0).date.year
 })
 
 const displayMonth = computed(() => {
-  const month = selectedMonth.value || (new Date()).getMonth()
-  return formatDateParts(1900, month, 1, 0, 0, 0).date.split('-')[1]
+  const month = selectedMonth.value || minDate.value.getMonth()
+  return formatDateParts(1900, month, 1, 0, 0, 0).date.month
 })
 
 const displayDay = computed(() => {
-  const day = selectedDay.value || (new Date()).getDate()
-  return formatDateParts(1900, 1, day, 0, 0, 0).date.split('-')[2]
+  const day = selectedDay.value || minDate.value.getDate()
+  return formatDateParts(1900, 0, day, 0, 0, 0).date.day
 })
 
 const displayHour = computed(() => {
   const hour = selectedHour.value || 0
-  return formatDateParts(1900, 1, 1, hour, 0, 0).time.split(' ')[0].split(':')[0]
+  return formatDateParts(1900, 0, 1, hour, 0, 0).time.hour
 })
 
 const displayMinute = computed(() => {
   const minute = selectedMinute.value || 0
-  return formatDateParts(1900, 1, 1, 0, minute, 0).time.split(' ')[0].split(':')[1]
+  return formatDateParts(1900, 0, 1, 0, minute, 0).time.minute
 })
 
 const displaySecond = computed(() => {
   const second = selectedSecond.value || 0
-  return formatDateParts(1900, 1, 1, 0, 0, second).time.split(' ')[0].split(':')[2]
+  return formatDateParts(1900, 0, 1, 0, 0, second).time.second
 })
 
-const displayTimePart = computed(() => {
+const displayAmPm = computed(() => {
   const hour = selectedHour.value || 0
-  return formatDateParts(1900, 1, 1, hour, 0, 0).time.split(' ')[1]
+  return formatDateParts(1900, 0, 1, hour, 0, 0).time.amPm
 })
 
 function formatDate(date) {
@@ -251,11 +277,17 @@ function formatDateParts(year, month, day, hour, minute, second) {
   year = date.toLocaleString('default', { year: 'numeric' })
   month = date.toLocaleString('default', { month: '2-digit' })
   day = date.toLocaleString('default', { day: '2-digit' })
+
   const time = date.toLocaleTimeString('en-US', { hour12: props.hour12, hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  const timeParts = time.split(' ')[0].split(':')
+  hour = timeParts[0]
+  minute = timeParts[1]
+  second = timeParts[2]
+  const amPm = time.split(' ')[1]
 
   return {
-    date: [year, month, day].join('-'),
-    time
+    date: { year, month, day },
+    time: { hour, minute, second, amPm }
   }
 }
 
@@ -265,11 +297,11 @@ function toggleSelect() {
   if (toggleState.value === 'collapsed') {
     toggleState.value = 'expanded'
     showYearPicker.value = true
-    if (selectedYear.value) { showMonthPicker.value = true }
-    if (selectedMonth.value) { showDayPicker.value = true }
-    if (selectedDay.value) { showHourPicker.value = true }
-    if (selectedHour.value) { showMinutePicker.value = true }
-    if (selectedMinute.value) { showSecondPicker.value = true }
+    if (notEmpty(selectedYear.value)) { showMonthPicker.value = true }
+    if (notEmpty(selectedMonth.value)) { showDayPicker.value = true }
+    if (notEmpty(selectedDay.value)) { showHourPicker.value = true }
+    if (notEmpty(selectedHour.value)) { showMinutePicker.value = true }
+    if (notEmpty(selectedMinute.value)) { showSecondPicker.value = true }
   } else {
     toggleState.value = 'collapsed'
     showYearPicker.value = false
@@ -331,7 +363,7 @@ function setSecondClass(val) {
 
 function scrollOptionsIntoView() {
   if (selectedYear.value) {
-    const yearRef = yearRefs.value[years.indexOf(selectedYear.value)]
+    const yearRef = yearRefs.value[years.value.indexOf(selectedYear.value)]
     yearOptions.value.scrollTop = yearRef.offsetTop
   }
 
@@ -437,15 +469,14 @@ function selectSecond(val) {
 }
 
 function initDateFromModelValue() {
-  const initDate = props.modelValue || (new Date())
-  selectYear(initDate.getFullYear())
-  selectMonth(initDate.getMonth())
-  selectDay(initDate.getDate())
+  selectYear(initDate.value.getFullYear())
+  selectMonth(initDate.value.getMonth())
+  selectDay(initDate.value.getDate())
 
   if (props.displayTime) {
-    selectHour(initDate.getHours())
-    selectMinute(initDate.getMinutes())
-    selectSecond(initDate.getSeconds())
+    selectHour(initDate.value.getHours())
+    selectMinute(initDate.value.getMinutes())
+    selectSecond(initDate.value.getSeconds())
   }
 }
 
@@ -497,7 +528,7 @@ onMounted(() => {
           <input v-if="displayTime" disabled :value="displayHour">
           <input v-if="displayTime" disabled :value="displayMinute">
           <input v-if="displayTime" disabled :value="displaySecond">
-          <input v-if="displayTime && hour12" disabled :value="displayTimePart">
+          <input v-if="displayTime && hour12" disabled :value="displayAmPm">
         </div>
 
         <div class="toggle">
@@ -821,6 +852,14 @@ onMounted(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-control .input-field .day.picker .option .fa-caret-right {
+  display: none;
+}
+
+.input-control.display-time .input-field .day.picker .option.selected .fa-caret-right {
+  display: inline-block;
 }
 
 .input-field .picker .option .fa-caret-right {
