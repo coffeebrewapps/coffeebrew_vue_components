@@ -402,6 +402,7 @@ function selectDay(val) {
     showMinutePicker.value = false
     showSecondPicker.value = false
   } else {
+    toggleState.value = 'collapsed'
     showYearPicker.value = false
     showMonthPicker.value = false
     showDayPicker.value = false
@@ -505,141 +506,151 @@ onMounted(() => {
       </div>
 
       <div
-        :class="computedYearPickerClass"
-        ref="yearPicker"
+        class="close-toggle"
+        @click="toggleSelect"
       >
-        <div class="title">Year</div>
-
-        <div
-          class="options"
-          ref="yearOptions"
-        >
-          <div
-            v-for="year in years"
-            :class="setYearClass(year)"
-            :value="year"
-            ref="yearRefs"
-            @click="selectYear(year)"
-          >
-            <div class="value">{{ year }}</div>
-            <i class="fa-solid fa-caret-right"></i>
-          </div>
-        </div>
+        <i class="fa-solid fa-xmark"></i>
       </div>
 
-      <div
-        :class="computedMonthPickerClass"
-        ref="monthPicker"
-      >
-        <div class="title">Month</div>
-
+      <div class="pickers">
         <div
-          class="options"
-          ref="monthOptions"
+          :class="computedYearPickerClass"
+          ref="yearPicker"
         >
+          <div class="title">Year</div>
+
           <div
-            v-for="month in Object.keys(months)"
-            :class="setMonthClass(month)"
-            :value="month"
-            ref="monthRefs"
-            @click="selectMonth(month)"
+            class="options"
+            ref="yearOptions"
           >
-            <div class="value">{{ months[month] }}</div>
-            <i class="fa-solid fa-caret-right"></i>
+            <div
+              v-for="year in years"
+              :class="setYearClass(year)"
+              :value="year"
+              ref="yearRefs"
+              @click="selectYear(year)"
+            >
+              <div class="value">{{ year }}</div>
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div
-        :class="computedDayPickerClass"
-        ref="dayPicker"
-      >
-        <div class="title">Day</div>
 
         <div
-          class="options"
-          ref="dayOptions"
+          :class="computedMonthPickerClass"
+          ref="monthPicker"
         >
+          <div class="title">Month</div>
+
           <div
-            v-for="day in days"
-            :class="setDayClass(day)"
-            :value="day"
-            ref="dayRefs"
-            @click="selectDay(day)"
+            class="options"
+            ref="monthOptions"
           >
-            <div class="value">{{ day }}</div>
-            <i class="fa-solid fa-caret-right"></i>
+            <div
+              v-for="month in Object.keys(months)"
+              :class="setMonthClass(month)"
+              :value="month"
+              ref="monthRefs"
+              @click="selectMonth(month)"
+            >
+              <div class="value">{{ months[month] }}</div>
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div
-        :class="computedHourPickerClass"
-        ref="hourPicker"
-      >
-        <div class="title">Hour</div>
 
         <div
-          class="options"
-          ref="hourOptions"
+          :class="computedDayPickerClass"
+          ref="dayPicker"
         >
+          <div class="title">Day</div>
+
           <div
-            v-for="hour in hours"
-            :class="setHourClass(hour)"
-            :value="hour"
-            ref="hourRefs"
-            @click="selectHour(hour)"
+            class="options"
+            ref="dayOptions"
           >
-            <div class="value">{{ hour }}</div>
-            <i class="fa-solid fa-caret-right"></i>
+            <div
+              v-for="day in days"
+              :class="setDayClass(day)"
+              :value="day"
+              ref="dayRefs"
+              @click="selectDay(day)"
+            >
+              <div class="value">{{ day }}</div>
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div
-        :class="computedMinutePickerClass"
-        ref="minutePicker"
-      >
-        <div class="title">Minute</div>
 
         <div
-          class="options"
-          ref="minuteOptions"
+          :class="computedHourPickerClass"
+          ref="hourPicker"
         >
+          <div class="title">Hour</div>
+
           <div
-            v-for="minute in minutes"
-            :class="setMinuteClass(minute)"
-            :value="minute"
-            ref="minuteRefs"
-            @click="selectMinute(minute)"
+            class="options"
+            ref="hourOptions"
           >
-            <div class="value">{{ minute }}</div>
-            <i class="fa-solid fa-caret-right"></i>
+            <div
+              v-for="hour in hours"
+              :class="setHourClass(hour)"
+              :value="hour"
+              ref="hourRefs"
+              @click="selectHour(hour)"
+            >
+              <div class="value">{{ hour }}</div>
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div
-        :class="computedSecondPickerClass"
-        ref="secondPicker"
-      >
-        <div class="title">Second</div>
 
         <div
-          class="options"
-          ref="secondOptions"
+          :class="computedMinutePickerClass"
+          ref="minutePicker"
         >
+          <div class="title">Minute</div>
+
           <div
-            v-for="second in seconds"
-            :class="setSecondClass(second)"
-            :value="second"
-            ref="secondRefs"
-            @click="selectSecond(second)"
+            class="options"
+            ref="minuteOptions"
           >
-            <div class="value">{{ second }}</div>
+            <div
+              v-for="minute in minutes"
+              :class="setMinuteClass(minute)"
+              :value="minute"
+              ref="minuteRefs"
+              @click="selectMinute(minute)"
+            >
+              <div class="value">{{ minute }}</div>
+              <i class="fa-solid fa-caret-right"></i>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div
+          :class="computedSecondPickerClass"
+          ref="secondPicker"
+        >
+          <div class="title">Second</div>
+
+          <div
+            class="options"
+            ref="secondOptions"
+          >
+            <div
+              v-for="second in seconds"
+              :class="setSecondClass(second)"
+              :value="second"
+              ref="secondRefs"
+              @click="selectSecond(second)"
+            >
+              <div class="value">{{ second }}</div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- pickers -->
     </div>
 
     <div
@@ -723,50 +734,53 @@ onMounted(() => {
   border: none;
 }
 
-.input-field .picker {
+.input-field .close-toggle {
   position: absolute;
-  top: -100px;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-background-soft);
-  color: var(--color-text);
-  z-index: 99;
-  width: 100px;
+  top: -120px;
+  left: 180px;
+  z-index: 999;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
 }
 
-.input-control .input-field .year.picker {
+.input-field.collapsed .close-toggle {
+  display: none;
+}
+
+.input-control.display-time .input-field .close-toggle {
+  left: 380px;
+}
+
+.input-field .close-toggle:hover {
+  cursor: pointer;
+  background-color: var(--color-border-hover);
+  color: var(--color-text);
+}
+
+.input-field .pickers {
+  position: absolute;
+  top: -100px;
+  z-index: 99;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   left: 200px;
 }
 
-.input-control.display-time .input-field .year.picker {
+.input-control.display-time .input-field .pickers {
   left: 400px;
 }
 
-.input-field .month.picker {
-  left: 300px;
-}
-
-.input-control.display-time .input-field .month.picker {
-  left: 500px;
-}
-
-.input-field .day.picker {
-  left: 400px;
-}
-
-.input-control.display-time .input-field .day.picker {
-  left: 600px;
-}
-
-.input-control.display-time .input-field .hour.picker {
-  left: 700px;
-}
-
-.input-control.display-time .input-field .minute.picker {
-  left: 800px;
-}
-
-.input-control.display-time .input-field .second.picker {
-  left: 900px;
+.input-field .picker {
+  border: 1px solid var(--color-border);
+  background-color: var(--color-background-soft);
+  color: var(--color-text);
+  width: 100px;
 }
 
 .input-field.expanded .picker.show {
@@ -781,6 +795,7 @@ onMounted(() => {
   padding: 4px;
   text-align: center;
   border-bottom: 1px solid var(--color-border);
+  font-weight: 600;
 }
 
 .input-field .picker .options {
