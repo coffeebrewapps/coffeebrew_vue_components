@@ -100,6 +100,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  alignPickers: {
+    type: String,
+    default: 'center'
   }
 })
 
@@ -165,7 +169,23 @@ const computedControlClass = computed(() => {
 })
 
 const computedFieldClass = computed(() => {
-  return `input-field ${toggleState.value}`.trim()
+  const className = []
+
+  className.push(`input-field`)
+
+  if (props.alignPickers === 'top') {
+    className.push(`top-align`)
+  } else if (props.alignPickers === 'bottom') {
+    className.push(`bottom-align`)
+  } else {
+    className.push(`center`)
+  }
+
+  if (toggleState.value) {
+    className.push(toggleState.value)
+  }
+
+  return className.join(' ')
 })
 
 const computedYearPickerClass = computed(() => {
@@ -767,7 +787,6 @@ onMounted(() => {
 
 .input-field .close-toggle {
   position: absolute;
-  top: -120px;
   left: 180px;
   z-index: 999;
   border-radius: 50%;
@@ -777,6 +796,18 @@ onMounted(() => {
   width: 32px;
   height: 32px;
   background-color: var(--color-border);
+}
+
+.input-field.top-align .close-toggle {
+  top: -20px;
+}
+
+.input-field.bottom-align .close-toggle {
+  bottom: 165px;
+}
+
+.input-field.center .close-toggle {
+  top: -100px;
 }
 
 .input-field.collapsed .close-toggle {
@@ -795,12 +826,23 @@ onMounted(() => {
 
 .input-field .pickers {
   position: absolute;
-  top: -100px;
   z-index: 99;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   left: 200px;
+}
+
+.input-field.center .pickers {
+  top: -80px;
+}
+
+.input-field.top-align .pickers {
+  top: 0;
+}
+
+.input-field.bottom-align .pickers {
+  bottom: 0;
 }
 
 .input-control.display-time .input-field .pickers {
