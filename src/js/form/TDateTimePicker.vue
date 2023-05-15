@@ -8,13 +8,7 @@ function notEmpty(val) {
 const today = new Date()
 
 const initDate = computed(() => {
-  if (!!props.modelValue) {
-    return props.modelValue
-  } else if (today < maxDate.value) {
-    return today
-  } else {
-    return minDate.value
-  }
+  return props.modelValue
 })
 
 const minDate = computed(() => {
@@ -237,48 +231,90 @@ const computedSecondPickerClass = computed(() => {
 })
 
 const computedSelectedDate = computed(() => {
-  const year = selectedYear.value || minDate.value.getFullYear()
-  const month = selectedMonth.value || minDate.value.getMonth()
-  const day = selectedDay.value || minDate.value.getDate()
-  const hour = selectedHour.value || 0
-  const minute = selectedMinute.value || 0
-  const second = selectedSecond.value || 0
+  const year = selectedYear.value
+  const month = selectedMonth.value
+  const day = selectedDay.value
+
+  if (!notEmpty(year)) { return null }
+  if (!notEmpty(month)) { return null }
+  if (!notEmpty(day)) { return null }
+
+  if (!props.displayTime) {
+    return new Date(year, month, day)
+  }
+
+  const hour = selectedHour.value
+  const minute = selectedMinute.value
+  const second = selectedSecond.value
+
+  if (props.displayTime && !notEmpty(hour)) { return null }
+  if (props.displayTime && !notEmpty(minute)) { return null }
+  if (props.displayTime && !notEmpty(second)) { return null }
+
   return new Date(year, month, day, hour, minute, second)
 })
 
 const displayYear = computed(() => {
-  const year = selectedYear.value || minDate.value.getFullYear()
-  return formatDateParts(year, 0, 1, 0, 0, 0).date.year
+  const year = selectedYear.value
+  if (notEmpty(year)) {
+    return formatDateParts(year, 0, 1, 0, 0, 0).date.year
+  } else {
+    return ``
+  }
 })
 
 const displayMonth = computed(() => {
-  const month = selectedMonth.value || minDate.value.getMonth()
-  return formatDateParts(1900, month, 1, 0, 0, 0).date.month
+  const month = selectedMonth.value
+  if (notEmpty(month)) {
+    return formatDateParts(1900, month, 1, 0, 0, 0).date.month
+  } else {
+    return ``
+  }
 })
 
 const displayDay = computed(() => {
-  const day = selectedDay.value || minDate.value.getDate()
-  return formatDateParts(1900, 0, day, 0, 0, 0).date.day
+  const day = selectedDay.value
+  if (notEmpty(day)) {
+    return formatDateParts(1900, 0, day, 0, 0, 0).date.day
+  } else {
+    return ``
+  }
 })
 
 const displayHour = computed(() => {
-  const hour = selectedHour.value || 0
-  return formatDateParts(1900, 0, 1, hour, 0, 0).time.hour
+  const hour = selectedHour.value
+  if (notEmpty(hour)) {
+    return formatDateParts(1900, 0, 1, hour, 0, 0).time.hour
+  } else {
+    return ``
+  }
 })
 
 const displayMinute = computed(() => {
-  const minute = selectedMinute.value || 0
-  return formatDateParts(1900, 0, 1, 0, minute, 0).time.minute
+  const minute = selectedMinute.value
+  if (notEmpty(minute)) {
+    return formatDateParts(1900, 0, 1, 0, minute, 0).time.minute
+  } else {
+    return ``
+  }
 })
 
 const displaySecond = computed(() => {
-  const second = selectedSecond.value || 0
-  return formatDateParts(1900, 0, 1, 0, 0, second).time.second
+  const second = selectedSecond.value
+  if (notEmpty(second)) {
+    return formatDateParts(1900, 0, 1, 0, 0, second).time.second
+  } else {
+    return ``
+  }
 })
 
 const displayAmPm = computed(() => {
-  const hour = selectedHour.value || 0
-  return formatDateParts(1900, 0, 1, hour, 0, 0).time.amPm
+  const hour = selectedHour.value
+  if (notEmpty(hour)) {
+    return formatDateParts(1900, 0, 1, hour, 0, 0).time.amPm
+  } else {
+    return ``
+  }
 })
 
 function formatDate(date) {
@@ -382,35 +418,67 @@ function setSecondClass(val) {
 }
 
 function scrollOptionsIntoView() {
-  if (selectedYear.value) {
-    const yearRef = yearRefs.value[years.value.indexOf(selectedYear.value)]
-    yearOptions.value.scrollTop = yearRef.offsetTop
+  let yearRef = null
+  if (notEmpty(selectedYear.value)) {
+    yearRef = yearRefs.value[years.value.indexOf(selectedYear.value)]
+  } else if (today < maxDate.value) {
+    yearRef = yearRefs.value[years.value.indexOf(today.getFullYear())]
+  } else {
+    yearRef = yearRefs.value[years.value.indexOf(minDate.value.getFullYear())]
   }
+  yearOptions.value.scrollTop = yearRef.offsetTop
 
-  if (selectedMonth.value) {
-    const monthRef = monthRefs.value[selectedMonth.value]
-    monthOptions.value.scrollTop = monthRef.offsetTop
+  let monthRef = null
+  if (notEmpty(selectedMonth.value)) {
+    monthRef = monthRefs.value[selectedMonth.value]
+  } else if (today < maxDate.value) {
+    monthRef = monthRefs.value[today.getMonth()]
+  } else {
+    monthRef = monthRefs.value[minDate.value.getMonth()]
   }
+  monthOptions.value.scrollTop = monthRef.offsetTop
 
-  if (selectedDay.value) {
-    const dayRef = dayRefs.value[days.value.indexOf(selectedDay.value)]
-    dayOptions.value.scrollTop = dayRef.offsetTop
+  let dayRef = null
+  if (notEmpty(selectedDay.value)) {
+    dayRef = dayRefs.value[days.value.indexOf(selectedDay.value)]
+  } else if (today < maxDate.value) {
+    dayRef = dayRefs.value[days.value.indexOf(today.getDate())]
+  } else {
+    dayRef = dayRefs.value[days.value.indexOf(minDate.value.getDate())]
   }
+  dayOptions.value.scrollTop = dayRef.offsetTop
 
-  if (selectedHour.value) {
-    const hourRef = hourRefs.value[hours.indexOf(selectedHour.value)]
-    hourOptions.value.scrollTop = hourRef.offsetTop
-  }
+  if (!props.displayTime) { return }
 
-  if (selectedMinute.value) {
-    const minuteRef = minuteRefs.value[minutes.indexOf(selectedMinute.value)]
-    minuteOptions.value.scrollTop = minuteRef.offsetTop
+  let hourRef = null
+  if (notEmpty(selectedHour.value)) {
+    hourRef = hourRefs.value[hours.indexOf(selectedHour.value)]
+  } else if (today < maxDate.value) {
+    hourRef = hourRefs.value[hours.indexOf(today.getHours())]
+  } else {
+    hourRef = hourRefs.value[hours.indexOf(minDate.value.getHours())]
   }
+  hourOptions.value.scrollTop = hourRef.offsetTop
 
-  if (selectedSecond.value) {
-    const secondRef = secondRefs.value[seconds.indexOf(selectedSecond.value)]
-    secondOptions.value.scrollTop = secondRef.offsetTop
+  let minuteRef = null
+  if (notEmpty(selectedMinute.value)) {
+    minuteRef = minuteRefs.value[minutes.indexOf(selectedMinute.value)]
+  } else if (today < maxDate.value) {
+    minuteRef = minuteRefs.value[minutes.indexOf(today.getMinutes())]
+  } else {
+    minuteRef = minuteRefs.value[minutes.indexOf(minDate.value.getMinutes())]
   }
+  minuteOptions.value.scrollTop = minuteRef.offsetTop
+
+  let secondRef = null
+  if (notEmpty(selectedSecond.value)) {
+    secondRef = secondRefs.value[seconds.indexOf(selectedSecond.value)]
+  } else if (today < maxDate.value) {
+    secondRef = secondRefs.value[seconds.indexOf(today.getSeconds())]
+  } else {
+    secondRef = secondRefs.value[seconds.indexOf(minDate.value.getSeconds())]
+  }
+  secondOptions.value.scrollTop = secondRef.offsetTop
 }
 
 watch([selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, selectedSecond], () => {
@@ -419,76 +487,105 @@ watch([selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, s
 
 function selectYear(val) {
   selectedYear.value = val
-  selectedMonth.value = 0
-  selectedDay.value = 1
-  selectedHour.value = 0
-  selectedMinute.value = 0
-  selectedSecond.value = 0
   showMonthPicker.value = true
-  showDayPicker.value = false
-  showHourPicker.value = false
-  showMinutePicker.value = false
-  showSecondPicker.value = false
 }
 
 function selectMonth(val) {
   selectedMonth.value = val
-  selectedDay.value = 1
-  selectedHour.value = 0
-  selectedMinute.value = 0
-  selectedSecond.value = 0
   showDayPicker.value = true
-  showHourPicker.value = false
-  showMinutePicker.value = false
-  showSecondPicker.value = false
 }
 
 function selectDay(val) {
   selectedDay.value = val
-  selectedHour.value = 0
-  selectedMinute.value = 0
-  selectedSecond.value = 0
 
   if (props.displayTime) {
     showHourPicker.value = true
-    showMinutePicker.value = false
-    showSecondPicker.value = false
-  } else {
-    toggleState.value = 'collapsed'
-    showYearPicker.value = false
-    showMonthPicker.value = false
-    showDayPicker.value = false
-    emit('update:modelValue', computedSelectedDate)
   }
 }
 
-function selectHour(val) {
-  selectedHour.value = val
-  selectedMinute.value = 0
-  selectedSecond.value = 0
-  showMinutePicker.value = true
-  showSecondPicker.value = false
+function resetField() {
+  selectedYear.value = null
+  selectedMonth.value = null
+  selectedDay.value = null
+
+  showYearPicker.value = false
+  showMonthPicker.value = false
+  showDayPicker.value = false
+
+  if (props.displayTime) {
+    selectedHour.value = null
+    selectedMinute.value = null
+    selectedSecond.value = null
+
+    showHourPicker.value = false
+    showMinutePicker.value = false
+    showSecondPicker.value = false
+  }
+
+  emit('update:modelValue', computedSelectedDate)
 }
 
-function selectMinute(val) {
-  selectedMinute.value = val
-  selectedSecond.value = 0
-  showSecondPicker.value = true
-}
-
-function selectSecond(val) {
+function closeSelect() {
   toggleState.value = 'collapsed'
-  selectedSecond.value = val
   showYearPicker.value = false
   showMonthPicker.value = false
   showDayPicker.value = false
   showHourPicker.value = false
   showMinutePicker.value = false
   showSecondPicker.value = false
-  emit('update:modelValue', computedSelectedDate)
+
+  initDateFromModelValue()
+}
+
+const confirmReady = computed(() => {
+  return (props.displayTime && notEmpty(computedSelectedDate.value)) || notEmpty(computedSelectedDate.value)
+})
+
+function confirmDate() {
+  toggleState.value = 'collapsed'
+  showYearPicker.value = false
+  showMonthPicker.value = false
+  showDayPicker.value = false
+  showHourPicker.value = false
+  showMinutePicker.value = false
+  showSecondPicker.value = false
+
+  if (notEmpty(computedSelectedDate.value)) {
+    emit('update:modelValue', computedSelectedDate)
+  } else {
+    props.errorMessage = `Cannot submit without selecting all date/time parts!`
+  }
+}
+
+function selectHour(val) {
+  selectedHour.value = val
+  showMinutePicker.value = true
+}
+
+function selectMinute(val) {
+  selectedMinute.value = val
+  showSecondPicker.value = true
+}
+
+function selectSecond(val) {
+  selectedSecond.value = val
 }
 
 function initDateFromModelValue() {
+  if (!initDate.value) {
+    selectedYear.value = null
+    selectedMonth.value = null
+    selectedDay.value = null
+
+    if (!props.displayTime) { return }
+
+    selectedHour.value = null
+    selectedMinute.value = null
+    selectedSecond.value = null
+
+    return
+  }
+
   selectYear(initDate.value.getFullYear())
   selectMonth(initDate.value.getMonth())
   selectDay(initDate.value.getDate())
@@ -557,13 +654,20 @@ onMounted(() => {
       </div>
 
       <div
-        class="close-toggle"
-        @click="toggleSelect"
+        class="clean-toggle"
+        @click="resetField"
       >
-        <i class="fa-solid fa-xmark"></i>
+        <i class="fa-solid fa-broom"></i>
       </div>
 
       <div class="pickers">
+        <div
+          class="close-toggle"
+          @click="closeSelect"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+
         <div
           :class="computedYearPickerClass"
           ref="yearPicker"
@@ -701,6 +805,14 @@ onMounted(() => {
           </div>
         </div>
 
+        <div
+          v-if="confirmReady"
+          class="confirm-toggle"
+          @click="confirmDate"
+        >
+          <i class="fa-solid fa-check"></i>
+        </div>
+
       </div> <!-- pickers -->
     </div>
 
@@ -715,7 +827,7 @@ onMounted(() => {
 
 <style scoped>
 .input-control {
-  margin: 2px 0 8px 0;
+  margin: 2px 8px 8px 0;
   width: 200px;
 }
 
@@ -785,8 +897,9 @@ onMounted(() => {
   border: none;
 }
 
-.input-field .close-toggle {
+.input-field .clean-toggle {
   position: absolute;
+  top: -20px;
   left: 180px;
   z-index: 999;
   border-radius: 50%;
@@ -798,35 +911,59 @@ onMounted(() => {
   background-color: var(--color-border);
 }
 
-.input-field.top-align .close-toggle {
+.input-control.display-time .input-field .clean-toggle {
+  left: 380px;
+}
+
+.input-control.disabled .input-field .clean-toggle,
+.input-field.expanded .clean-toggle {
+  display: none;
+}
+
+.input-field .close-toggle {
+  position: absolute;
   top: -20px;
+  left: -20px;
+  z-index: 999;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
 }
 
-.input-field.bottom-align .close-toggle {
-  bottom: 165px;
-}
-
-.input-field.center .close-toggle {
-  top: -100px;
-}
-
+.input-field.collapsed .confirm-toggle,
 .input-field.collapsed .close-toggle {
   display: none;
 }
 
-.input-control.display-time .input-field .close-toggle {
-  left: 380px;
-}
-
+.input-field .clean-toggle:hover,
+.input-field .confirm-toggle:hover,
 .input-field .close-toggle:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
+.input-field .confirm-toggle {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  z-index: 999;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
+}
+
 .input-field .pickers {
   position: absolute;
-  z-index: 99;
+  z-index: 9999;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -858,6 +995,10 @@ onMounted(() => {
 
 .input-field.expanded .picker.show {
   display: inline-block;
+}
+
+.input-field.collapsed .picker {
+  display: none;
 }
 
 .input-field .picker.hide {
