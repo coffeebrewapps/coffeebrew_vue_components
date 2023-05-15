@@ -1,4 +1,4 @@
-import { ref as d, computed as u, onMounted as oe, openBlock as o, createBlock as ie, Transition as Re, withCtx as Q, unref as n, createElementBlock as r, normalizeStyle as ut, createElementVNode as t, renderSlot as C, createTextVNode as de, toDisplayString as g, createCommentVNode as w, isRef as ye, normalizeClass as m, createVNode as ne, watch as rt, Fragment as A, renderList as N, pushScopeId as fe, popScopeId as ve, normalizeProps as M, guardReactiveProps as I } from "vue";
+import { ref as d, computed as u, onMounted as oe, openBlock as o, createBlock as ie, Transition as Re, withCtx as Q, unref as n, createElementBlock as r, normalizeStyle as ut, createElementVNode as t, renderSlot as C, createTextVNode as de, toDisplayString as y, createCommentVNode as w, isRef as ge, normalizeClass as m, createVNode as ne, watch as rt, Fragment as A, renderList as N, pushScopeId as fe, popScopeId as ve, normalizeProps as M, guardReactiveProps as I } from "vue";
 const j = (e, c) => {
   const a = e.__vccOpts || e;
   for (const [s, i] of c)
@@ -60,7 +60,7 @@ const j = (e, c) => {
           t("div", ct, [
             t("div", ft, [
               C(_.$slots, "heading", {}, () => [
-                de(g(e.title), 1)
+                de(y(e.title), 1)
               ], !0)
             ]),
             t("div", vt, [
@@ -75,7 +75,7 @@ const j = (e, c) => {
       _: 3
     }));
   }
-}, ge = /* @__PURE__ */ j(mt, [["__scopeId", "data-v-d9856122"]]), ht = { class: "text" }, hl = {
+}, ye = /* @__PURE__ */ j(mt, [["__scopeId", "data-v-d9856122"]]), ht = { class: "text" }, hl = {
   __name: "TAlert",
   props: {
     modelValue: {
@@ -107,23 +107,23 @@ const j = (e, c) => {
         c("update:modelValue", v);
       }
     });
-    return (v, p) => (o(), ie(ge, {
+    return (v, p) => (o(), ie(ye, {
       ref_key: "dialog",
       ref: s,
       modelValue: n(i),
-      "onUpdate:modelValue": p[0] || (p[0] = (_) => ye(i) ? i.value = _ : null),
+      "onUpdate:modelValue": p[0] || (p[0] = (_) => ge(i) ? i.value = _ : null),
       width: e.width,
       height: e.height,
       title: e.title
     }, {
       body: Q(() => [
-        t("div", ht, g(e.content), 1)
+        t("div", ht, y(e.content), 1)
       ]),
       _: 1
     }, 8, ["modelValue", "width", "height", "title"]));
   }
 };
-const yt = { key: 0 }, gt = {
+const gt = { key: 0 }, yt = {
   __name: "TButton",
   props: {
     buttonType: {
@@ -152,13 +152,13 @@ const yt = { key: 0 }, gt = {
       class: m(n(s)),
       onClick: p[0] || (p[0] = (_) => v.$emit("click"))
     }, [
-      e.buttonType === "text" ? (o(), r("span", yt, g(e.value), 1)) : w("", !0),
+      e.buttonType === "text" ? (o(), r("span", gt, y(e.value), 1)) : w("", !0),
       t("i", {
         class: m(n(i))
       }, null, 2)
     ], 2));
   }
-}, he = /* @__PURE__ */ j(gt, [["__scopeId", "data-v-ba63b772"]]);
+}, he = /* @__PURE__ */ j(yt, [["__scopeId", "data-v-ba63b772"]]);
 const _t = { class: "primary-text" }, bt = { class: "secondary-text" }, kt = {
   __name: "TConfirmDialog",
   props: {
@@ -201,18 +201,18 @@ const _t = { class: "primary-text" }, bt = { class: "secondary-text" }, kt = {
     function p() {
       c("update:modelValue", !1), c("cancel");
     }
-    return (_, $) => (o(), ie(ge, {
+    return (_, $) => (o(), ie(ye, {
       ref_key: "dialog",
       ref: s,
       modelValue: n(i),
-      "onUpdate:modelValue": $[2] || ($[2] = (V) => ye(i) ? i.value = V : null),
+      "onUpdate:modelValue": $[2] || ($[2] = (V) => ge(i) ? i.value = V : null),
       width: e.width,
       height: e.height,
       title: e.title
     }, {
       body: Q(() => [
-        t("div", _t, g(e.primaryText), 1),
-        t("div", bt, g(e.secondaryText), 1)
+        t("div", _t, y(e.primaryText), 1),
+        t("div", bt, y(e.secondaryText), 1)
       ]),
       actions: Q(() => [
         ne(he, {
@@ -232,7 +232,7 @@ const _t = { class: "primary-text" }, bt = { class: "secondary-text" }, kt = {
       _: 1
     }, 8, ["modelValue", "width", "height", "title"]));
   }
-}, yl = /* @__PURE__ */ j(kt, [["__scopeId", "data-v-87937dbc"]]);
+}, gl = /* @__PURE__ */ j(kt, [["__scopeId", "data-v-87937dbc"]]);
 const $t = { class: "input-field" }, St = { class: "input-label" }, Tt = {
   key: 0,
   class: "input-error"
@@ -273,12 +273,12 @@ const $t = { class: "input-field" }, St = { class: "input-label" }, Tt = {
         t("div", {
           class: m(n(v))
         }, null, 2),
-        t("div", St, g(e.label), 1)
+        t("div", St, y(e.label), 1)
       ]),
-      e.errorMessage.length > 0 ? (o(), r("div", Tt, g(e.errorMessage), 1)) : w("", !0)
+      e.errorMessage.length > 0 ? (o(), r("div", Tt, y(e.errorMessage), 1)) : w("", !0)
     ], 2));
   }
-}, gl = /* @__PURE__ */ j(Ct, [["__scopeId", "data-v-9bdc9ae5"]]);
+}, yl = /* @__PURE__ */ j(Ct, [["__scopeId", "data-v-9bdc9ae5"]]);
 const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input-label" }, Vt = { class: "selected" }, Dt = ["value"], xt = ["value"], Pt = ["value"], Mt = ["value"], It = ["value"], Ot = ["value"], Bt = ["value"], At = /* @__PURE__ */ R(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-calendar-days" })
 ], -1)), Nt = /* @__PURE__ */ R(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-xmark" }, null, -1)), Rt = [
@@ -350,7 +350,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
     ], O = u(() => {
       const l = q.value || p.value.getFullYear(), x = E.value || p.value.getMonth(), f = new Date(l, x, 1);
       return f.setMonth(f.getMonth() + 1), f.setDate(f.getDate() - 1), Array.from(Array(f.getDate())).map((L, ae) => ae + 1);
-    }), k = Array.from(Array(24)).map((l, x) => x), H = Array.from(Array(60)).map((l, x) => x), b = Array.from(Array(60)).map((l, x) => x), S = d("yearPicker"), P = d("monthPicker"), h = d("dayPicker"), D = d("hourPicker"), y = d("minutePicker"), W = d("secondPicker"), T = d("yearOptions"), B = d("monthOptions"), U = d("dayOptions"), pe = d("hourOptions"), _e = d("minuteOptions"), be = d("secondOptions"), ke = d([]), $e = d([]), Se = d([]), Te = d([]), Ce = d([]), we = d([]), X = d("collapsed"), q = d(), E = d(), J = d(), z = d(), F = d(), Y = d();
+    }), k = Array.from(Array(24)).map((l, x) => x), H = Array.from(Array(60)).map((l, x) => x), b = Array.from(Array(60)).map((l, x) => x), S = d("yearPicker"), P = d("monthPicker"), h = d("dayPicker"), D = d("hourPicker"), g = d("minutePicker"), W = d("secondPicker"), T = d("yearOptions"), B = d("monthOptions"), U = d("dayOptions"), pe = d("hourOptions"), _e = d("minuteOptions"), be = d("secondOptions"), ke = d([]), $e = d([]), Se = d([]), Te = d([]), Ce = d([]), we = d([]), X = d("collapsed"), q = d(), E = d(), J = d(), z = d(), F = d(), Y = d();
     d();
     const ue = d(!1), le = d(!1), Z = d(!1), ee = d(!1), K = d(!1), G = d(!1), Fe = u(() => {
       const l = [];
@@ -471,11 +471,11 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
       });
     }, { threshold: [0] });
     return oe(() => {
-      se.observe(S.value), se.observe(P.value), se.observe(h.value), a.displayTime && (se.observe(D.value), se.observe(y.value), se.observe(W.value)), ot();
+      se.observe(S.value), se.observe(P.value), se.observe(h.value), a.displayTime && (se.observe(D.value), se.observe(g.value), se.observe(W.value)), ot();
     }), (l, x) => (o(), r("div", {
       class: m(n(Fe))
     }, [
-      t("div", wt, g(e.label), 1),
+      t("div", wt, y(e.label), 1),
       t("div", {
         class: m(n(Ye))
       }, [
@@ -543,7 +543,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
                 ref: ke,
                 onClick: (L) => Pe(f)
               }, [
-                t("div", Lt, g(f), 1),
+                t("div", Lt, y(f), 1),
                 jt
               ], 10, Yt))), 256))
             ], 512)
@@ -567,7 +567,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
                 ref: $e,
                 onClick: (L) => Me(f)
               }, [
-                t("div", Wt, g(V[f]), 1),
+                t("div", Wt, y(V[f]), 1),
                 Et
               ], 10, Ut))), 256))
             ], 512)
@@ -591,7 +591,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
                 ref: Se,
                 onClick: (L) => Ie(f)
               }, [
-                t("div", Gt, g(f), 1),
+                t("div", Gt, y(f), 1),
                 Kt
               ], 10, qt))), 256))
             ], 512)
@@ -615,7 +615,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
                 ref: Te,
                 onClick: (L) => Oe(f)
               }, [
-                t("div", Zt, g(f), 1),
+                t("div", Zt, y(f), 1),
                 ea
               ], 10, Xt))), 256))
             ], 512)
@@ -623,7 +623,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
           t("div", {
             class: m(n(We)),
             ref_key: "minutePicker",
-            ref: y
+            ref: g
           }, [
             ta,
             t("div", {
@@ -639,7 +639,7 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
                 ref: Ce,
                 onClick: (L) => Be(f)
               }, [
-                t("div", la, g(f), 1),
+                t("div", la, y(f), 1),
                 sa
               ], 10, aa))), 256))
             ], 512)
@@ -663,13 +663,13 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
                 ref: we,
                 onClick: (L) => Ae(f)
               }, [
-                t("div", ia, g(f), 1)
+                t("div", ia, y(f), 1)
               ], 10, oa))), 256))
             ], 512)
           ], 2)
         ])
       ], 2),
-      e.errorMessage.length > 0 ? (o(), r("div", ua, g(e.errorMessage), 1)) : w("", !0)
+      e.errorMessage.length > 0 ? (o(), r("div", ua, y(e.errorMessage), 1)) : w("", !0)
     ], 2));
   }
 }, da = /* @__PURE__ */ j(ra, [["__scopeId", "data-v-7515111b"]]), _l = {
@@ -698,6 +698,10 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
     disabled: {
       type: Boolean,
       default: !1
+    },
+    alignPickers: {
+      type: String,
+      default: "center"
     }
   },
   emits: ["update:modelValue"],
@@ -711,14 +715,15 @@ const R = (e) => (fe("data-v-7515111b"), e = e(), ve(), e), wt = { class: "input
     return oe(() => {
     }), (i, v) => (o(), ie(da, {
       modelValue: n(s),
-      "onUpdate:modelValue": v[0] || (v[0] = (p) => ye(s) ? s.value = p : null),
+      "onUpdate:modelValue": v[0] || (v[0] = (p) => ge(s) ? s.value = p : null),
       min: e.min,
       max: e.max,
       label: e.label,
       "display-time": !1,
       disabled: e.disabled,
+      "align-pickers": e.alignPickers,
       "error-message": e.errorMessage
-    }, null, 8, ["modelValue", "min", "max", "label", "disabled", "error-message"]));
+    }, null, 8, ["modelValue", "min", "max", "label", "disabled", "align-pickers", "error-message"]));
   }
 };
 const ca = { class: "input-label" }, fa = { class: "input-field" }, va = ["type", "value", "disabled"], pa = {
@@ -761,7 +766,7 @@ const ca = { class: "input-label" }, fa = { class: "input-field" }, va = ["type"
     return (s, i) => (o(), r("div", {
       class: m(n(a))
     }, [
-      t("div", ca, g(e.label), 1),
+      t("div", ca, y(e.label), 1),
       t("div", fa, [
         t("input", {
           type: e.type,
@@ -771,11 +776,11 @@ const ca = { class: "input-label" }, fa = { class: "input-field" }, va = ["type"
           onInput: i[0] || (i[0] = (v) => s.$emit("update:modelValue", v.target.value))
         }, null, 42, va)
       ]),
-      e.errorMessage.length > 0 ? (o(), r("div", pa, g(e.errorMessage), 1)) : w("", !0)
+      e.errorMessage.length > 0 ? (o(), r("div", pa, y(e.errorMessage), 1)) : w("", !0)
     ], 2));
   }
 }, bl = /* @__PURE__ */ j(ma, [["__scopeId", "data-v-56a1e413"]]);
-const ha = ["value"], ya = {
+const ha = ["value"], ga = {
   __name: "TOption",
   props: {
     size: {
@@ -802,9 +807,9 @@ const ha = ["value"], ya = {
       class: m(n(s)),
       value: e.value,
       onClick: v[0] || (v[0] = (p) => i.$emit("select", e.value))
-    }, g(e.label), 11, ha));
+    }, y(e.label), 11, ha));
   }
-}, ga = /* @__PURE__ */ j(ya, [["__scopeId", "data-v-1fa7fb5e"]]);
+}, ya = /* @__PURE__ */ j(ga, [["__scopeId", "data-v-1fa7fb5e"]]);
 const _a = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), ba = { class: "input-label" }, ka = ["name"], $a = { class: "selected" }, Sa = /* @__PURE__ */ _a(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-caret-down" }),
   /* @__PURE__ */ t("i", { class: "fa-solid fa-caret-up" })
@@ -866,7 +871,7 @@ const _a = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), ba = { class: "inpu
     }), (k, H) => (o(), r("div", {
       class: m(n(v))
     }, [
-      t("div", ba, g(e.label), 1),
+      t("div", ba, y(e.label), 1),
       t("div", {
         class: m(n(p))
       }, [
@@ -875,11 +880,11 @@ const _a = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), ba = { class: "inpu
           name: e.name,
           onClick: $
         }, [
-          t("div", $a, g(n(_)), 1),
+          t("div", $a, y(n(_)), 1),
           Sa
         ], 8, ka),
         t("div", Ta, [
-          (o(!0), r(A, null, N(e.options, (b) => (o(), ie(ga, {
+          (o(!0), r(A, null, N(e.options, (b) => (o(), ie(ya, {
             value: b.value,
             label: b.label,
             size: e.size,
@@ -888,7 +893,7 @@ const _a = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), ba = { class: "inpu
           }, null, 8, ["value", "label", "size", "selected", "onSelect"]))), 256))
         ])
       ], 2),
-      e.errorMessage.length > 0 ? (o(), r("div", Ca, g(e.errorMessage), 1)) : w("", !0)
+      e.errorMessage.length > 0 ? (o(), r("div", Ca, y(e.errorMessage), 1)) : w("", !0)
     ], 2));
   }
 }, kl = /* @__PURE__ */ j(wa, [["__scopeId", "data-v-b1367cdb"]]);
@@ -1023,8 +1028,8 @@ const ze = (e) => (fe("data-v-f6e7fef8"), e = e(), ve(), e), Pa = { class: "tabl
   ],
   setup(e, { emit: c }) {
     const a = e, s = d(0), i = d(a.pagination.limit), v = u(() => a.pagination.client ? !1 : a.loading), p = u(() => a.headers.length + (a.actions.length > 0 ? 1 : 0)), _ = u(() => a.name && a.name.length > 0 ? "table-name show" : "table-name hide"), $ = u(() => a.dense ? "table dense" : "table");
-    function V(y) {
-      return y % 2 === 0 ? "row even" : "row odd";
+    function V(g) {
+      return g % 2 === 0 ? "row even" : "row odd";
     }
     const O = u(() => k.value > 0 ? "pagination show" : "pagination hide"), k = u(() => a.pagination.client ? a.data.length : a.totalData), H = u(() => a.pagination.client ? a.data.slice(s.value, s.value + i.value) : a.data), b = u(() => s.value + i.value > k.value ? {
       start: s.value + 1,
@@ -1039,14 +1044,14 @@ const ze = (e) => (fe("data-v-f6e7fef8"), e = e(), ve(), e), Pa = { class: "tabl
     function D() {
       b.value.end === k.value || (s.value = s.value + i.value), c("offsetChange", s.value);
     }
-    return (y, W) => (o(), r("div", Pa, [
+    return (g, W) => (o(), r("div", Pa, [
       t("div", Ma, [
-        C(y.$slots, "table-actions", M(I({ name: e.name, actions: e.tableActions })), () => [
+        C(g.$slots, "table-actions", M(I({ name: e.name, actions: e.tableActions })), () => [
           t("div", {
             class: m(n(_))
           }, [
-            C(y.$slots, "table-name", M(I({ name: e.name })), () => [
-              de(g(e.name), 1)
+            C(g.$slots, "table-name", M(I({ name: e.name })), () => [
+              de(y(e.name), 1)
             ], !0)
           ], 2),
           t("div", Ia, [
@@ -1054,11 +1059,11 @@ const ze = (e) => (fe("data-v-f6e7fef8"), e = e(), ve(), e), Pa = { class: "tabl
               class: "action",
               onClick: (B) => T.click(e.data)
             }, [
-              C(y.$slots, "table-action", M(I({ action: T, data: e.data })), () => [
+              C(g.$slots, "table-action", M(I({ action: T, data: e.data })), () => [
                 t("i", {
                   class: m(T.icon)
                 }, null, 2),
-                t("span", Ba, g(T.name), 1)
+                t("span", Ba, y(T.name), 1)
               ], !0)
             ], 8, Oa))), 256))
           ])
@@ -1069,19 +1074,19 @@ const ze = (e) => (fe("data-v-f6e7fef8"), e = e(), ve(), e), Pa = { class: "tabl
       }, [
         t("thead", Aa, [
           t("tr", Na, [
-            C(y.$slots, "header-row", M(I({ headers: e.headers, actions: e.actions })), () => [
+            C(g.$slots, "header-row", M(I({ headers: e.headers, actions: e.actions })), () => [
               (o(!0), r(A, null, N(e.headers, (T, B) => (o(), r("th", Ra, [
-                C(y.$slots, `header-col.${T.key}`, M(I({ header: T, i: B })), () => [
-                  de(g(T.label), 1)
+                C(g.$slots, `header-col.${T.key}`, M(I({ header: T, i: B })), () => [
+                  de(y(T.label), 1)
                 ], !0)
               ]))), 256)),
               e.actions.length > 0 ? (o(), r("th", za, [
-                C(y.$slots, "header-actions", M(I({ actions: e.actions })), void 0, !0)
+                C(g.$slots, "header-actions", M(I({ actions: e.actions })), void 0, !0)
               ])) : w("", !0)
             ], !0)
           ]),
           n(v) ? (o(), r("tr", Fa, [
-            C(y.$slots, "progress-bar", M(I({ headers: e.headers, actions: e.actions, span: n(p) })), () => [
+            C(g.$slots, "progress-bar", M(I({ headers: e.headers, actions: e.actions, span: n(p) })), () => [
               t("th", { colspan: n(p) }, [
                 ne(xa)
               ], 8, Ya)
@@ -1095,33 +1100,33 @@ const ze = (e) => (fe("data-v-f6e7fef8"), e = e(), ve(), e), Pa = { class: "tabl
             t("td", {
               class: "col center",
               colspan: n(p)
-            }, g(e.noDataText), 9, ja)
+            }, y(e.noDataText), 9, ja)
           ], 2)
         ])) : w("", !0),
         n(k) > 0 ? (o(), r("tbody", Ha, [
           n(v) ? w("", !0) : (o(!0), r(A, { key: 0 }, N(n(H), (T, B) => (o(), r("tr", {
             class: m(V(B))
           }, [
-            C(y.$slots, "data-row", M(I({ headers: e.headers, row: T, actions: e.actions, i: B })), () => [
-              C(y.$slots, "data-content", M(I({ headers: e.headers, row: T, i: B })), () => [
+            C(g.$slots, "data-row", M(I({ headers: e.headers, row: T, actions: e.actions, i: B })), () => [
+              C(g.$slots, "data-content", M(I({ headers: e.headers, row: T, i: B })), () => [
                 (o(!0), r(A, null, N(e.headers, (U) => (o(), r("td", Ua, [
-                  C(y.$slots, `data-col.${U.key}`, M(I({ header: U, row: T, i: B })), () => [
-                    de(g(T[U.key]), 1)
+                  C(g.$slots, `data-col.${U.key}`, M(I({ header: U, row: T, i: B })), () => [
+                    de(y(T[U.key]), 1)
                   ], !0)
                 ]))), 256))
               ], !0),
               e.actions.length > 0 ? (o(), r("td", Wa, [
-                C(y.$slots, "data-actions", M(I({ row: T, actions: e.actions, i: B })), () => [
+                C(g.$slots, "data-actions", M(I({ row: T, actions: e.actions, i: B })), () => [
                   t("div", Ea, [
                     (o(!0), r(A, null, N(e.actions, (U) => (o(), r("div", {
                       class: "action",
                       onClick: (pe) => U.click(T, B)
                     }, [
-                      C(y.$slots, "data-action", M(I({ row: T, action: U, i: B })), () => [
+                      C(g.$slots, "data-action", M(I({ row: T, action: U, i: B })), () => [
                         t("i", {
                           class: m(U.icon)
                         }, null, 2),
-                        t("span", qa, g(U.name), 1)
+                        t("span", qa, y(U.name), 1)
                       ], !0)
                     ], 8, Ja))), 256))
                   ])
@@ -1134,27 +1139,27 @@ const ze = (e) => (fe("data-v-f6e7fef8"), e = e(), ve(), e), Pa = { class: "tabl
       t("div", {
         class: m(n(O))
       }, [
-        C(y.$slots, "pagination", M(I({ pageLeft: h, pageRight: D, start: n(b).start, end: n(b).end, total: n(k) })), () => [
+        C(g.$slots, "pagination", M(I({ pageLeft: h, pageRight: D, start: n(b).start, end: n(b).end, total: n(k) })), () => [
           t("div", {
             class: m(n(S)),
             onClick: W[0] || (W[0] = (T) => h())
           }, [
-            C(y.$slots, "pager-left", {}, () => [
+            C(g.$slots, "pager-left", {}, () => [
               Ga
             ], !0)
           ], 2),
           t("div", Ka, [
-            C(y.$slots, "page-number", M(I({ start: n(b).start, end: n(b).end, total: n(k) })), () => [
-              n(b).start !== n(b).end ? (o(), r("span", Qa, g(n(b).start) + " - ", 1)) : w("", !0),
-              t("span", Xa, g(n(b).end), 1),
-              de(" / " + g(n(k)), 1)
+            C(g.$slots, "page-number", M(I({ start: n(b).start, end: n(b).end, total: n(k) })), () => [
+              n(b).start !== n(b).end ? (o(), r("span", Qa, y(n(b).start) + " - ", 1)) : w("", !0),
+              t("span", Xa, y(n(b).end), 1),
+              de(" / " + y(n(k)), 1)
             ], !0)
           ]),
           t("div", {
             class: m(n(P)),
             onClick: W[1] || (W[1] = (T) => D())
           }, [
-            C(y.$slots, "pager-right", {}, () => [
+            C(g.$slots, "pager-right", {}, () => [
               Za
             ], !0)
           ], 2)
@@ -1243,7 +1248,7 @@ const al = (e) => (fe("data-v-a74dd1fd"), e = e(), ve(), e), ll = { class: "inpu
       return h.push("input-control"), a.size && h.push(a.size), a.disabled && h.push("disabled"), h.join(" ");
     });
     function _(h) {
-      return $.value.find((y) => y === h.value) ? "checkbox checked" : "checkbox";
+      return $.value.find((g) => g === h.value) ? "checkbox checked" : "checkbox";
     }
     const $ = u(() => a.modelValue ? a.modelValue.map((h) => h.value) : []);
     d({});
@@ -1258,11 +1263,11 @@ const al = (e) => (fe("data-v-a74dd1fd"), e = e(), ve(), e), ll = { class: "inpu
       a.multiple ? c("update:modelValue", b(h)) : c("update:modelValue", S(h));
     }
     function b(h) {
-      const D = Array.from(a.modelValue || []), y = $.value.findIndex((W) => W === h.value);
-      return y < 0 ? D.push({ value: h.value, label: h.label }) : D.splice(y, 1), D;
+      const D = Array.from(a.modelValue || []), g = $.value.findIndex((W) => W === h.value);
+      return g < 0 ? D.push({ value: h.value, label: h.label }) : D.splice(g, 1), D;
     }
     function S(h) {
-      return Array.from(a.modelValue || []), $.value.findIndex((y) => y === h.value) < 0 ? [{ value: h.value, label: h.label }] : [];
+      return Array.from(a.modelValue || []), $.value.findIndex((g) => g === h.value) < 0 ? [{ value: h.value, label: h.label }] : [];
     }
     function P(h) {
       c("offsetChange", h);
@@ -1271,25 +1276,25 @@ const al = (e) => (fe("data-v-a74dd1fd"), e = e(), ve(), e), ll = { class: "inpu
     }), (h, D) => (o(), r("div", {
       class: m(n(p))
     }, [
-      t("div", ll, g(e.label), 1),
+      t("div", ll, y(e.label), 1),
       t("div", {
         class: "input-field",
         onClick: O
       }, [
         t("div", sl, [
-          (o(!0), r(A, null, N(n(V), (y) => (o(), r("div", nl, [
-            t("div", ol, g(y), 1)
+          (o(!0), r(A, null, N(n(V), (g) => (o(), r("div", nl, [
+            t("div", ol, y(g), 1)
           ]))), 256))
         ]),
         il
       ]),
-      e.errorMessage.length > 0 ? (o(), r("div", ul, g(e.errorMessage), 1)) : w("", !0),
+      e.errorMessage.length > 0 ? (o(), r("div", ul, y(e.errorMessage), 1)) : w("", !0),
       ne(Re, { name: "dialog" }, {
         default: Q(() => [
-          s.value ? (o(), ie(ge, {
+          s.value ? (o(), ie(ye, {
             key: 0,
             modelValue: s.value,
-            "onUpdate:modelValue": D[1] || (D[1] = (y) => s.value = y),
+            "onUpdate:modelValue": D[1] || (D[1] = (g) => s.value = g),
             title: "Select",
             width: 800,
             height: 600,
@@ -1306,9 +1311,9 @@ const al = (e) => (fe("data-v-a74dd1fd"), e = e(), ve(), e), ll = { class: "inpu
                 pagination: e.pagination,
                 onOffsetChange: P
               }, {
-                "data-action": Q(({ row: y, action: W, i: T }) => [
+                "data-action": Q(({ row: g, action: W, i: T }) => [
                   t("div", {
-                    class: m(_(y))
+                    class: m(_(g))
                   }, null, 2)
                 ]),
                 _: 1
@@ -1319,7 +1324,7 @@ const al = (e) => (fe("data-v-a74dd1fd"), e = e(), ve(), e), ll = { class: "inpu
                 "button-type": "text",
                 value: "Done",
                 icon: "fa-solid fa-check",
-                onClick: D[0] || (D[0] = (y) => k())
+                onClick: D[0] || (D[0] = (g) => k())
               })
             ]),
             _: 1
@@ -1373,7 +1378,7 @@ const dl = { class: "input-label" }, cl = { class: "input-field" }, fl = ["rows"
     return (i, v) => (o(), r("div", {
       class: m(n(a))
     }, [
-      t("div", dl, g(e.label), 1),
+      t("div", dl, y(e.label), 1),
       t("div", cl, [
         t("textarea", {
           rows: n(s).rows,
@@ -1384,20 +1389,20 @@ const dl = { class: "input-label" }, cl = { class: "input-field" }, fl = ["rows"
         }, `
       `, 40, fl)
       ]),
-      e.errorMessage.length > 0 ? (o(), r("div", vl, g(e.errorMessage), 1)) : w("", !0)
+      e.errorMessage.length > 0 ? (o(), r("div", vl, y(e.errorMessage), 1)) : w("", !0)
     ], 2));
   }
 }, Sl = /* @__PURE__ */ j(pl, [["__scopeId", "data-v-cb34fa62"]]);
 export {
   hl as TAlert,
   he as TButton,
-  gl as TCheckbox,
-  yl as TConfirmDialog,
+  yl as TCheckbox,
+  gl as TConfirmDialog,
   _l as TDatePicker,
   da as TDateTimePicker,
-  ge as TDialog,
+  ye as TDialog,
   bl as TInput,
-  ga as TOption,
+  ya as TOption,
   xa as TProgressBar,
   kl as TSelect,
   $l as TSelectTable,
