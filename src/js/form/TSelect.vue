@@ -24,6 +24,10 @@ const props = defineProps({
     type: Array,
     default: []
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
   errorMessage: {
     type: String,
     default: ''
@@ -36,7 +40,19 @@ const toggleState = ref('collapsed')
 const selectedOption = ref('')
 
 const computedControlClass = computed(() => {
-  return `input-control ${props.size}`.trim()
+  const className = []
+
+  className.push(`input-control`)
+
+  if (props.size) {
+    className.push(props.size)
+  }
+
+  if (props.disabled) {
+    className.push(`disabled`)
+  }
+
+  return className.join(' ')
 })
 
 const computedFieldClass = computed(() => {
@@ -50,6 +66,8 @@ const computedSelectedOption = computed(() => {
 })
 
 function toggleSelect() {
+  if (props.disabled) { return; }
+
   if (toggleState.value === 'collapsed') {
     toggleState.value = 'expanded'
   } else {
@@ -150,6 +168,14 @@ onMounted(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-control.disabled .input-field .select {
+  background-color: var(--color-background-mute);
+}
+
+.input-control.disabled .input-field .select:hover {
+  cursor: not-allowed;
 }
 
 .input-field .select {

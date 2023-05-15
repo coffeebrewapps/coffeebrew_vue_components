@@ -13,6 +13,10 @@ const props = defineProps({
   errorMessage: {
     type: String,
     default: ''
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -21,24 +25,36 @@ const emit = defineEmits(['update:modelValue'])
 const checked = ref(props.modelValue)
 
 const computedControlClass = computed(() => {
+  const className = []
+
+  className.push(`input-control`)
+
   if (props.label.length <= 10) {
-    return `input-control sm`
+    className.push(`sm`)
   } else if (props.label.length > 10 && props.label.length <= 30) {
-    return `input-control md`
+    className.push(`md`)
   } else {
-    return `input-control lg`
+    className.push(`lg`)
   }
+
+  if (props.disabled) {
+    className.push(`disabled`)
+  }
+
+  return className.join(' ')
 })
 
-const computedFieldClass = computed(() => {
+const computedCheckboxClass = computed(() => {
   if (checked.value) {
-    return `input-field checked`
+    return `checkbox checked`
   } else {
-    return `input-field`
+    return `checkbox`
   }
 })
 
 function toggleChecked() {
+  if (props.disabled) { return; }
+
   checked.value = !checked.value
   emit('update:modelValue', checked.value)
 }
@@ -50,30 +66,33 @@ function toggleChecked() {
     @click="toggleChecked"
   >
     <div
-      :class="computedFieldClass"
+      class="input-field"
     >
+      <div
+        :class="computedCheckboxClass"
+      >
+      </div>
+
+      <div
+        class="input-label"
+      >
+        {{ label }}
+      </div>
     </div>
 
     <div
-      class="input-label"
+      v-if="errorMessage.length > 0"
+      class="input-error"
     >
-      {{ label }}
+      {{ errorMessage }}
     </div>
-  </div>
-
-  <div
-    v-if="errorMessage.length > 0"
-    class="input-error"
-  >
-    {{ errorMessage }}
   </div>
 </template>
 
 <style scoped>
 .input-control {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
   padding: 4px 0;
 }
@@ -94,16 +113,24 @@ function toggleChecked() {
   cursor: pointer;
 }
 
+.input-control.disabled:hover {
+  cursor: not-allowed;
+}
+
 .input-field {
-  display: grid;
+  display: flex;
   align-items: center;
+  gap: 4px;
+}
+
+.input-field .checkbox {
   width: 12px;
   height: 12px;
   border-radius: 2px;
   border: 1px solid var(--color-border);
 }
 
-.input-field.checked {
+.input-field .checkbox.checked {
   background-color: var(--color-border-hover);
 }
 

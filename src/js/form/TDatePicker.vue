@@ -23,6 +23,10 @@ const props = defineProps({
   errorMessage: {
     type: String,
     default: ''
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -48,6 +52,7 @@ onMounted(() => {
     :max="max"
     :label="label"
     :display-time="false"
+    :disabled="disabled"
     :error-message="errorMessage"
   />
 </template>

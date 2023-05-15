@@ -70,6 +70,10 @@ const props = defineProps({
   errorMessage: {
     type: String,
     default: ''
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -113,15 +117,25 @@ const showMinutePicker = ref(false)
 const showSecondPicker = ref(false)
 
 const computedControlClass = computed(() => {
+  const className = []
+
+  className.push(`input-control`)
+
   if (props.displayTime) {
+    className.push(`display-time`)
+
     if (props.hour12) {
-      return `input-control display-time hour12`
+      className.push(`hour12`)
     } else {
-      return `input-control display-time hour24`
+      className.push(`hour24`)
     }
-  } else {
-    return `input-control`
   }
+
+  if (props.disabled) {
+    className.push(`disabled`)
+  }
+
+  return className.join(' ')
 })
 
 const computedFieldClass = computed(() => {
@@ -246,6 +260,8 @@ function formatDateParts(year, month, day, hour, minute, second) {
 }
 
 function toggleSelect() {
+  if (props.disabled) { return; }
+
   if (toggleState.value === 'collapsed') {
     toggleState.value = 'expanded'
     showYearPicker.value = true
@@ -657,6 +673,15 @@ onMounted(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-control.disabled .input-field .select {
+  background-color: var(--color-background-mute);
+}
+
+.input-control.disabled .input-field .select .selected input:hover,
+.input-control.disabled .input-field .select:hover {
+  cursor: not-allowed;
 }
 
 .input-field .select {

@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue'
+
 defineEmits(['update:modelValue'])
 
 const props = defineProps({
@@ -18,16 +20,32 @@ const props = defineProps({
     type: String,
     default: 'Input'
   },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
   errorMessage: {
     type: String,
     default: ''
   }
 })
+
+const computedControlClass = computed(() => {
+  const className = []
+
+  className.push(`input-control`)
+
+  if (props.disabled) {
+    className.push(`disabled`)
+  }
+
+  return className.join(' ')
+})
 </script>
 
 <template>
   <div
-    class="input-control"
+    :class="computedControlClass"
   >
     <div
       class="input-label"
@@ -42,6 +60,7 @@ const props = defineProps({
         :type="type"
         :class="size"
         :value="modelValue"
+        :disabled="disabled"
         @input="$emit('update:modelValue', $event.target.value)"
       >
     </div>
@@ -67,6 +86,14 @@ const props = defineProps({
   border: 1px solid var(--color-border);
   border-radius: 4px;
   box-sizing: border-box;
+}
+
+.input-control.disabled .input-field input {
+  background-color: var(--color-background-mute);
+}
+
+.input-control.disabled .input-field input:hover {
+  cursor: not-allowed;
 }
 
 .input-field input.sm {

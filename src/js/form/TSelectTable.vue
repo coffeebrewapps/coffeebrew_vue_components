@@ -52,13 +52,20 @@ const props = defineProps({
         client: true
       }
     }
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  errorMessage: {
+    type: String,
+    default: ''
   }
 })
 
 const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
 const tableDialog = ref(false)
-const errorMessage = ref('')
 
 const tableHeaders = computed(() => {
   return [
@@ -78,7 +85,19 @@ const actions = ref([
 ])
 
 const computedInputControlClass = computed(() => {
-  return `input-control ${props.size}`
+  const className = []
+
+  className.push(`input-control`)
+
+  if (props.size) {
+    className.push(props.size)
+  }
+
+  if (props.disabled) {
+    className.push(`disabled`)
+  }
+
+  return className.join(' ')
 })
 
 function checkboxClass(row) {
@@ -109,6 +128,8 @@ const selectedOptionsForDisplay = computed(() => {
 })
 
 function toggleSelect() {
+  if (props.disabled) { return; }
+
   tableDialog.value = !tableDialog.value
 }
 
@@ -263,6 +284,14 @@ onMounted(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-control.disabled .input-field {
+  background-color: var(--color-background-mute);
+}
+
+.input-control.disabled .input-field:hover {
+  cursor: not-allowed;
 }
 
 .input-control .input-field .select {
