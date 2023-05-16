@@ -163,13 +163,13 @@ onMounted(() => {
   justify-content: center;
   width: 32px;
   height: 32px;
-  background-color: var(--color-border);
+  color: var(--color-text);
+  background-color: var(--color-background);
 }
 
 .window .close-button:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
-  color: var(--color-text);
 }
 
 .window .container {
