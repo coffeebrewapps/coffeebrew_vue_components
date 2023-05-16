@@ -28,6 +28,10 @@ const props = defineProps({
   secondaryText: {
     type: String,
     default: ''
+  },
+  fullscreen: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -61,6 +65,7 @@ function cancel() {
     :width="width"
     :height="height"
     :title="title"
+    :fullscreen="fullscreen"
   >
     <template #body>
       <div

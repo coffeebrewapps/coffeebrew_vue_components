@@ -23,6 +23,10 @@ const props = defineProps({
   content: {
     type: String,
     default: ''
+  },
+  fullscreen: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -46,6 +50,7 @@ const dialogShow = computed({
     :width="width"
     :height="height"
     :title="title"
+    :fullscreen="fullscreen"
   >
     <template #body>
       <div
