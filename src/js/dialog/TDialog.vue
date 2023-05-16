@@ -169,7 +169,7 @@ onMounted(() => {
 
 .window .close-button:hover {
   cursor: pointer;
-  background-color: var(--color-border-hover);
+  background-color: var(--color-background-soft);
 }
 
 .window .container {
