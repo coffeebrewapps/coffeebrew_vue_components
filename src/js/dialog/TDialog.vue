@@ -118,7 +118,7 @@ onMounted(() => {
   color: var(--color-text);
   border: 1px solid var(--color-text);
   border-radius: 4px;
-  z-index: 99;
+  z-index: 999;
 }
 
 .dialog .menu-bar {

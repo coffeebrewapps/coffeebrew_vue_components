@@ -901,7 +901,7 @@ onMounted(() => {
   position: absolute;
   top: -20px;
   left: 180px;
-  z-index: 999;
+  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
@@ -924,7 +924,7 @@ onMounted(() => {
   position: absolute;
   top: -20px;
   left: -20px;
-  z-index: 999;
+  z-index: 3;
   border-radius: 50%;
   display: grid;
   align-items: center;
@@ -951,7 +951,7 @@ onMounted(() => {
   position: absolute;
   top: -20px;
   right: -20px;
-  z-index: 999;
+  z-index: 3;
   border-radius: 50%;
   display: grid;
   align-items: center;
@@ -963,7 +963,7 @@ onMounted(() => {
 
 .input-field .pickers {
   position: absolute;
-  z-index: 9999;
+  z-index: 2;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
