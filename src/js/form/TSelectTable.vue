@@ -137,6 +137,10 @@ function closeSelect() {
   tableDialog.value = false
 }
 
+function resetField() {
+  emit('update:modelValue', [])
+}
+
 function updateSelected(row) {
   if (props.multiple) {
     emit('update:modelValue', updateMultipleSelected(row))
@@ -205,6 +209,13 @@ onMounted(() => {
     </div>
 
     <div
+      class="clean-toggle"
+      @click="resetField"
+    >
+      <i class="fa-solid fa-broom"></i>
+    </div>
+
+    <div
       v-if="errorMessage.length > 0"
       class="input-error"
     >
@@ -251,7 +262,7 @@ onMounted(() => {
 
 <style scoped>
 .input-control {
-  margin: 2px 0 8px 0;
+  margin: 2px 8px 8px 0;
 }
 
 .input-control.sm {
@@ -280,7 +291,8 @@ onMounted(() => {
   box-sizing: border-box;
 }
 
-.input-field:hover {
+.input-field:hover,
+.input-control .clean-toggle:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
@@ -299,6 +311,24 @@ onMounted(() => {
   flex-direction: row;
   flex-wrap: wrap;
   width: 95%;
+}
+
+.input-control .clean-toggle {
+  position: absolute;
+  top: 2px;
+  right: -12px;
+  z-index: 1;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
+}
+
+.input-control.disabled .clean-toggle {
+  display: none;
 }
 
 .input-error {
