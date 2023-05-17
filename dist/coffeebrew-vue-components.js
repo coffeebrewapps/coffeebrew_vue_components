@@ -852,7 +852,7 @@ const wl = ["value"], xl = {
     }, _(e.label), 11, wl));
   }
 }, Vl = /* @__PURE__ */ L(xl, [["__scopeId", "data-v-1fa7fb5e"]]);
-const Dl = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), Pl = { class: "input-label" }, Ol = ["name"], Ml = { class: "selected" }, Il = /* @__PURE__ */ Dl(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
+const Dl = (e) => (fe("data-v-32935478"), e = e(), ve(), e), Pl = { class: "input-label" }, Ol = ["name"], Ml = { class: "selected" }, Il = /* @__PURE__ */ Dl(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
   /* @__PURE__ */ l("i", { class: "fa-solid fa-caret-down" }),
   /* @__PURE__ */ l("i", { class: "fa-solid fa-caret-up" })
 ], -1)), Bl = { class: "options" }, Rl = {
@@ -892,7 +892,7 @@ const Dl = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), Pl = { class: "inpu
   },
   emits: ["update:modelValue"],
   setup(e, { emit: f }) {
-    const t = e, a = d("collapsed"), o = d(""), v = u(() => {
+    const t = e, a = d("collapsed"), o = u(() => t.modelValue), v = u(() => {
       const h = [];
       return h.push("input-control"), t.size && h.push(t.size), t.disabled && h.push("disabled"), h.join(" ");
     }), m = u(() => `input-field ${a.value}`.trim()), $ = u(() => {
@@ -906,7 +906,7 @@ const Dl = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), Pl = { class: "inpu
       return h === o.value;
     }
     function D(h) {
-      a.value = "collapsed", o.value = h, f("update:modelValue", h);
+      a.value = "collapsed", f("update:modelValue", h);
     }
     return ue(() => {
       D(t.modelValue);
@@ -938,7 +938,7 @@ const Dl = (e) => (fe("data-v-b1367cdb"), e = e(), ve(), e), Pl = { class: "inpu
       e.errorMessage.length > 0 ? (i(), r("div", Rl, _(e.errorMessage), 1)) : x("", !0)
     ], 2));
   }
-}, Oa = /* @__PURE__ */ L(Al, [["__scopeId", "data-v-b1367cdb"]]);
+}, Oa = /* @__PURE__ */ L(Al, [["__scopeId", "data-v-32935478"]]);
 const Nl = { class: "progress-bar" }, zl = {
   __name: "TProgressBar",
   props: {
