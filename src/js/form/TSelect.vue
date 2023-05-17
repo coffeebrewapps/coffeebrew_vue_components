@@ -37,7 +37,9 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const toggleState = ref('collapsed')
-const selectedOption = ref('')
+const selectedOption = computed(() => {
+  return props.modelValue
+})
 
 const computedControlClass = computed(() => {
   const className = []
@@ -81,7 +83,6 @@ function setOptionSelectedState(val) {
 
 function selectOption(val) {
   toggleState.value = 'collapsed'
-  selectedOption.value = val
   emit('update:modelValue', val)
 }
 
