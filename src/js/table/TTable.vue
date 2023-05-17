@@ -117,16 +117,9 @@ const computedPaginatedData = computed(() => {
 })
 
 const computedCurrentIndexes = computed(() => {
-  if (offset.value + limit.value > computedTotalData.value) {
-    return {
-      start: offset.value + 1,
-      end: computedTotalData.value
-    }
-  } else {
-    return {
-      start: offset.value + 1,
-      end: offset.value + limit.value
-    }
+  return {
+    start: offset.value + 1,
+    end: offset.value + computedPaginatedData.value.length
   }
 })
 
