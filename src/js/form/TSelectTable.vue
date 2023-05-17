@@ -48,6 +48,7 @@ const props = defineProps({
     type: Object,
     default() {
       return {
+        offset: 0,
         limit: 5,
         client: true
       }
