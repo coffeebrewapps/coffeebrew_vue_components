@@ -2,7 +2,11 @@
 import { onMounted, computed, ref, watch } from 'vue'
 
 function notEmpty(val) {
-  return (typeof val !== 'undefined') && val !== null
+  return !isEmpty(val)
+}
+
+function isEmpty(val) {
+  return Object.is(val, undefined) || Object.is(val, null)
 }
 
 const today = new Date()
@@ -12,7 +16,7 @@ const initDate = computed(() => {
 })
 
 const minDate = computed(() => {
-  if (!!props.min) {
+  if (notEmpty(props.min)) {
     return props.min
   } else {
     return new Date(today.getFullYear() - 10, 0, 1)
@@ -20,7 +24,7 @@ const minDate = computed(() => {
 })
 
 const maxDate = computed(() => {
-  if (!!props.max) {
+  if (notEmpty(props.max)) {
     return props.max
   } else {
     return new Date(today.getFullYear() + 9, 11, 31)
@@ -145,17 +149,17 @@ const computedControlClass = computed(() => {
 
   className.push(`input-control`)
 
-  if (props.displayTime) {
+  if (Object.is(props.displayTime, true)) {
     className.push(`display-time`)
 
-    if (props.hour12) {
+    if (Object.is(props.hour12, true)) {
       className.push(`hour12`)
     } else {
       className.push(`hour24`)
     }
   }
 
-  if (props.disabled) {
+  if (Object.is(props.disabled, true)) {
     className.push(`disabled`)
   }
 
@@ -175,15 +179,13 @@ const computedFieldClass = computed(() => {
     className.push(`center`)
   }
 
-  if (toggleState.value) {
-    className.push(toggleState.value)
-  }
+  className.push(toggleState.value)
 
   return className.join(' ')
 })
 
 const computedYearPickerClass = computed(() => {
-  if (showYearPicker.value) {
+  if (Object.is(showYearPicker.value, true)) {
     return `year picker show`
   } else {
     return `year picker hide`
@@ -191,7 +193,7 @@ const computedYearPickerClass = computed(() => {
 })
 
 const computedMonthPickerClass = computed(() => {
-  if (showMonthPicker.value) {
+  if (Object.is(showMonthPicker.value, true)) {
     return `month picker show`
   } else {
     return `month picker hide`
@@ -199,7 +201,7 @@ const computedMonthPickerClass = computed(() => {
 })
 
 const computedDayPickerClass = computed(() => {
-  if (showDayPicker.value) {
+  if (Object.is(showDayPicker.value, true)) {
     return `day picker show`
   } else {
     return `day picker hide`
@@ -207,7 +209,7 @@ const computedDayPickerClass = computed(() => {
 })
 
 const computedHourPickerClass = computed(() => {
-  if (props.displayTime && showHourPicker.value) {
+  if (Object.is(props.displayTime, true) && Object.is(showHourPicker.value, true)) {
     return `hour picker show`
   } else {
     return `hour picker hide`
@@ -215,7 +217,7 @@ const computedHourPickerClass = computed(() => {
 })
 
 const computedMinutePickerClass = computed(() => {
-  if (props.displayTime && showMinutePicker.value) {
+  if (Object.is(props.displayTime, true) && Object.is(showMinutePicker.value, true)) {
     return `minute picker show`
   } else {
     return `minute picker hide`
@@ -223,7 +225,7 @@ const computedMinutePickerClass = computed(() => {
 })
 
 const computedSecondPickerClass = computed(() => {
-  if (props.displayTime && showSecondPicker.value) {
+  if (Object.is(props.displayTime, true) && Object.is(showSecondPicker.value, true)) {
     return `second picker show`
   } else {
     return `second picker hide`
@@ -235,11 +237,11 @@ const computedSelectedDate = computed(() => {
   const month = selectedMonth.value
   const day = selectedDay.value
 
-  if (!notEmpty(year)) { return null }
-  if (!notEmpty(month)) { return null }
-  if (!notEmpty(day)) { return null }
+  if (isEmpty(year)) { return null }
+  if (isEmpty(month)) { return null }
+  if (isEmpty(day)) { return null }
 
-  if (!props.displayTime) {
+  if (Object.is(props.displayTime, false)) {
     return new Date(year, month, day)
   }
 
@@ -247,9 +249,9 @@ const computedSelectedDate = computed(() => {
   const minute = selectedMinute.value
   const second = selectedSecond.value
 
-  if (props.displayTime && !notEmpty(hour)) { return null }
-  if (props.displayTime && !notEmpty(minute)) { return null }
-  if (props.displayTime && !notEmpty(second)) { return null }
+  if (Object.is(props.displayTime, true) && isEmpty(hour)) { return null }
+  if (Object.is(props.displayTime, true) && isEmpty(minute)) { return null }
+  if (Object.is(props.displayTime, true) && isEmpty(second)) { return null }
 
   return new Date(year, month, day, hour, minute, second)
 })
@@ -348,7 +350,7 @@ function formatDateParts(year, month, day, hour, minute, second) {
 }
 
 function toggleSelect() {
-  if (props.disabled) { return; }
+  if (Object.is(props.disabled, true)) { return; }
 
   if (toggleState.value === 'collapsed') {
     toggleState.value = 'expanded'
@@ -448,7 +450,7 @@ function scrollOptionsIntoView() {
   }
   dayOptions.value.scrollTop = dayRef.offsetTop
 
-  if (!props.displayTime) { return }
+  if (Object.is(props.displayTime, false)) { return }
 
   let hourRef = null
   if (notEmpty(selectedHour.value)) {
@@ -498,7 +500,7 @@ function selectMonth(val) {
 function selectDay(val) {
   selectedDay.value = val
 
-  if (props.displayTime) {
+  if (Object.is(props.displayTime, true)) {
     showHourPicker.value = true
   }
 }
@@ -512,7 +514,7 @@ function resetField() {
   showMonthPicker.value = false
   showDayPicker.value = false
 
-  if (props.displayTime) {
+  if (Object.is(props.displayTime, true)) {
     selectedHour.value = null
     selectedMinute.value = null
     selectedSecond.value = null
@@ -538,7 +540,8 @@ function closeSelect() {
 }
 
 const confirmReady = computed(() => {
-  return (props.displayTime && notEmpty(computedSelectedDate.value)) || notEmpty(computedSelectedDate.value)
+  return (Object.is(props.displayTime, true) && notEmpty(computedSelectedDate.value)) ||
+            notEmpty(computedSelectedDate.value)
 })
 
 function confirmDate() {
@@ -572,7 +575,7 @@ function selectSecond(val) {
 }
 
 function initDateFromModelValue() {
-  if (!initDate.value) {
+  if (isEmpty(initDate.value)) {
     selectedYear.value = null
     selectedMonth.value = null
     selectedDay.value = null
@@ -611,7 +614,7 @@ onMounted(() => {
   observer.observe(monthPicker.value)
   observer.observe(dayPicker.value)
 
-  if (props.displayTime) {
+  if (Object.is(props.displayTime, true)) {
     observer.observe(hourPicker.value)
     observer.observe(minutePicker.value)
     observer.observe(secondPicker.value)
