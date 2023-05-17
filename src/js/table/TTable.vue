@@ -31,6 +31,7 @@ const props = defineProps({
   pagination: {
     type: Object,
     default: {
+      offset: 0,
       limit: 5,
       client: true
     }
@@ -53,8 +54,13 @@ const emit = defineEmits([
   'offsetChange'
 ])
 
-const offset = ref(0)
-const limit = ref(props.pagination.limit)
+const offset = computed(() => {
+  return props.pagination.offset
+})
+
+const limit = computed(() => {
+  return props.pagination.limit
+})
 
 const computedLoading = computed(() => {
   if (props.pagination.client) {
@@ -143,20 +149,18 @@ function pageLeft() {
   if (computedCurrentIndexes.value.start === 1) {
     // do nothing
   } else if (offset.value - limit.value < 0) {
-    offset.value = 0
+    emit('offsetChange', 0)
   } else {
-    offset.value = offset.value - limit.value
+    emit('offsetChange', offset.value - limit.value)
   }
-  emit('offsetChange', offset.value)
 }
 
 function pageRight() {
   if (computedCurrentIndexes.value.end === computedTotalData.value) {
     // do nothing
   } else {
-    offset.value = offset.value + limit.value
+    emit('offsetChange', offset.value + limit.value)
   }
-  emit('offsetChange', offset.value)
 }
 </script>
 
