@@ -1220,7 +1220,7 @@ const ze = (e) => (fe("data-v-53dae7dc"), e = e(), ve(), e), El = { class: "tabl
     ]));
   }
 }, ma = /* @__PURE__ */ Y(pa, [["__scopeId", "data-v-53dae7dc"]]);
-const Ye = (e) => (fe("data-v-397f4214"), e = e(), ve(), e), ha = { class: "input-label" }, ga = { class: "select" }, ya = { class: "selected" }, _a = { class: "tag" }, ba = /* @__PURE__ */ Ye(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
+const Ye = (e) => (fe("data-v-faef7330"), e = e(), ve(), e), ha = { class: "input-label" }, ga = { class: "select" }, ya = { class: "selected" }, _a = { class: "tag" }, ba = /* @__PURE__ */ Ye(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
   /* @__PURE__ */ l("i", { class: "fa-solid fa-magnifying-glass" })
 ], -1)), ka = /* @__PURE__ */ Ye(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), $a = [
   ka
@@ -1270,6 +1270,7 @@ const Ye = (e) => (fe("data-v-397f4214"), e = e(), ve(), e), ha = { class: "inpu
       type: Object,
       default() {
         return {
+          offset: 0,
           limit: 5,
           client: !0
         };
@@ -1395,7 +1396,7 @@ const Ye = (e) => (fe("data-v-397f4214"), e = e(), ve(), e), ha = { class: "inpu
       })
     ], 2));
   }
-}, Aa = /* @__PURE__ */ Y(Ta, [["__scopeId", "data-v-397f4214"]]);
+}, Aa = /* @__PURE__ */ Y(Ta, [["__scopeId", "data-v-faef7330"]]);
 const Ca = { class: "input-label" }, wa = { class: "input-field" }, Oa = ["rows", "cols", "value", "disabled"], Va = {
   key: 0,
   class: "input-error"
