@@ -256,67 +256,10 @@ const computedSelectedDate = computed(() => {
   return new Date(year, month, day, hour, minute, second)
 })
 
-const displayYear = computed(() => {
-  const year = selectedYear.value
-  if (notEmpty(year)) {
-    return formatDateParts(year, 0, 1, 0, 0, 0).date.year
-  } else {
-    return ``
-  }
-})
+const displayDate = computed(() => {
+  if (isEmpty(props.modelValue)) { return { date: {}, time: {} } }
 
-const displayMonth = computed(() => {
-  const month = selectedMonth.value
-  if (notEmpty(month)) {
-    return formatDateParts(1900, month, 1, 0, 0, 0).date.month
-  } else {
-    return ``
-  }
-})
-
-const displayDay = computed(() => {
-  const day = selectedDay.value
-  if (notEmpty(day)) {
-    return formatDateParts(1900, 0, day, 0, 0, 0).date.day
-  } else {
-    return ``
-  }
-})
-
-const displayHour = computed(() => {
-  const hour = selectedHour.value
-  if (notEmpty(hour)) {
-    return formatDateParts(1900, 0, 1, hour, 0, 0).time.hour
-  } else {
-    return ``
-  }
-})
-
-const displayMinute = computed(() => {
-  const minute = selectedMinute.value
-  if (notEmpty(minute)) {
-    return formatDateParts(1900, 0, 1, 0, minute, 0).time.minute
-  } else {
-    return ``
-  }
-})
-
-const displaySecond = computed(() => {
-  const second = selectedSecond.value
-  if (notEmpty(second)) {
-    return formatDateParts(1900, 0, 1, 0, 0, second).time.second
-  } else {
-    return ``
-  }
-})
-
-const displayAmPm = computed(() => {
-  const hour = selectedHour.value
-  if (notEmpty(hour)) {
-    return formatDateParts(1900, 0, 1, hour, 0, 0).time.amPm
-  } else {
-    return ``
-  }
+  return formatDate(props.modelValue)
 })
 
 function formatDate(date) {
@@ -642,13 +585,13 @@ onMounted(() => {
         @click="toggleSelect"
       >
         <div class="selected">
-          <input disabled :value="displayYear">
-          <input disabled :value="displayMonth">
-          <input disabled :value="displayDay">
-          <input v-if="displayTime" disabled :value="displayHour">
-          <input v-if="displayTime" disabled :value="displayMinute">
-          <input v-if="displayTime" disabled :value="displaySecond">
-          <input v-if="displayTime && hour12" disabled :value="displayAmPm">
+          <input disabled :value="displayDate.date.year">
+          <input disabled :value="displayDate.date.month">
+          <input disabled :value="displayDate.date.day">
+          <input v-if="displayTime" disabled :value="displayDate.time.hour">
+          <input v-if="displayTime" disabled :value="displayDate.time.minute">
+          <input v-if="displayTime" disabled :value="displayDate.time.second">
+          <input v-if="displayTime && hour12" disabled :value="displayDate.time.amPm">
         </div>
 
         <div class="toggle">
