@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from 'vue'
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps({
   modelValue: {
-    type: String,
-    default: ''
+    type: [String, Number],
+    default: null
   },
   type: {
     type: String,
@@ -41,6 +41,18 @@ const computedControlClass = computed(() => {
 
   return className.join(' ')
 })
+
+function updateInput(value) {
+  if (props.type === 'number') {
+    if (isNaN(parseFloat(value))) {
+      emit('update:modelValue', null)
+    } else {
+      emit('update:modelValue', parseFloat(value))
+    }
+  } else {
+    emit('update:modelValue', value)
+  }
+}
 </script>
 
 <template>
@@ -61,7 +73,7 @@ const computedControlClass = computed(() => {
         :class="size"
         :value="modelValue"
         :disabled="disabled"
-        @input="$emit('update:modelValue', $event.target.value)"
+        @input="updateInput($event.target.value)"
       >
     </div>
 
