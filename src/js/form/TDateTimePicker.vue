@@ -420,6 +420,19 @@ watch([selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, s
   scrollOptionsIntoView()
 })
 
+function shortcutToday() {
+  const now = new Date()
+  selectYear(now.getFullYear())
+  selectMonth(now.getMonth())
+  selectDay(now.getDate())
+
+  if (props.displayTime) {
+    selectHour(now.getHours())
+    selectMinute(now.getMinutes())
+    selectSecond(now.getSeconds())
+  }
+}
+
 function selectYear(val) {
   selectedYear.value = val
   showMonthPicker.value = true
@@ -625,7 +638,7 @@ onMounted(() => {
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-        </div>
+        </div> <!-- yearPicker -->
 
         <div
           :class="computedMonthPickerClass"
@@ -648,7 +661,7 @@ onMounted(() => {
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-        </div>
+        </div> <!-- monthPicker -->
 
         <div
           :class="computedDayPickerClass"
@@ -671,7 +684,7 @@ onMounted(() => {
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-        </div>
+        </div> <!-- dayPicker -->
 
         <div
           :class="computedHourPickerClass"
@@ -694,7 +707,7 @@ onMounted(() => {
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-        </div>
+        </div> <!-- hourPicker -->
 
         <div
           :class="computedMinutePickerClass"
@@ -717,7 +730,7 @@ onMounted(() => {
               <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
-        </div>
+        </div> <!-- minutePicker -->
 
         <div
           :class="computedSecondPickerClass"
@@ -739,7 +752,7 @@ onMounted(() => {
               <div class="value">{{ second }}</div>
             </div>
           </div>
-        </div>
+        </div> <!-- secondPicker -->
 
         <div
           v-if="confirmReady"
@@ -749,6 +762,12 @@ onMounted(() => {
           <i class="fa-solid fa-check"></i>
         </div>
 
+        <div
+          class="shortcut-toggle"
+          @click="shortcutToday"
+        >
+          <i class="fa-solid fa-bolt"></i>
+        </div>
       </div> <!-- pickers -->
     </div>
 
@@ -871,13 +890,15 @@ onMounted(() => {
 }
 
 .input-field.collapsed .confirm-toggle,
-.input-field.collapsed .close-toggle {
+.input-field.collapsed .close-toggle,
+.input-field.collapsed .shortcut-toggle {
   display: none;
 }
 
 .input-field .clean-toggle:hover,
 .input-field .confirm-toggle:hover,
-.input-field .close-toggle:hover {
+.input-field .close-toggle:hover,
+.input-field .shortcut-toggle:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
@@ -887,6 +908,20 @@ onMounted(() => {
   position: absolute;
   top: -20px;
   right: -20px;
+  z-index: 3;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
+}
+
+.input-field .shortcut-toggle {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
   z-index: 3;
   border-radius: 50%;
   display: grid;
