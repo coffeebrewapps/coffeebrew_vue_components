@@ -18,7 +18,7 @@ import {
   TTextarea,
   TTable,
   TProgressBar
-} from '@/index'
+} from '@/src/index'
 
 const model = ref({
   username: '',

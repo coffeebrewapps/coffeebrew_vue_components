@@ -18,9 +18,9 @@
     }
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "vite --config demo.config.js",
+    "build": "vite build --config vite.config.js",
+    "build-demo": "vite build --config demo.config.js --base=\"/coffeebrew_vue_components/\""
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
