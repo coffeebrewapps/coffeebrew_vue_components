@@ -490,6 +490,10 @@ onMounted(() => {
                 v-model:start-date="model.dateRange1.start"
                 v-model:end-date="model.dateRange1.end"
                 label="Date Range"
+                :start-min="historyStartDate"
+                :start-max="historyEndDate"
+                :end-min="historyStartDate"
+                :end-max="historyEndDate"
               />
 
               <TDateRange
