@@ -6,15 +6,15 @@ import TDateTimePicker from './TDateTimePicker.vue'
 const props = defineProps({
   modelValue: {
     type: Date,
-    default: new Date()
+    default: null
   },
   min: {
     type: Date,
-    default: new Date((new Date()).getFullYear() - 10, 1, 1)
+    default: null
   },
   max: {
     type: Date,
-    default: new Date((new Date()).getFullYear() + 9, 12, 31)
+    default: null
   },
   label: {
     type: String,

@@ -12,6 +12,22 @@ const props = defineProps({
     type: Date,
     default: null
   },
+  startMin: {
+    type: Date,
+    default: null
+  },
+  startMax: {
+    type: Date,
+    default: null
+  },
+  endMin: {
+    type: Date,
+    default: null
+  },
+  endMax: {
+    type: Date,
+    default: null
+  },
   label: {
     type: String,
     default: 'Date'
@@ -63,6 +79,8 @@ const selectedEndTime = computed({
         label=""
         :disabled="disabled"
         :hour12="hour12"
+        :min="startMin"
+        :max="startMax"
         align-pickers="top"
       />
 
@@ -74,6 +92,8 @@ const selectedEndTime = computed({
         :disabled="disabled"
         align-pickers="top"
         :hour12="hour12"
+        :min="endMin"
+        :max="endMax"
       />
     </div>
 

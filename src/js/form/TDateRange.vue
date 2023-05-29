@@ -12,6 +12,22 @@ const props = defineProps({
     type: Date,
     default: null
   },
+  startMin: {
+    type: Date,
+    default: null
+  },
+  startMax: {
+    type: Date,
+    default: null
+  },
+  endMin: {
+    type: Date,
+    default: null
+  },
+  endMax: {
+    type: Date,
+    default: null
+  },
   label: {
     type: String,
     default: 'Date'
@@ -58,6 +74,8 @@ const selectedEndDate = computed({
         v-model="selectedStartDate"
         label=""
         :disabled="disabled"
+        :min="startMin"
+        :max="startMax"
         align-pickers="top"
       />
 
@@ -67,6 +85,8 @@ const selectedEndDate = computed({
         v-model="selectedEndDate"
         label=""
         :disabled="disabled"
+        :min="endMin"
+        :max="endMax"
         align-pickers="top"
       />
     </div>

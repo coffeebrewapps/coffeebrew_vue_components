@@ -52,16 +52,14 @@ const months = [
   'Dec'
 ]
 
-const days = computed(() => {
-  const year = selectedYear.value || minDate.value.getFullYear()
-  const month = selectedMonth.value || minDate.value.getMonth()
-
+function daysInMonth(year, month) {
   const monthStart = new Date(year, month, 1)
   monthStart.setMonth(monthStart.getMonth() + 1)
   monthStart.setDate(monthStart.getDate() - 1)
   return Array.from(Array(monthStart.getDate())).map((_, i) => (i + 1))
-})
+}
 
+const days = ref(Array.from(Array(31)).map((_v, i) => (i + 1)))
 const hours = Array.from(Array(24)).map((_v, i) => i)
 const minutes = Array.from(Array(60)).map((_v, i) => i)
 const seconds = Array.from(Array(60)).map((_v, i) => i)
@@ -363,6 +361,18 @@ function setSecondClass(val) {
 }
 
 function scrollOptionsIntoView() {
+  scrollYearOptionsIntoView()
+  scrollMonthOptionsIntoView()
+  scrollDayOptionsIntoView()
+
+  if (Object.is(props.displayTime, false)) { return }
+
+  scrollHourOptionsIntoView()
+  scrollMinuteOptionsIntoView()
+  scrollSecondOptionsIntoView()
+}
+
+function scrollYearOptionsIntoView() {
   let yearRef = null
   if (notEmpty(selectedYear.value)) {
     yearRef = yearRefs.value[years.value.indexOf(selectedYear.value)]
@@ -372,7 +382,9 @@ function scrollOptionsIntoView() {
     yearRef = yearRefs.value[years.value.indexOf(minDate.value.getFullYear())]
   }
   yearOptions.value.scrollTop = yearRef.offsetTop
+}
 
+function scrollMonthOptionsIntoView() {
   let monthRef = null
   if (notEmpty(selectedMonth.value)) {
     monthRef = monthRefs.value[selectedMonth.value]
@@ -380,7 +392,9 @@ function scrollOptionsIntoView() {
     monthRef = monthRefs.value[0]
   }
   monthOptions.value.scrollTop = monthRef.offsetTop
+}
 
+function scrollDayOptionsIntoView() {
   let dayRef = null
   if (notEmpty(selectedDay.value)) {
     dayRef = dayRefs.value[days.value.indexOf(selectedDay.value)]
@@ -388,7 +402,9 @@ function scrollOptionsIntoView() {
     dayRef = dayRefs.value[0]
   }
   dayOptions.value.scrollTop = dayRef.offsetTop
+}
 
+function scrollHourOptionsIntoView() {
   if (Object.is(props.displayTime, false)) { return }
 
   let hourRef = null
@@ -398,6 +414,10 @@ function scrollOptionsIntoView() {
     hourRef = hourRefs.value[0]
   }
   hourOptions.value.scrollTop = hourRef.offsetTop
+}
+
+function scrollMinuteOptionsIntoView() {
+  if (Object.is(props.displayTime, false)) { return }
 
   let minuteRef = null
   if (notEmpty(selectedMinute.value)) {
@@ -406,6 +426,10 @@ function scrollOptionsIntoView() {
     minuteRef = minuteRefs.value[0]
   }
   minuteOptions.value.scrollTop = minuteRef.offsetTop
+}
+
+function scrollSecondOptionsIntoView() {
+  if (Object.is(props.displayTime, false)) { return }
 
   let secondRef = null
   if (notEmpty(selectedSecond.value)) {
@@ -416,8 +440,33 @@ function scrollOptionsIntoView() {
   secondOptions.value.scrollTop = secondRef.offsetTop
 }
 
-watch([selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, selectedSecond], () => {
-  scrollOptionsIntoView()
+watch(selectedYear, () => {
+  scrollYearOptionsIntoView()
+})
+
+watch(selectedMonth, () => {
+  scrollMonthOptionsIntoView()
+})
+
+watch(selectedDay, () => {
+  scrollDayOptionsIntoView()
+})
+
+watch(selectedHour, () => {
+  scrollHourOptionsIntoView()
+})
+
+watch(selectedMinute, () => {
+  scrollMinuteOptionsIntoView()
+})
+
+watch(selectedSecond, () => {
+  scrollSecondOptionsIntoView()
+})
+
+const allowShortcut = computed(() => {
+  const now = new Date()
+  return now >= minDate.value && now <= maxDate.value
 })
 
 function shortcutToday() {
@@ -440,6 +489,7 @@ function selectYear(val) {
 
 function selectMonth(val) {
   selectedMonth.value = val
+  days.value = daysInMonth(selectedYear.value, selectedMonth.value)
   showDayPicker.value = true
 }
 
@@ -500,7 +550,7 @@ function confirmDate() {
   showSecondPicker.value = false
 
   if (notEmpty(computedSelectedDate.value)) {
-    emit('update:modelValue', computedSelectedDate)
+    emit('update:modelValue', computedSelectedDate.value)
   } else {
     props.errorMessage = `Cannot submit without selecting all date/time parts!`
   }
@@ -763,6 +813,7 @@ onMounted(() => {
         </div>
 
         <div
+          v-if="allowShortcut"
           class="shortcut-toggle"
           @click="shortcutToday"
         >
