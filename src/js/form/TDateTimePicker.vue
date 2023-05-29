@@ -376,20 +376,16 @@ function scrollOptionsIntoView() {
   let monthRef = null
   if (notEmpty(selectedMonth.value)) {
     monthRef = monthRefs.value[selectedMonth.value]
-  } else if (today < maxDate.value) {
-    monthRef = monthRefs.value[today.getMonth()]
   } else {
-    monthRef = monthRefs.value[minDate.value.getMonth()]
+    monthRef = monthRefs.value[0]
   }
   monthOptions.value.scrollTop = monthRef.offsetTop
 
   let dayRef = null
   if (notEmpty(selectedDay.value)) {
     dayRef = dayRefs.value[days.value.indexOf(selectedDay.value)]
-  } else if (today < maxDate.value) {
-    dayRef = dayRefs.value[days.value.indexOf(today.getDate())]
   } else {
-    dayRef = dayRefs.value[days.value.indexOf(minDate.value.getDate())]
+    dayRef = dayRefs.value[0]
   }
   dayOptions.value.scrollTop = dayRef.offsetTop
 
@@ -398,30 +394,24 @@ function scrollOptionsIntoView() {
   let hourRef = null
   if (notEmpty(selectedHour.value)) {
     hourRef = hourRefs.value[hours.indexOf(selectedHour.value)]
-  } else if (today < maxDate.value) {
-    hourRef = hourRefs.value[hours.indexOf(today.getHours())]
   } else {
-    hourRef = hourRefs.value[hours.indexOf(minDate.value.getHours())]
+    hourRef = hourRefs.value[0]
   }
   hourOptions.value.scrollTop = hourRef.offsetTop
 
   let minuteRef = null
   if (notEmpty(selectedMinute.value)) {
     minuteRef = minuteRefs.value[minutes.indexOf(selectedMinute.value)]
-  } else if (today < maxDate.value) {
-    minuteRef = minuteRefs.value[minutes.indexOf(today.getMinutes())]
   } else {
-    minuteRef = minuteRefs.value[minutes.indexOf(minDate.value.getMinutes())]
+    minuteRef = minuteRefs.value[0]
   }
   minuteOptions.value.scrollTop = minuteRef.offsetTop
 
   let secondRef = null
   if (notEmpty(selectedSecond.value)) {
     secondRef = secondRefs.value[seconds.indexOf(selectedSecond.value)]
-  } else if (today < maxDate.value) {
-    secondRef = secondRefs.value[seconds.indexOf(today.getSeconds())]
   } else {
-    secondRef = secondRefs.value[seconds.indexOf(minDate.value.getSeconds())]
+    secondRef = secondRefs.value[0]
   }
   secondOptions.value.scrollTop = secondRef.offsetTop
 }
