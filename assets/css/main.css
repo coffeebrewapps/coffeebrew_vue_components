@@ -79,8 +79,7 @@ a {
   }
 
   .content-container {
-    margin-left: 15%;
-    width: 85%;
+    width: 100vw;
     padding: 2rem;
   }
 }

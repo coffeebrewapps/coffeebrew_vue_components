@@ -6,7 +6,9 @@
   "author": "Coffee Brew Apps <coffeebrewapps@gmail.com>",
   "license": "MIT",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/coffeebrew-vue-components.umd.cjs",
   "module": "./dist/coffeebrew-vue-components.js",
   "exports": {
@@ -21,7 +23,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitejs/plugin-vue": "^4.2.3",
     "create-vue": "^3.6.1",
     "vite": "^4.1.4",
     "vue": "^3.2.47"
