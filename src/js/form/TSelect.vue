@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 
 import TOption from './TOption.vue'
 
@@ -31,6 +31,10 @@ const props = defineProps({
   errorMessage: {
     type: String,
     default: ''
+  },
+  searchable: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -61,6 +65,19 @@ const computedFieldClass = computed(() => {
   return `input-field ${toggleState.value}`.trim()
 })
 
+const searchString = ref('')
+
+const computedOptions = computed(() => {
+  if (searchString.value.length > 0) {
+    const regex = new RegExp(searchString.value, 'i')
+    return props.options.filter((option) => {
+      return option.value.match(regex)
+    })
+  } else {
+    return props.options
+  }
+})
+
 const computedSelectedOption = computed(() => {
   const found = props.options.find(o => o.value === selectedOption.value)
   if (found) { return found.label }
@@ -75,6 +92,19 @@ function toggleSelect() {
   } else {
     toggleState.value = 'collapsed'
   }
+}
+
+function searchOptions(event) {
+  const keyCode = event.keyCode
+  if (keyCode >= 32 && keyCode <= 127) {
+    searchStringCode.value.push(keyCode)
+  } else if (keyCode === 8 && searchStringCode.value.length > 0) {
+    searchStringCode.value.splice(-1, 1)
+  }
+}
+
+function clearSearch() {
+  searchString.value = ''
 }
 
 function setOptionSelectedState(val) {
@@ -122,10 +152,22 @@ onMounted(() => {
       </div>
 
       <div
+        v-if="searchable"
+        class="search"
+      >
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input v-model="searchString" />
+        <i
+          class="fa-solid fa-xmark"
+          @click="clearSearch"
+        ></i>
+      </div>
+
+      <div
         class="options"
       >
         <TOption
-          v-for="option in options"
+          v-for="option in computedOptions"
           :value="option.value"
           :label="option.label"
           :size="size"
@@ -233,9 +275,12 @@ onMounted(() => {
   left: 0;
   right: 0;
   border: 1px solid var(--color-border);
-  background-color: var(--color-background-soft);
   color: var(--color-text);
+  background-color: var(--color-background);
   z-index: 99;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .input-field.collapsed .options {
@@ -244,6 +289,44 @@ onMounted(() => {
 
 .input-field.expanded .options {
   display: block;
+}
+
+.input-field.collapsed .search input,
+.input-field.collapsed .search .fa-solid {
+  display: none;
+}
+
+.input-field.expanded .search {
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-bottom: none;
+}
+
+.input-field.expanded .search .fa-solid {
+  display: inline-block;
+}
+
+.input-field.expanded .search input {
+  padding: 0.5rem;
+  outline: none;
+  width: 100%;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-size: 1rem;
+}
+
+.input-field.expanded .search input:focus {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.input-field.expanded .search .fa-xmark:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
 }
 
 .input-control .clean-toggle {

@@ -46,7 +46,6 @@ const computedOptionClass = computed(() => {
   text-align: center;
   padding: 12px;
   margin: 0;
-  border-bottom: 1px solid var(--color-border);
   height: 50px;
 }
 
@@ -54,6 +53,7 @@ const computedOptionClass = computed(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+  font-weight: 600;
 }
 
 .option.sm {
@@ -71,5 +71,6 @@ const computedOptionClass = computed(() => {
 .option.selected {
   background-color: var(--color-border-hover);
   color: var(--color-text);
+  font-weight: 600;
 }
 </style>
