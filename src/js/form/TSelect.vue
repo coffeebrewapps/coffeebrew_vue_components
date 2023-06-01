@@ -347,6 +347,7 @@ onMounted(() => {
 .input-field.expanded .search input {
   padding: 0.5rem;
   outline: none;
+  border: none;
   width: 100%;
   color: var(--color-text);
   background-color: var(--color-background);
