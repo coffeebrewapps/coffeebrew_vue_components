@@ -3,6 +3,10 @@ import { onMounted, computed, ref, watch } from 'vue'
 
 import TOption from './TOption.vue'
 
+function isEmpty(val) {
+  return Object.is(val, undefined) || Object.is(val, null)
+}
+
 const props = defineProps({
   modelValue: {
     type: String,
@@ -45,6 +49,9 @@ const selectedOption = computed(() => {
   return props.modelValue
 })
 
+const inputField = ref('inputField')
+const selectField = ref('selectField')
+
 const computedControlClass = computed(() => {
   const className = []
 
@@ -84,7 +91,11 @@ const computedSelectedOption = computed(() => {
   return ''
 })
 
-function toggleSelect() {
+function toggleSelect(event) {
+  event.preventDefault()
+
+  if (event.target !== inputField.value && event.target !== selectField.value) { return }
+
   if (props.disabled) { return; }
 
   if (toggleState.value === 'collapsed') {
@@ -111,12 +122,16 @@ function setOptionSelectedState(val) {
   return val === selectedOption.value
 }
 
-function selectOption(val) {
+function selectOption(val, event) {
+  if (event) { event.preventDefault() }
+
   toggleState.value = 'collapsed'
   emit('update:modelValue', val)
 }
 
-function resetField() {
+function resetField(event) {
+  if (event && event.target !== inputField.value) { return }
+
   emit('update:modelValue', null) 
 }
 
@@ -136,12 +151,18 @@ onMounted(() => {
     </div>
 
     <div
+      tabindex="0"
       :class="computedFieldClass"
+      ref="inputField"
+      @keydown.enter="toggleSelect($event)"
+      @keydown.esc="toggleSelect($event)"
+      @keydown.backspace="resetField($event)"
     >
       <div
         class="select"
         :name="name"
-        @click="toggleSelect"
+        ref="selectField"
+        @click="toggleSelect($event)"
       >
         <div class="selected">{{ computedSelectedOption }}</div>
 
@@ -167,12 +188,15 @@ onMounted(() => {
         class="options"
       >
         <TOption
-          v-for="option in computedOptions"
+          tabindex="0"
+          v-for="(option, i) in computedOptions"
+          :key="i"
           :value="option.value"
           :label="option.label"
           :size="size"
           :selected="setOptionSelectedState(option.value)"
           @select="selectOption(option.value)"
+          @keydown.enter="selectOption(option.value, $event)"
         />
       </div>
     </div>
@@ -218,11 +242,19 @@ onMounted(() => {
   margin: 2px 0 8px 0;
 }
 
+.input-field:focus {
+  outline: none;
+}
+
 .input-field .select:hover,
 .input-control .clean-toggle:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-field:focus .select {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-control.disabled .input-field .select {

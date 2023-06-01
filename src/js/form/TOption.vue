@@ -23,11 +23,18 @@ const props = defineProps({
 const emit = defineEmits(['select'])
 
 const computedOptionClass = computed(() => {
+  const classNames = []
+  classNames.push(`option`)
+
   if (props.selected) {
-    return `option selected ${props.size}`.trim()
-  } else {
-    return `option ${props.size}`.trim()
+    classNames.push(`selected`)
   }
+
+  if (props.size) {
+    classNames.push(props.size)
+  }
+
+  return classNames.join(' ')
 })
 </script>
 
@@ -49,11 +56,13 @@ const computedOptionClass = computed(() => {
   height: 50px;
 }
 
+.option:focus,
 .option:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
   font-weight: 600;
+  outline: none;
 }
 
 .option.sm {
