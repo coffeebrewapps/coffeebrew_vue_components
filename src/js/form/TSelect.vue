@@ -51,6 +51,7 @@ const selectedOption = computed(() => {
 
 const inputField = ref('inputField')
 const selectField = ref('selectField')
+const cleanToggle = ref('cleanToggle')
 
 const computedControlClass = computed(() => {
   const className = []
@@ -130,7 +131,7 @@ function selectOption(val, event) {
 }
 
 function resetField(event) {
-  if (event && event.target !== inputField.value) { return }
+  if (event && event.target !== inputField.value && event.target !== cleanToggle.value) { return }
 
   emit('update:modelValue', null) 
 }
@@ -203,7 +204,8 @@ onMounted(() => {
 
     <div
       class="clean-toggle"
-      @click="resetField"
+      ref="cleanToggle"
+      @click="resetField($event)"
     >
       <i class="fa-solid fa-broom"></i>
     </div>
