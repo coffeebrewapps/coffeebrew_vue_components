@@ -95,6 +95,13 @@ const computedSize = computed(() => {
   border-radius: 4px;
   box-sizing: border-box;
   resize: none;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-size: 0.8rem;
+}
+
+.input-control .input-field textarea:focus {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-control.disabled .input-field textarea {

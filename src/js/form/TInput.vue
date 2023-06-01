@@ -98,6 +98,13 @@ function updateInput(value) {
   border: 1px solid var(--color-border);
   border-radius: 4px;
   box-sizing: border-box;
+  color: var(--color-text);
+  background-color: var(--color-background);
+  font-size: 1rem;
+}
+
+.input-field input:focus {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-control.disabled .input-field input {
