@@ -33,6 +33,7 @@ const model = ref({
   country2: 'my',
   country3: '',
   country4: 'sg',
+  timezone1: '',
   tags1: [],
   tags2: [{ value: 'company:company-abc', label: 'Company ABC' }],
   tags3: [{ value: 'company:company-abc', label: 'Company ABC' }, { value: 'activity:testing', label: 'Testing' }],
@@ -86,6 +87,12 @@ const countryOptions = ref([
   { value: 'th', label: 'Thailand' },
   { value: 'vn', label: 'Vietnam' }
 ])
+
+const timezoneOptions = computed(() => {
+  return Intl.supportedValuesOf('timeZone').map((timezone) => {
+    return { value: timezone, label: timezone }
+  })
+})
 
 const tagOptions = ref([
   { value: 'company:company-abc', label: 'Company ABC' },
@@ -430,6 +437,7 @@ onMounted(() => {
               <TSelect v-model="model.country2" size="sm" label="Country" name="country" id="country-2" :options="countryOptions"/>
               <TSelect v-model="model.country3" size="lg" label="Country (error message)" name="country" id="country-3" :options="countryOptions" error-message="Min 8 characters"/>
               <TSelect v-model="model.country4" label="Country (disabled)" name="country" id="country-4" :options="countryOptions" :disabled="true"/>
+              <TSelect v-model="model.timezone1" size="lg" label="Timezone (long list)" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
             </div>
           </div>
 
