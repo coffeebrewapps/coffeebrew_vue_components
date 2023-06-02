@@ -79,16 +79,16 @@ function resetField(event) {
         @input="$emit('update:modelValue', $event.target.value)"
       >
       </textarea>
-    </div>
 
-    <div
-      tabindex="0"
-      class="clean-toggle"
-      ref="cleanToggle"
-      @click="resetField($event)"
-      @keydown.enter="resetField($event)"
-    >
-      <i class="fa-solid fa-broom"></i>
+      <div
+        tabindex="0"
+        class="clean-toggle"
+        ref="cleanToggle"
+        @click="resetField($event)"
+        @keydown.enter="resetField($event)"
+      >
+        <i class="fa-solid fa-broom"></i>
+      </div>
     </div>
 
     <div
@@ -101,8 +101,16 @@ function resetField(event) {
 </template>
 
 <style scoped>
+.input-control {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 .input-label {
   font-size: 0.8rem;
+  min-height: 20px;
 }
 
 .input-field textarea {
@@ -132,7 +140,7 @@ function resetField(event) {
 
 .input-control .clean-toggle {
   position: absolute;
-  top: 2px;
+  top: -18px;
   right: -12px;
   z-index: 1;
   border-radius: 50%;
