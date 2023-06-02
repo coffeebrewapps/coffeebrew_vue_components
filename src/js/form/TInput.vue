@@ -41,6 +41,8 @@ const computedControlClass = computed(() => {
     className.push(`disabled`)
   }
 
+  className.push(props.size)
+
   return className.join(' ')
 })
 
@@ -78,21 +80,20 @@ function resetField(event) {
     >
       <input
         :type="type"
-        :class="size"
         :value="modelValue"
         :disabled="disabled"
         @input="updateInput($event.target.value)"
       >
-    </div>
 
-    <div
-      tabindex="0"
-      class="clean-toggle"
-      ref="cleanToggle"
-      @click="resetField($event)"
-      @keydown.enter="resetField($event)"
-    >
-      <i class="fa-solid fa-broom"></i>
+      <div
+        tabindex="0"
+        class="clean-toggle"
+        ref="cleanToggle"
+        @click="resetField($event)"
+        @keydown.enter="resetField($event)"
+      >
+        <i class="fa-solid fa-broom"></i>
+      </div>
     </div>
 
     <div
@@ -106,11 +107,14 @@ function resetField(event) {
 
 <style scoped>
 .input-control {
+  display: flex;
+  flex-direction: column;
   margin: 2px 8px 8px 0;
 }
 
 .input-label {
   font-size: 0.8rem;
+  min-height: 20px;
 }
 
 .input-field input {
@@ -137,21 +141,29 @@ function resetField(event) {
   cursor: not-allowed;
 }
 
-.input-field input.sm {
+.input-control.sm .input-label,
+.input-control.sm .input-field,
+.input-control.sm .input-field input {
   width: 100px;
 }
 
-.input-field input.md {
+.input-control .input-label,
+.input-control .input-field,
+.input-control.md .input-label,
+.input-control.md .input-field,
+.input-control.md .input-field input {
   width: 200px;
 }
 
-.input-field input.lg {
+.input-control.lg .input-label,
+.input-control.lg .input-field,
+.input-control.lg .input-field input {
   width: 500px;
 }
 
 .input-control .clean-toggle {
   position: absolute;
-  top: 2px;
+  bottom: 36px;
   right: -12px;
   z-index: 1;
   border-radius: 50%;
