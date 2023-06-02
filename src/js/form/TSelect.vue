@@ -181,6 +181,14 @@ onMounted(() => {
       </div>
 
       <div
+        class="clean-toggle"
+        ref="cleanToggle"
+        @click="resetField($event)"
+      >
+        <i class="fa-solid fa-broom"></i>
+      </div>
+
+      <div
         v-if="searchable"
         class="search"
       >
@@ -214,14 +222,6 @@ onMounted(() => {
     </div>
 
     <div
-      class="clean-toggle"
-      ref="cleanToggle"
-      @click="resetField($event)"
-    >
-      <i class="fa-solid fa-broom"></i>
-    </div>
-
-    <div
       v-if="errorMessage.length > 0"
       class="input-error"
     >
@@ -249,6 +249,7 @@ onMounted(() => {
 
 .input-label {
   font-size: 0.8rem;
+  min-height: 20px;
 }
 
 .input-field {
@@ -381,7 +382,7 @@ onMounted(() => {
 
 .input-control .clean-toggle {
   position: absolute;
-  top: 2px;
+  bottom: 38px;
   right: -12px;
   z-index: 1;
   border-radius: 50%;
