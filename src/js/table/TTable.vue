@@ -406,7 +406,7 @@ function pageRight() {
   padding: 4px;
   position: absolute;
   left: 10px;
-  bottom: -1rem;
+  bottom: -2rem;
   z-index: 1;
   background-color: var(--color-border-hover);
   color: var(--color-text);
