@@ -27,8 +27,10 @@ const model = ref({
   description: '',
   password: '',
   amount: 0,
+  noLabel: '',
   paragraph1: '',
   paragraph2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quam nunc, vulputate a ipsum eget, fermentum facilisis turpis. In et mi dapibus, interdum dolor ut, volutpat turpis. In ut consectetur dolor. Curabitur sodales ipsum lacus, nec consectetur lacus vulputate id. Vestibulum ac suscipit massa, in vehicula urna. Pellentesque at tristique felis, a pellentesque dui. Vestibulum consectetur sit amet augue id commodo. Sed accumsan non lectus sed vulputate. Phasellus sed augue sed nulla placerat malesuada. Cras id sollicitudin risus, sed sagittis magna.',
+  paragraph3: 'This textarea field has no label',
   country1: '',
   country2: 'my',
   country3: '',
@@ -402,7 +404,8 @@ onMounted(() => {
               <TInput v-model="model.username" type="text" label="Username"/>
               <TInput v-model="model.name" type="text" size="md" label="Name"/>
               <TInput v-model="model.description" type="text" size="lg" label="Description"/>
-              <TInput v-model="model.amount" type="number" size="sm" label="Amount"/>
+              <TInput v-model="model.amount" type="number" size="sm" label="Invoice Billable Amount"/>
+              <TInput v-model="model.noLabel" type="text" size="sm" label=""/>
               <TInput v-model="model.password" type="password" label="Password (error message)" error-message="Min 8 characters"/>
               <TInput v-model="model.email" type="text" size="lg" label="Email (disabled)" :disabled="true"/>
             </div>
@@ -413,9 +416,10 @@ onMounted(() => {
 
             <div class="fields">
               <TTextarea v-model="model.paragraph1" label="Paragraph"/>
-              <TTextarea v-model="model.paragraph2" label="Paragraph (custom rows and cols)" :rows="20" :cols="80"/>
+              <TTextarea v-model="model.paragraph2" label="Paragraph (custom rows and cols)" :rows="20" :cols="10"/>
               <TTextarea v-model="model.paragraph2" label="Paragraph (error message)" error-message="Field is required!"/>
               <TTextarea v-model="model.paragraph2" label="Paragraph (disabled)" :disabled="true"/>
+              <TTextarea v-model="model.paragraph3" label=""/>
             </div>
           </div>
 
@@ -435,10 +439,15 @@ onMounted(() => {
 
             <div class="fields">
               <TSelect v-model="model.country1" label="Country" name="country" id="country-1" :options="countryOptions"/>
-              <TSelect v-model="model.country2" size="sm" label="Country" name="country" id="country-2" :options="countryOptions"/>
+              <TSelect v-model="model.country2" size="sm" label="Country to select" name="country" id="country-2" :options="countryOptions"/>
               <TSelect v-model="model.country3" size="lg" label="Country (error message)" name="country" id="country-3" :options="countryOptions" error-message="Min 8 characters"/>
               <TSelect v-model="model.country4" label="Country (disabled)" name="country" id="country-4" :options="countryOptions" :disabled="true"/>
+              <TSelect v-model="model.country2" size="sm" label="" name="country" id="country-5" :options="countryOptions"/>
+            </div>
+
+            <div class="fields">
               <TSelect v-model="model.timezone1" size="lg" label="Timezone (long list)" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
+              <TSelect v-model="model.timezone1" size="lg" label="" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
             </div>
           </div>
 
@@ -447,6 +456,7 @@ onMounted(() => {
 
             <div class="fields">
               <TSelectTable v-model="model.tags1" label="Tags" name="tags1" :options="tagOptions"/>
+              <TSelectTable v-model="model.tags1" label="" name="tags1" :options="tagOptions"/>
               <TSelectTable v-model="model.tags2" label="Tags (pre-selected)" name="tags2" :options="tagOptions"/>
               <TSelectTable v-model="model.tags3" label="Tags (multiple)" name="tags3" :options="tagOptions"/>
               <TSelectTable
@@ -461,7 +471,7 @@ onMounted(() => {
               />
               <TSelectTable
                 v-model="model.tags5"
-                label="Tags (single server paginated)"
+                label="Tags select (single server paginated)"
                 name="tags5"
                 :multiple="false"
                 :options="paginatedTags"
@@ -696,6 +706,10 @@ onMounted(() => {
 
                 <template #header-actions="{ actions }">
                   No action
+                </template>
+
+                <template #data-col.startTime="{ header, row, i }">
+                  <TInput v-model="row.startTime" label=""/>
                 </template>
 
                 <template #data-col.description="{ header, row, i }">
