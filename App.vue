@@ -104,19 +104,26 @@ const tagOptions = ref([
   { value: 'activity:testing', label: 'Testing' }
 ])
 
+const hoursOptions = computed(() => {
+  return Array.from(Array(25)).map((_, i) => {
+    return { value: i, label: i }
+  })
+})
+
 const tableData = ref({
   headers: [
     { key: 'startTime', label: 'Start Time' },
     { key: 'endTime', label: 'End Time' },
-    { key: 'description', label: 'Description' }
+    { key: 'description', label: 'Description' },
+    { key: 'hours', label: 'Hours' },
   ],
   data: [
-    { startTime: '2023-01-23 12:42:14', endTime: '2023-01-23 18:34:29', description: 'Requirements' },
-    { startTime: '2023-01-24 08:23:57', endTime: '2023-01-24 16:27:18', description: 'Implementation' },
-    { startTime: '2023-01-25 10:32:19', endTime: '2023-01-25 12:23:53', description: 'Documentation' },
-    { startTime: '2023-01-25 13:32:58', endTime: '2023-01-25 19:28:43', description: 'Implementation' },
-    { startTime: '2023-01-26 17:28:47', endTime: '2023-01-26 22:13:02', description: 'Testing' },
-    { startTime: '2023-01-27 09:31:48', endTime: null, description: 'Implemention' },
+    { startTime: new Date('2023-01-23T12:42:14'), endTime: new Date('2023-01-23T18:34:29'), description: 'Requirements', hours: 6 },
+    { startTime: new Date('2023-01-24T08:23:57'), endTime: new Date('2023-01-24T16:27:18'), description: 'Implementation', hours: 8 },
+    { startTime: new Date('2023-01-25T10:32:19'), endTime: new Date('2023-01-25T12:23:53'), description: 'Documentation', hours: 2 },
+    { startTime: new Date('2023-01-25T13:32:58'), endTime: new Date('2023-01-25T19:28:43'), description: 'Implementation', hours: 6 },
+    { startTime: new Date('2023-01-26T17:28:47'), endTime: new Date('2023-01-26T22:13:02'), description: 'Testing', hours: 5 },
+    { startTime: new Date('2023-01-27T09:31:48'), endTime: null, description: 'Implemention', hours: null },
   ],
   tableActions: [
     {
@@ -709,11 +716,19 @@ onMounted(() => {
                 </template>
 
                 <template #data-col.startTime="{ header, row, i }">
-                  <TInput v-model="row.startTime" label=""/>
+                  <TDatePicker v-model="row.startTime" label=""/>
+                </template>
+
+                <template #data-col.endTime="{ header, row, i }">
+                  <TDatePicker v-model="row.endTime" label=""/>
                 </template>
 
                 <template #data-col.description="{ header, row, i }">
-                  <span class="tag">{{ row[header.key] }}</span>
+                  <TInput v-model="row.description" label="" />
+                </template>
+
+                <template #data-col.hours="{ header, row, i }">
+                  <TSelect v-model="row.hours" label="" size="sm" :options="hoursOptions" />
                 </template>
 
                 <template #data-action="{ row, action, i }">
