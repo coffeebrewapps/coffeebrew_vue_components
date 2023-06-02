@@ -124,7 +124,7 @@ const selectedEndTime = computed({
   align-items: center;
   justify-content: center;
   margin: 2px 8px 4px 0;
-  padding: 12px 12px 0 12px;
+  padding: 0 12px;
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }

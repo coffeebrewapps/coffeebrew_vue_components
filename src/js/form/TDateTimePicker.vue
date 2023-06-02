@@ -843,6 +843,7 @@ onMounted(() => {
 
 .input-label {
   font-size: 0.8rem;
+  min-height: 20px;
 }
 
 .input-field {
@@ -870,7 +871,6 @@ onMounted(() => {
   align-items: center;
   text-align: center;
   padding: 12px;
-  margin: 2px 0 0 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
   box-sizing: border-box;
