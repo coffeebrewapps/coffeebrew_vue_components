@@ -51,9 +51,10 @@ const computedOptionClass = computed(() => {
 <style scoped>
 .option {
   text-align: center;
-  padding: 12px;
+  padding: 1rem;
   margin: 0;
   height: 50px;
+  font-size: 0.8rem;
 }
 
 .option:focus,

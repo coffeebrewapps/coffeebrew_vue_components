@@ -45,13 +45,15 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const toggleState = ref('collapsed')
-const selectedOption = computed(() => {
-  return props.modelValue
-})
-
 const inputField = ref('inputField')
 const selectField = ref('selectField')
 const cleanToggle = ref('cleanToggle')
+const searchInput = ref('searchInput')
+const searchString = ref('')
+
+const selectedOption = computed(() => {
+  return props.modelValue
+})
 
 const computedControlClass = computed(() => {
   const className = []
@@ -73,13 +75,11 @@ const computedFieldClass = computed(() => {
   return `input-field ${toggleState.value}`.trim()
 })
 
-const searchString = ref('')
-
 const computedOptions = computed(() => {
   if (searchString.value.length > 0) {
     const regex = new RegExp(searchString.value, 'i')
     return props.options.filter((option) => {
-      return option.value.match(regex)
+      return option.value.match(regex) || option.label.match(regex)
     })
   } else {
     return props.options
@@ -95,7 +95,7 @@ const computedSelectedOption = computed(() => {
 function toggleSelect(event) {
   event.preventDefault()
 
-  if (event.target !== inputField.value && event.target !== selectField.value) { return }
+  if (event instanceof KeyboardEvent && event.target !== inputField.value && event.target !== selectField.value) { return }
 
   if (props.disabled) { return; }
 
@@ -106,13 +106,20 @@ function toggleSelect(event) {
   }
 }
 
-function searchOptions(event) {
-  const keyCode = event.keyCode
-  if (keyCode >= 32 && keyCode <= 127) {
-    searchStringCode.value.push(keyCode)
-  } else if (keyCode === 8 && searchStringCode.value.length > 0) {
-    searchStringCode.value.splice(-1, 1)
-  }
+function closeSelect(event) {
+  event.preventDefault()
+
+  if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
+
+  toggleState.value = 'collapsed'
+}
+
+function clearSearchString(event) {
+  event.preventDefault()
+
+  if (event instanceof KeyboardEvent && event.target !== searchInput.value) { return }
+
+  clearSearch()
 }
 
 function clearSearch() {
@@ -131,7 +138,7 @@ function selectOption(val, event) {
 }
 
 function resetField(event) {
-  if (event && event.target !== inputField.value && event.target !== cleanToggle.value) { return }
+  if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
 
   emit('update:modelValue', null) 
 }
@@ -156,7 +163,7 @@ onMounted(() => {
       :class="computedFieldClass"
       ref="inputField"
       @keydown.enter="toggleSelect($event)"
-      @keydown.esc="toggleSelect($event)"
+      @keydown.esc="closeSelect($event)"
       @keydown.backspace="resetField($event)"
     >
       <div
@@ -178,7 +185,11 @@ onMounted(() => {
         class="search"
       >
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input v-model="searchString" />
+        <input
+          v-model="searchString"
+          ref="searchInput"
+          @keydown.esc="clearSearchString"
+        />
         <i
           class="fa-solid fa-xmark"
           @click="clearSearch"
@@ -280,6 +291,10 @@ onMounted(() => {
   height: 50px;
 }
 
+.input-field .select .selected {
+  font-size: 0.8rem;
+}
+
 .input-control.md .input-field .select {
   grid-template-columns: 7fr 1fr;
 }
@@ -351,7 +366,7 @@ onMounted(() => {
   width: 100%;
   color: var(--color-text);
   background-color: var(--color-background);
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .input-field.expanded .search input:focus {
