@@ -298,7 +298,7 @@ const zt = { class: "input-field" }, Yt = { class: "input-label" }, Lt = {
     ], 2));
   }
 }, fs = /* @__PURE__ */ F(Et, [["__scopeId", "data-v-9bdc9ae5"]]);
-const B = (e) => (G("data-v-2071e8bd"), e = e(), Q(), e), Kt = { class: "input-label" }, Ht = { class: "selected" }, Ut = ["value"], Wt = ["value"], Jt = ["value"], qt = ["value"], Gt = ["value"], Qt = ["value"], Xt = ["value"], Zt = /* @__PURE__ */ B(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
+const B = (e) => (G("data-v-cfd481a4"), e = e(), Q(), e), Kt = { class: "input-label" }, Ht = { class: "selected" }, Ut = ["value"], Wt = ["value"], Jt = ["value"], qt = ["value"], Gt = ["value"], Qt = ["value"], Xt = ["value"], Zt = /* @__PURE__ */ B(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
   /* @__PURE__ */ l("i", { class: "fa-solid fa-calendar-days" })
 ], -1)), el = /* @__PURE__ */ B(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), tl = [
   el
@@ -751,7 +751,7 @@ const B = (e) => (G("data-v-2071e8bd"), e = e(), Q(), e), Kt = { class: "input-l
       e.errorMessage.length > 0 ? (i(), u("div", Il, _(e.errorMessage), 1)) : V("", !0)
     ], 2));
   }
-}, je = /* @__PURE__ */ F(Pl, [["__scopeId", "data-v-2071e8bd"]]), Je = {
+}, je = /* @__PURE__ */ F(Pl, [["__scopeId", "data-v-cfd481a4"]]), Je = {
   __name: "TDatePicker",
   props: {
     modelValue: {
@@ -805,7 +805,7 @@ const B = (e) => (G("data-v-2071e8bd"), e = e(), Q(), e), Kt = { class: "input-l
     }, null, 8, ["modelValue", "min", "max", "label", "disabled", "align-pickers", "error-message"]));
   }
 };
-const Bl = (e) => (G("data-v-3d196bc5"), e = e(), Q(), e), jl = { class: "input-control" }, Rl = { class: "input-label" }, Nl = { class: "input-field" }, Fl = /* @__PURE__ */ Bl(() => /* @__PURE__ */ l("div", { class: "to" }, "to", -1)), Al = {
+const Bl = (e) => (G("data-v-842e541f"), e = e(), Q(), e), jl = { class: "input-control" }, Rl = { class: "input-label" }, Nl = { class: "input-field" }, Fl = /* @__PURE__ */ Bl(() => /* @__PURE__ */ l("div", { class: "to" }, "to", -1)), Al = {
   key: 0,
   class: "input-error"
 }, zl = {
@@ -887,8 +887,8 @@ const Bl = (e) => (G("data-v-3d196bc5"), e = e(), Q(), e), jl = { class: "input-
       e.errorMessage.length > 0 ? (i(), u("div", Al, _(e.errorMessage), 1)) : V("", !0)
     ]));
   }
-}, vs = /* @__PURE__ */ F(zl, [["__scopeId", "data-v-3d196bc5"]]);
-const Yl = (e) => (G("data-v-947fbeb5"), e = e(), Q(), e), Ll = { class: "input-control" }, El = { class: "input-label" }, Kl = { class: "input-field" }, Hl = /* @__PURE__ */ Yl(() => /* @__PURE__ */ l("div", { class: "to" }, "to", -1)), Ul = {
+}, vs = /* @__PURE__ */ F(zl, [["__scopeId", "data-v-842e541f"]]);
+const Yl = (e) => (G("data-v-d956c037"), e = e(), Q(), e), Ll = { class: "input-control" }, El = { class: "input-label" }, Kl = { class: "input-field" }, Hl = /* @__PURE__ */ Yl(() => /* @__PURE__ */ l("div", { class: "to" }, "to", -1)), Ul = {
   key: 0,
   class: "input-error"
 }, Wl = {
@@ -976,8 +976,8 @@ const Yl = (e) => (G("data-v-947fbeb5"), e = e(), Q(), e), Ll = { class: "input-
       e.errorMessage.length > 0 ? (i(), u("div", Ul, _(e.errorMessage), 1)) : V("", !0)
     ]));
   }
-}, ps = /* @__PURE__ */ F(Wl, [["__scopeId", "data-v-947fbeb5"]]);
-const Jl = (e) => (G("data-v-eaf63474"), e = e(), Q(), e), ql = { class: "input-label" }, Gl = { class: "input-field" }, Ql = ["type", "value", "disabled"], Xl = /* @__PURE__ */ Jl(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), Zl = [
+}, ps = /* @__PURE__ */ F(Wl, [["__scopeId", "data-v-d956c037"]]);
+const Jl = (e) => (G("data-v-c075a327"), e = e(), Q(), e), ql = { class: "input-label" }, Gl = { class: "input-field" }, Ql = ["type", "value", "disabled"], Xl = /* @__PURE__ */ Jl(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), Zl = [
   Xl
 ], ea = {
   key: 0,
@@ -1014,7 +1014,7 @@ const Jl = (e) => (G("data-v-eaf63474"), e = e(), Q(), e), ql = { class: "input-
   setup(e, { emit: c }) {
     const t = e, s = f("cleanToggle"), o = d(() => {
       const r = [];
-      return r.push("input-control"), t.disabled && r.push("disabled"), r.join(" ");
+      return r.push("input-control"), t.disabled && r.push("disabled"), r.push(t.size), r.join(" ");
     });
     function m(r) {
       t.type === "number" && isNaN(+r) ? c("update:modelValue", null) : c("update:modelValue", r);
@@ -1029,24 +1029,23 @@ const Jl = (e) => (G("data-v-eaf63474"), e = e(), Q(), e), ql = { class: "input-
       l("div", Gl, [
         l("input", {
           type: e.type,
-          class: b(e.size),
           value: e.modelValue,
           disabled: e.disabled,
           onInput: v[0] || (v[0] = (y) => m(y.target.value))
-        }, null, 42, Ql)
+        }, null, 40, Ql),
+        l("div", {
+          tabindex: "0",
+          class: "clean-toggle",
+          ref_key: "cleanToggle",
+          ref: s,
+          onClick: v[1] || (v[1] = (y) => p(y)),
+          onKeydown: v[2] || (v[2] = ie((y) => p(y), ["enter"]))
+        }, Zl, 544)
       ]),
-      l("div", {
-        tabindex: "0",
-        class: "clean-toggle",
-        ref_key: "cleanToggle",
-        ref: s,
-        onClick: v[1] || (v[1] = (y) => p(y)),
-        onKeydown: v[2] || (v[2] = ie((y) => p(y), ["enter"]))
-      }, Zl, 544),
       e.errorMessage.length > 0 ? (i(), u("div", ea, _(e.errorMessage), 1)) : V("", !0)
     ], 2));
   }
-}, ms = /* @__PURE__ */ F(ta, [["__scopeId", "data-v-eaf63474"]]);
+}, ms = /* @__PURE__ */ F(ta, [["__scopeId", "data-v-c075a327"]]);
 const la = ["value"], aa = {
   __name: "TOption",
   props: {
@@ -1055,11 +1054,11 @@ const la = ["value"], aa = {
       default: "md"
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: ""
     },
     label: {
-      type: String,
+      type: [String, Number],
       default: "Select"
     },
     selected: {
@@ -1079,23 +1078,23 @@ const la = ["value"], aa = {
       onClick: m[0] || (m[0] = (p) => o.$emit("select", e.value))
     }, _(e.label), 11, la));
   }
-}, sa = /* @__PURE__ */ F(aa, [["__scopeId", "data-v-b2500c83"]]);
-const Ne = (e) => (G("data-v-092fc059"), e = e(), Q(), e), na = { class: "input-label" }, oa = ["name"], ia = { class: "selected" }, ua = /* @__PURE__ */ Ne(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
+}, sa = /* @__PURE__ */ F(aa, [["__scopeId", "data-v-4c6f1248"]]);
+const Ne = (e) => (G("data-v-4bbd2c4b"), e = e(), Q(), e), na = { class: "input-label" }, oa = ["name"], ia = { class: "selected" }, ua = /* @__PURE__ */ Ne(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
   /* @__PURE__ */ l("i", { class: "fa-solid fa-caret-down" }),
   /* @__PURE__ */ l("i", { class: "fa-solid fa-caret-up" })
-], -1)), ra = {
+], -1)), ra = /* @__PURE__ */ Ne(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), da = [
+  ra
+], ca = {
   key: 0,
   class: "search"
-}, da = /* @__PURE__ */ Ne(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-magnifying-glass" }, null, -1)), ca = ["onKeydown"], fa = { class: "options" }, va = /* @__PURE__ */ Ne(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), pa = [
-  va
-], ma = {
+}, fa = /* @__PURE__ */ Ne(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-magnifying-glass" }, null, -1)), va = ["onKeydown"], pa = { class: "options" }, ma = {
   key: 0,
   class: "input-error"
 }, ga = {
   __name: "TSelect",
   props: {
     modelValue: {
-      type: String,
+      type: [String, Number],
       default: ""
     },
     name: {
@@ -1175,9 +1174,9 @@ const Ne = (e) => (G("data-v-092fc059"), e = e(), Q(), e), na = { class: "input-
         ref_key: "inputField",
         ref: o,
         onKeydown: [
-          T[2] || (T[2] = ie((x) => w(x), ["enter"])),
-          T[3] || (T[3] = ie((x) => P(x), ["esc"])),
-          T[4] || (T[4] = ie((x) => D(x), ["backspace"]))
+          T[3] || (T[3] = ie((x) => w(x), ["enter"])),
+          T[4] || (T[4] = ie((x) => P(x), ["esc"])),
+          T[5] || (T[5] = ie((x) => D(x), ["backspace"]))
         ]
       }, [
         l("div", {
@@ -1190,14 +1189,20 @@ const Ne = (e) => (G("data-v-092fc059"), e = e(), Q(), e), na = { class: "input-
           l("div", ia, _(n(S)), 1),
           ua
         ], 8, oa),
-        e.searchable ? (i(), u("div", ra, [
-          da,
+        l("div", {
+          class: "clean-toggle",
+          ref_key: "cleanToggle",
+          ref: p,
+          onClick: T[1] || (T[1] = (x) => D(x))
+        }, da, 512),
+        e.searchable ? (i(), u("div", ca, [
+          fa,
           St(l("input", {
-            "onUpdate:modelValue": T[1] || (T[1] = (x) => v.value = x),
+            "onUpdate:modelValue": T[2] || (T[2] = (x) => v.value = x),
             ref_key: "searchInput",
             ref: r,
             onKeydown: ie(E, ["esc"])
-          }, null, 40, ca), [
+          }, null, 40, va), [
             [wt, v.value]
           ]),
           l("i", {
@@ -1205,7 +1210,7 @@ const Ne = (e) => (G("data-v-092fc059"), e = e(), Q(), e), na = { class: "input-
             onClick: k
           })
         ])) : V("", !0),
-        l("div", fa, [
+        l("div", pa, [
           (i(!0), u(z, null, Y(n(L), (x, _e) => (i(), me(sa, {
             tabindex: "0",
             key: _e,
@@ -1218,16 +1223,10 @@ const Ne = (e) => (G("data-v-092fc059"), e = e(), Q(), e), na = { class: "input-
           }, null, 8, ["value", "label", "size", "selected", "onSelect", "onKeydown"]))), 128))
         ])
       ], 34),
-      l("div", {
-        class: "clean-toggle",
-        ref_key: "cleanToggle",
-        ref: p,
-        onClick: T[5] || (T[5] = (x) => D(x))
-      }, pa, 512),
       e.errorMessage.length > 0 ? (i(), u("div", ma, _(e.errorMessage), 1)) : V("", !0)
     ], 2));
   }
-}, gs = /* @__PURE__ */ F(ga, [["__scopeId", "data-v-092fc059"]]);
+}, gs = /* @__PURE__ */ F(ga, [["__scopeId", "data-v-4bbd2c4b"]]);
 const ha = { class: "progress-bar" }, ya = {
   __name: "TProgressBar",
   props: {
@@ -1497,7 +1496,7 @@ const Ge = (e) => (G("data-v-5c517c4d"), e = e(), Q(), e), ba = { class: "table-
     ]));
   }
 }, Ha = /* @__PURE__ */ F(Ka, [["__scopeId", "data-v-5c517c4d"]]);
-const Qe = (e) => (G("data-v-faef7330"), e = e(), Q(), e), Ua = { class: "input-label" }, Wa = { class: "select" }, Ja = { class: "selected" }, qa = { class: "tag" }, Ga = /* @__PURE__ */ Qe(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
+const Qe = (e) => (G("data-v-84d35172"), e = e(), Q(), e), Ua = { class: "input-label" }, Wa = { class: "select" }, Ja = { class: "selected" }, qa = { class: "tag" }, Ga = /* @__PURE__ */ Qe(() => /* @__PURE__ */ l("div", { class: "toggle" }, [
   /* @__PURE__ */ l("i", { class: "fa-solid fa-magnifying-glass" })
 ], -1)), Qa = /* @__PURE__ */ Qe(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), Xa = [
   Qa
@@ -1621,12 +1620,12 @@ const Qe = (e) => (G("data-v-faef7330"), e = e(), Q(), e), Ua = { class: "input-
             l("div", qa, _(C), 1)
           ]))), 256))
         ]),
-        Ga
+        Ga,
+        l("div", {
+          class: "clean-toggle",
+          onClick: L
+        }, Xa)
       ]),
-      l("div", {
-        class: "clean-toggle",
-        onClick: L
-      }, Xa),
       e.errorMessage.length > 0 ? (i(), u("div", Za, _(e.errorMessage), 1)) : V("", !0),
       U(qe, { name: "dialog" }, {
         default: ee(() => [
@@ -1673,8 +1672,8 @@ const Qe = (e) => (G("data-v-faef7330"), e = e(), Q(), e), Ua = { class: "input-
       })
     ], 2));
   }
-}, hs = /* @__PURE__ */ F(es, [["__scopeId", "data-v-faef7330"]]);
-const ts = (e) => (G("data-v-d4980992"), e = e(), Q(), e), ls = { class: "input-label" }, as = { class: "input-field" }, ss = ["rows", "cols", "value", "disabled"], ns = /* @__PURE__ */ ts(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), os = [
+}, hs = /* @__PURE__ */ F(es, [["__scopeId", "data-v-84d35172"]]);
+const ts = (e) => (G("data-v-d1d240d1"), e = e(), Q(), e), ls = { class: "input-label" }, as = { class: "input-field" }, ss = ["rows", "cols", "value", "disabled"], ns = /* @__PURE__ */ ts(() => /* @__PURE__ */ l("i", { class: "fa-solid fa-broom" }, null, -1)), os = [
   ns
 ], is = {
   key: 0,
@@ -1731,20 +1730,20 @@ const ts = (e) => (G("data-v-d4980992"), e = e(), Q(), e), ls = { class: "input-
           disabled: e.disabled,
           onInput: v[0] || (v[0] = (y) => r.$emit("update:modelValue", y.target.value))
         }, `
-      `, 40, ss)
+      `, 40, ss),
+        l("div", {
+          tabindex: "0",
+          class: "clean-toggle",
+          ref_key: "cleanToggle",
+          ref: s,
+          onClick: v[1] || (v[1] = (y) => p(y)),
+          onKeydown: v[2] || (v[2] = ie((y) => p(y), ["enter"]))
+        }, os, 544)
       ]),
-      l("div", {
-        tabindex: "0",
-        class: "clean-toggle",
-        ref_key: "cleanToggle",
-        ref: s,
-        onClick: v[1] || (v[1] = (y) => p(y)),
-        onKeydown: v[2] || (v[2] = ie((y) => p(y), ["enter"]))
-      }, os, 544),
       e.errorMessage.length > 0 ? (i(), u("div", is, _(e.errorMessage), 1)) : V("", !0)
     ], 2));
   }
-}, ys = /* @__PURE__ */ F(us, [["__scopeId", "data-v-d4980992"]]);
+}, ys = /* @__PURE__ */ F(us, [["__scopeId", "data-v-d1d240d1"]]);
 export {
   ds as TAlert,
   Be as TButton,
