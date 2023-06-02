@@ -8,6 +8,7 @@ import TDatePicker from './js/form/TDatePicker.vue'
 import TDateRange from './js/form/TDateRange.vue'
 import TDateTimePicker from './js/form/TDateTimePicker.vue'
 import TDateTimeRange from './js/form/TDateTimeRange.vue'
+import TFilePicker from './js/form/TFilePicker.vue'
 import TInput from './js/form/TInput.vue'
 import TOption from './js/form/TOption.vue'
 import TSelect from './js/form/TSelect.vue'
@@ -31,6 +32,7 @@ export {
   TDateRange,
   TDateTimePicker,
   TDateTimeRange,
+  TFilePicker,
   TInput,
   TOption,
   TSelect,
