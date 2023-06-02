@@ -90,7 +90,8 @@ const countryOptions = ref([
 
 const timezoneOptions = computed(() => {
   return Intl.supportedValuesOf('timeZone').map((timezone) => {
-    return { value: timezone, label: timezone }
+    const timezoneLabel = timezone.replace(/_/g, ' ')
+    return { value: timezone, label: timezoneLabel }
   })
 })
 
