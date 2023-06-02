@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue'])
 
 const props = defineProps({
   modelValue: {
@@ -30,6 +30,8 @@ const props = defineProps({
   }
 })
 
+const cleanToggle = ref('cleanToggle')
+
 const computedControlClass = computed(() => {
   const className = []
 
@@ -48,6 +50,12 @@ const computedSize = computed(() => {
     cols: props.cols || 100
   }
 })
+
+function resetField(event) {
+  if (event instanceof KeyboardEvent && event.target !== cleanToggle.value) { return }
+
+  emit('update:modelValue', null)
+}
 </script>
 
 <template>
@@ -71,6 +79,16 @@ const computedSize = computed(() => {
         @input="$emit('update:modelValue', $event.target.value)"
       >
       </textarea>
+    </div>
+
+    <div
+      tabindex="0"
+      class="clean-toggle"
+      ref="cleanToggle"
+      @click="resetField($event)"
+      @keydown.enter="resetField($event)"
+    >
+      <i class="fa-solid fa-broom"></i>
     </div>
 
     <div
@@ -110,6 +128,34 @@ const computedSize = computed(() => {
 
 .input-control.disabled .input-field textarea:hover {
   cursor: not-allowed;
+}
+
+.input-control .clean-toggle {
+  position: absolute;
+  top: 2px;
+  right: -12px;
+  z-index: 1;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
+}
+
+.input-control.disabled .clean-toggle {
+  display: none;
+}
+
+.input-control .clean-toggle:focus {
+  outline: 3px solid var(--color-border-hover);
+}
+
+.input-control .clean-toggle:hover {
+  cursor: pointer;
+  background-color: var(--color-border-hover);
+  color: var(--color-text);
 }
 
 .input-error {
