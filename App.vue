@@ -11,6 +11,7 @@ import {
   TDateRange,
   TDateTimePicker,
   TDateTimeRange,
+  TFilePicker,
   TInput,
   TOption,
   TSelect,
@@ -77,7 +78,10 @@ const model = ref({
   timeRange3: {
     start: (new Date(2023, 7, 15, 3, 46, 21)),
     end: (new Date(2023, 9, 6, 13, 23, 53))
-  }
+  },
+  file1: null,
+  file2: null,
+  file3: null
 })
 
 const historyStartDate = ref(new Date(1900, 0, 1))
@@ -572,6 +576,16 @@ onMounted(() => {
                 label="Time Range (AM/PM)"
                 :hour12="true"
               />
+            </div>
+          </div>
+
+          <div class="fields-container">
+            <h3>TFilePicker</h3>
+
+            <div class="fields">
+              <TFilePicker v-model="model.file1" size="md" label="File 1"/>
+              <TFilePicker v-model="model.file2" label="File 2 (disabled)" :disabled="true"/>
+              <TFilePicker v-model="model.file3" size="lg" label="File 3"/>
             </div>
           </div>
 
