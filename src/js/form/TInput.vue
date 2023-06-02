@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -30,6 +30,8 @@ const props = defineProps({
   }
 })
 
+const cleanToggle = ref('cleanToggle')
+
 const computedControlClass = computed(() => {
   const className = []
 
@@ -44,14 +46,20 @@ const computedControlClass = computed(() => {
 
 function updateInput(value) {
   if (props.type === 'number') {
-    if (isNaN(parseFloat(value))) {
+    if (isNaN(+value)) {
       emit('update:modelValue', null)
     } else {
-      emit('update:modelValue', parseFloat(value))
+      emit('update:modelValue', value)
     }
   } else {
     emit('update:modelValue', value)
   }
+}
+
+function resetField(event) {
+  if (event instanceof KeyboardEvent && event.target !== cleanToggle.value) { return }
+
+  emit('update:modelValue', null)
 }
 </script>
 
@@ -78,6 +86,16 @@ function updateInput(value) {
     </div>
 
     <div
+      tabindex="0"
+      class="clean-toggle"
+      ref="cleanToggle"
+      @click="resetField($event)"
+      @keydown.enter="resetField($event)"
+    >
+      <i class="fa-solid fa-broom"></i>
+    </div>
+
+    <div
       v-if="errorMessage.length > 0"
       class="input-error"
     >
@@ -87,6 +105,10 @@ function updateInput(value) {
 </template>
 
 <style scoped>
+.input-control {
+  margin: 2px 8px 8px 0;
+}
+
 .input-label {
   font-size: 0.8rem;
 }
@@ -100,7 +122,7 @@ function updateInput(value) {
   box-sizing: border-box;
   color: var(--color-text);
   background-color: var(--color-background);
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .input-field input:focus {
@@ -125,6 +147,34 @@ function updateInput(value) {
 
 .input-field input.lg {
   width: 500px;
+}
+
+.input-control .clean-toggle {
+  position: absolute;
+  top: 2px;
+  right: -12px;
+  z-index: 1;
+  border-radius: 50%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--color-border);
+}
+
+.input-control.disabled .clean-toggle {
+  display: none;
+}
+
+.input-control .clean-toggle:focus {
+  outline: 3px solid var(--color-border-hover);
+}
+
+.input-control .clean-toggle:hover {
+  cursor: pointer;
+  background-color: var(--color-border-hover);
+  color: var(--color-text);
 }
 
 .input-error {
