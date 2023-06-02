@@ -191,21 +191,23 @@ onMounted(() => {
 
     <div
       class="input-field"
-      @click="toggleSelect"
     >
       <div
         class="select"
+        @click="toggleSelect"
       >
-        <div
-          class="selected"
-          v-for="selected in selectedOptionsForDisplay"
-        >
-          <div class="tag">{{ selected }}</div>
+        <div class="selected-list">
+          <div
+            class="selected"
+            v-for="selected in selectedOptionsForDisplay"
+          >
+            <div class="tag">{{ selected }}</div>
+          </div>
         </div>
-      </div>
 
-      <div class="toggle">
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="toggle">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
       </div>
 
       <div
@@ -283,36 +285,37 @@ onMounted(() => {
   min-height: 20px;
 }
 
-.input-field {
-  display: flex;
+.input-field .select {
+  display: grid;
+  grid-template-columns: 9fr 1fr;
   align-items: center;
+  text-align: center;
   padding: 12px;
   margin: 2px 0 8px 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
   box-sizing: border-box;
+  min-height: 50px;
 }
 
-.input-field:hover,
+.input-field .select:hover,
 .input-control .clean-toggle:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
-.input-control.disabled .input-field {
+.input-control.disabled .input-field .select {
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field:hover {
+.input-control.disabled .input-field .select:hover {
   cursor: not-allowed;
 }
 
-.input-control .input-field .select {
+.input-field .select .selected-list {
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  width: 95%;
 }
 
 .input-control .clean-toggle {
