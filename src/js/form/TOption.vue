@@ -7,11 +7,11 @@ const props = defineProps({
     default: 'md'
   },
   value: {
-    type: String,
+    type: [String, Number],
     default: ''
   },
   label: {
-    type: String,
+    type: [String, Number],
     default: 'Select'
   },
   selected: {
