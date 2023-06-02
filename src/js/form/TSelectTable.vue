@@ -207,13 +207,13 @@ onMounted(() => {
       <div class="toggle">
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
-    </div>
 
-    <div
-      class="clean-toggle"
-      @click="resetField"
-    >
-      <i class="fa-solid fa-broom"></i>
+      <div
+        class="clean-toggle"
+        @click="resetField"
+      >
+        <i class="fa-solid fa-broom"></i>
+      </div>
     </div>
 
     <div
@@ -280,6 +280,7 @@ onMounted(() => {
 
 .input-label {
   font-size: 0.8rem;
+  min-height: 20px;
 }
 
 .input-field {
@@ -316,7 +317,7 @@ onMounted(() => {
 
 .input-control .clean-toggle {
   position: absolute;
-  top: 2px;
+  top: -20px;
   right: -12px;
   z-index: 1;
   border-radius: 50%;
