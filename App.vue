@@ -470,10 +470,14 @@ onMounted(() => {
               <TSelectTable v-model="model.tags1" label="" name="tags1" :options="tagOptions"/>
               <TSelectTable v-model="model.tags2" label="Tags (pre-selected)" name="tags2" :options="tagOptions"/>
               <TSelectTable v-model="model.tags3" label="Tags (multiple)" name="tags3" :options="tagOptions"/>
+            </div>
+
+            <div class="fields">
               <TSelectTable
                 v-model="model.tags4"
                 label="Tags (server paginated)"
                 name="tags4"
+                size="lg"
                 :options="paginatedTags"
                 :options-length="tagsData.length"
                 :options-loading="tagsDataLoading"
@@ -491,6 +495,9 @@ onMounted(() => {
                 :pagination="{ limit: 5, client: false }"
                 @offset-change="loadTagsOnOffsetChange"
               />
+            </div>
+
+            <div class="fields">
               <TSelectTable v-model="model.tags6" label="Tags (disabled)" name="tags6" :options="tagOptions" :disabled="true"/>
               <TSelectTable v-model="model.tags7" label="Tags (error message)" name="tags7" :options="tagOptions" error-message="Field is required!"/>
             </div>
