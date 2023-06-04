@@ -507,6 +507,7 @@ function pageRight(event) {
 .pagination .pager {
   width: 30px;
   visibility: hidden;
+  text-align: center;
 }
 
 .pagination .pager.show:hover {
