@@ -66,6 +66,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
+const inputField = ref('inputField')
+const cleanToggle = ref('cleanToggle')
 const tableDialog = ref(false)
 
 const tableHeaders = computed(() => {
@@ -129,6 +131,10 @@ const selectedOptionsForDisplay = computed(() => {
 })
 
 function toggleSelect() {
+  event.preventDefault()
+
+  if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
+
   if (props.disabled) { return; }
 
   tableDialog.value = !tableDialog.value
@@ -138,7 +144,9 @@ function closeSelect() {
   tableDialog.value = false
 }
 
-function resetField() {
+function resetField(event) {
+  if (event instanceof KeyboardEvent && event.target !== cleanToggle.value) { return }
+
   emit('update:modelValue', [])
 }
 
@@ -190,7 +198,12 @@ onMounted(() => {
     </div>
 
     <div
+      tabindex="0"
       class="input-field"
+      ref="inputField"
+      @keydown.enter="toggleSelect($event)"
+      @keydown.esc="closeSelect()"
+      @keydown.backspace="resetField($event)"
     >
       <div
         class="select"
@@ -211,8 +224,11 @@ onMounted(() => {
       </div>
 
       <div
+        tabindex="0"
         class="clean-toggle"
-        @click="resetField"
+        ref="cleanToggle"
+        @click="resetField($event)"
+        @keydown.enter="resetField($event)"
       >
         <i class="fa-solid fa-broom"></i>
       </div>
@@ -233,6 +249,7 @@ onMounted(() => {
         :width="800"
         :height="600"
         class="options-dialog"
+        @keydown.esc="closeSelect()"
       >
         <template #body>
           <TTable
@@ -248,7 +265,9 @@ onMounted(() => {
 
             <template #data-action="{ row, action, i }">
               <div
+                tabindex="0"
                 :class="checkboxClass(row)"
+                @keydown.enter="updateSelected(row)"
               >
               </div>
             </template>
@@ -256,7 +275,13 @@ onMounted(() => {
         </template>
 
         <template #actions>
-          <TButton button-type="text" value="Done" icon="fa-solid fa-check" @click="closeSelect()"/>
+          <TButton
+            button-type="text"
+            value="Done"
+            icon="fa-solid fa-check"
+            @click="closeSelect()"
+            @keydown.enter="closeSelect()"
+          />
         </template>
       </TDialog>
     </Transition>
@@ -285,6 +310,10 @@ onMounted(() => {
   min-height: 20px;
 }
 
+.input-field:focus {
+  outline: none;
+}
+
 .input-field .select {
   display: grid;
   grid-template-columns: 9fr 1fr;
@@ -303,6 +332,12 @@ onMounted(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-field:focus .select,
+.input-control .clean-toggle:focus,
+.checkbox:focus {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-control.disabled .input-field .select {
