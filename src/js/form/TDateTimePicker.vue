@@ -1031,6 +1031,7 @@ onMounted(() => {
   padding: 4px;
   text-align: center;
   border-bottom: 1px solid var(--color-border);
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
@@ -1046,6 +1047,7 @@ onMounted(() => {
   align-items: center;
   padding: 4px;
   text-align: center;
+  font-size: 0.8rem;
 }
 
 .input-field .picker .option.selected {
