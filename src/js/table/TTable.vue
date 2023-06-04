@@ -30,10 +30,12 @@ const props = defineProps({
   },
   pagination: {
     type: Object,
-    default: {
-      offset: 0,
-      limit: 5,
-      client: true
+    default() {
+      return {
+        offset: 0,
+        limit: 5,
+        client: true
+      }
     }
   },
   loading: {
@@ -53,6 +55,10 @@ const props = defineProps({
 const emit = defineEmits([
   'offsetChange'
 ])
+
+const tableContainer = ref('tableContainer')
+const pagerLeft = ref('pagerLeft')
+const pagerRight = ref('pagerRight')
 
 const offset = computed(() => {
   return props.pagination.offset
@@ -145,7 +151,13 @@ const computedPagerRightClass = computed(() => {
   }
 })
 
-function pageLeft() {
+function pageLeft(event) {
+  if (
+    event instanceof KeyboardEvent &&
+    event.target !== pagerLeft.value &&
+    event.target !== tableContainer.value
+  ) { return }
+
   if (computedCurrentIndexes.value.start === 1) {
     // do nothing
   } else if (offset.value - limit.value < 0) {
@@ -155,7 +167,13 @@ function pageLeft() {
   }
 }
 
-function pageRight() {
+function pageRight(event) {
+  if (
+    event instanceof KeyboardEvent &&
+    event.target !== pagerRight.value &&
+    event.target !== tableContainer.value
+  ) { return }
+
   if (computedCurrentIndexes.value.end === computedTotalData.value) {
     // do nothing
   } else {
@@ -165,7 +183,13 @@ function pageRight() {
 </script>
 
 <template>
-  <div class="table-container">
+  <div
+    tabindex="0"
+    ref="tableContainer"
+    class="table-container"
+    @keydown.arrow-left="pageLeft($event)"
+    @keydown.arrow-right="pageRight($event)"
+  >
     <div
       class="table-actions"
     >
@@ -317,8 +341,10 @@ function pageRight() {
         v-bind="{ pageLeft: pageLeft, pageRight: pageRight, start: computedCurrentIndexes.start, end: computedCurrentIndexes.end, total: computedTotalData }"
       >
         <div
+          tabindex="0"
+          ref="pagerLeft"
           :class="computedPagerLeftClass"
-          @click="pageLeft()"
+          @click="pageLeft($event)"
         >
           <slot name="pager-left">
             <i class="fa-solid fa-chevron-left"></i>
@@ -346,8 +372,11 @@ function pageRight() {
         </div>
 
         <div
+          tabindex="0"
+          ref="pagerRight"
           :class="computedPagerRightClass"
-          @click="pageRight()"
+          @click="pageRight($event)"
+          @keydown.enter="pageRight($event)"
         >
           <slot name="pager-right">
             <i class="fa-solid fa-chevron-right"></i>
@@ -465,6 +494,7 @@ function pageRight() {
 
 .pagination {
   display: flex;
+  gap: 8px;
   align-items: center;
   justify-content: center;
   height: 40px;
@@ -483,13 +513,13 @@ function pageRight() {
   cursor: pointer;
 }
 
+.table-container:focus,
+.pagination .pager:focus {
+  outline: 3px solid var(--color-border);
+}
 
 .pagination .pager.show {
   visibility: visible;
-}
-
-.pagination .pager.right {
-  text-align: right;
 }
 
 .pagination .page-number .current {
