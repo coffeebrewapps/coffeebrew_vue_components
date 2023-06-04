@@ -23,6 +23,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const checked = ref(props.modelValue)
+const checkbox = ref('checkbox')
 
 const computedControlClass = computed(() => {
   const className = []
@@ -52,7 +53,9 @@ const computedCheckboxClass = computed(() => {
   }
 })
 
-function toggleChecked() {
+function toggleChecked(event) {
+  if (event instanceof KeyboardEvent && event.target !== checkbox.value) { return }
+
   if (props.disabled) { return; }
 
   checked.value = !checked.value
@@ -63,13 +66,16 @@ function toggleChecked() {
 <template>
   <div
     :class="computedControlClass"
-    @click="toggleChecked"
+    @click="toggleChecked($event)"
   >
     <div
       class="input-field"
     >
       <div
+        tabindex="0"
+        ref="checkbox"
         :class="computedCheckboxClass"
+        @keydown.enter="toggleChecked($event)"
       >
       </div>
 
@@ -128,6 +134,10 @@ function toggleChecked() {
   height: 12px;
   border-radius: 2px;
   border: 1px solid var(--color-border);
+}
+
+.input-field .checkbox:focus {
+  outline: 3px solid var(--color-border);
 }
 
 .input-field .checkbox.checked {
