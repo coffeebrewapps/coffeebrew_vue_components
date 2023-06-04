@@ -127,6 +127,7 @@ function resetField(event) {
   color: var(--color-text);
   background-color: var(--color-background);
   font-size: 0.8rem;
+  height: 50px;
 }
 
 .input-field input:focus {
