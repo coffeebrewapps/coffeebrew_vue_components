@@ -21,7 +21,7 @@ import {
   TProgressBar
 } from '@/src/index'
 
-const model = ref({
+const tInputModel = ref({
   username: '',
   name: '',
   email: 'lauren@email.com',
@@ -29,32 +29,49 @@ const model = ref({
   password: '',
   amount: 0,
   noLabel: '',
+})
+
+const tTextareaModel = ref({
   paragraph1: '',
   paragraph2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quam nunc, vulputate a ipsum eget, fermentum facilisis turpis. In et mi dapibus, interdum dolor ut, volutpat turpis. In ut consectetur dolor. Curabitur sodales ipsum lacus, nec consectetur lacus vulputate id. Vestibulum ac suscipit massa, in vehicula urna. Pellentesque at tristique felis, a pellentesque dui. Vestibulum consectetur sit amet augue id commodo. Sed accumsan non lectus sed vulputate. Phasellus sed augue sed nulla placerat malesuada. Cras id sollicitudin risus, sed sagittis magna.',
-  paragraph3: 'This textarea field has no label',
+  paragraph3: '',
+  paragraph4: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quam nunc, vulputate a ipsum eget, fermentum facilisis turpis. In et mi dapibus, interdum dolor ut, volutpat turpis. In ut consectetur dolor. Curabitur sodales ipsum lacus, nec consectetur lacus vulputate id. Vestibulum ac suscipit massa, in vehicula urna. Pellentesque at tristique felis, a pellentesque dui. Vestibulum consectetur sit amet augue id commodo. Sed accumsan non lectus sed vulputate. Phasellus sed augue sed nulla placerat malesuada. Cras id sollicitudin risus, sed sagittis magna.',
+  paragraph5: 'This textarea field has no label',
+})
+
+const tSelectModel = ref({
   country1: '',
   country2: 'my',
   country3: '',
   country4: 'sg',
+  country5: '',
   timezone1: '',
+  timezone2: '',
+})
+
+const tSelectTableModel = ref({
   tags1: [],
-  tags2: [{ value: 'company:company-abc', label: 'Company ABC' }],
-  tags3: [{ value: 'company:company-abc', label: 'Company ABC' }, { value: 'activity:testing', label: 'Testing' }],
-  tags4: [],
+  tags2: [],
+  tags3: [{ value: 'company:company-abc', label: 'Company ABC' }],
+  tags4: [{ value: 'company:company-abc', label: 'Company ABC' }, { value: 'activity:testing', label: 'Testing' }],
   tags5: [],
-  tags6: [{ value: 'company:company-abc', label: 'Company ABC' }],
-  tags7: [],
+  tags6: [],
+  tags7: [{ value: 'company:company-abc', label: 'Company ABC' }],
+  tags8: [],
+})
+
+const tCheckboxModel = ref({
   subscribe: false,
   agree: false,
-  agree2: true,
   selected: true,
+  agree2: true,
+})
+
+const tDatePickerModel = ref({
   startDate: null,
   endDate: null,
   createdDate: (new Date()),
   historyDate: null,
-  startTime: (new Date(2023, 1, 2, 22, 5, 15)),
-  endTime: null,
-  updatedTime: (new Date()),
   dateRange1: {
     start: (new Date(1920, 1, 2)),
     end: null
@@ -67,6 +84,12 @@ const model = ref({
     start: (new Date(2023, 5, 2)),
     end: (new Date(2023, 6, 15))
   },
+})
+
+const tDateTimePickerModel = ref({
+  startTime: (new Date(2023, 1, 2, 22, 5, 15)),
+  endTime: null,
+  updatedTime: (new Date()),
   timeRange1: {
     start: null,
     end: null
@@ -79,9 +102,12 @@ const model = ref({
     start: (new Date(2023, 7, 15, 3, 46, 21)),
     end: (new Date(2023, 9, 6, 13, 23, 53))
   },
+})
+
+const tFilePickerModel = ref({
   file1: null,
   file2: null,
-  file3: null
+  file3: null,
 })
 
 const historyStartDate = ref(new Date(1900, 0, 1))
@@ -302,10 +328,18 @@ function offsetChange(val) {
   offset.value = val
 }
 
+const worklogsPagination = computed(() => {
+  return { offset: offset.value, limit: 5, client: false }
+})
+
 function loadDataOnOffsetChange(val) {
   offsetChange(val)
   fetchServerData()
 }
+
+const tagsPagination = computed(() => {
+  return { offset: tagsOffset.value, limit: 5, client: false }
+})
 
 function loadTagsOnOffsetChange(val) {
   tagsOffset.value = val
@@ -333,6 +367,20 @@ function openDataDialog(row, index) {
 function openAlertDialog(text) {
   alertDialog.value = true
   alertContent.value = text
+}
+
+function formatFileModelForDisplay(model) {
+  return Object.entries(model).reduce((o, [key, val]) => {
+    if (val) {
+      o[key] = {
+        filename: val.name,
+        mimetype: val.type,
+      }
+    } else {
+      o[key] = null
+    }
+    return o
+  }, {})
 }
 
 onMounted(() => {
@@ -409,28 +457,40 @@ onMounted(() => {
           </div>
 
           <div class="fields-container">
-            <h3>TInput</h3>
+            <h3 class="title">
+              TInput <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tInputModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TInput v-model="model.username" type="text" label="Username"/>
-              <TInput v-model="model.name" type="text" size="md" label="Name"/>
-              <TInput v-model="model.description" type="text" size="lg" label="Description"/>
-              <TInput v-model="model.amount" type="number" size="sm" label="Invoice Billable Amount"/>
-              <TInput v-model="model.noLabel" type="text" size="sm" label=""/>
-              <TInput v-model="model.password" type="password" label="Password (error message)" error-message="Min 8 characters"/>
-              <TInput v-model="model.email" type="text" size="lg" label="Email (disabled)" :disabled="true"/>
+              <TInput v-model="tInputModel.username" type="text" label="Username"/>
+              <TInput v-model="tInputModel.name" type="text" size="md" label="Name"/>
+              <TInput v-model="tInputModel.description" type="text" size="lg" label="Description"/>
+              <TInput v-model="tInputModel.amount" type="number" size="sm" label="Invoice Billable Amount"/>
+              <TInput v-model="tInputModel.noLabel" type="text" size="sm" label=""/>
+              <TInput v-model="tInputModel.password" type="password" label="Password (error message)" error-message="Min 8 characters"/>
+              <TInput v-model="tInputModel.email" type="text" size="lg" label="Email (disabled)" :disabled="true"/>
             </div>
           </div>
 
           <div class="fields-container">
-            <h3>TTextarea</h3>
+            <h3 class="title">
+              TTextarea <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tTextareaModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TTextarea v-model="model.paragraph1" label="Paragraph"/>
-              <TTextarea v-model="model.paragraph2" label="Paragraph (custom rows and cols)" :rows="20" :cols="10"/>
-              <TTextarea v-model="model.paragraph2" label="Paragraph (error message)" error-message="Field is required!"/>
-              <TTextarea v-model="model.paragraph2" label="Paragraph (disabled)" :disabled="true"/>
-              <TTextarea v-model="model.paragraph3" label=""/>
+              <TTextarea v-model="tTextareaModel.paragraph1" label="Paragraph"/>
+              <TTextarea v-model="tTextareaModel.paragraph2" label="Paragraph (custom rows and cols)" :rows="20" :cols="10"/>
+              <TTextarea v-model="tTextareaModel.paragraph3" label="Paragraph (error message)" error-message="Field is required!"/>
+              <TTextarea v-model="tTextareaModel.paragraph4" label="Paragraph (disabled)" :disabled="true"/>
+              <TTextarea v-model="tTextareaModel.paragraph5" label=""/>
             </div>
           </div>
 
@@ -446,86 +506,110 @@ onMounted(() => {
           </div>
 
           <div class="fields-container">
-            <h3>TSelect</h3>
+            <h3 class="title">
+              TSelect <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tSelectModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TSelect v-model="model.country1" label="Country" name="country" id="country-1" :options="countryOptions"/>
-              <TSelect v-model="model.country2" size="sm" label="Country to select" name="country" id="country-2" :options="countryOptions"/>
-              <TSelect v-model="model.country3" size="lg" label="Country (error message)" name="country" id="country-3" :options="countryOptions" error-message="Min 8 characters"/>
-              <TSelect v-model="model.country4" label="Country (disabled)" name="country" id="country-4" :options="countryOptions" :disabled="true"/>
-              <TSelect v-model="model.country2" size="sm" label="" name="country" id="country-5" :options="countryOptions"/>
+              <TSelect v-model="tSelectModel.country1" label="Country" name="country" id="country-1" :options="countryOptions"/>
+              <TSelect v-model="tSelectModel.country2" size="sm" label="Country to select" name="country" id="country-2" :options="countryOptions"/>
+              <TSelect v-model="tSelectModel.country3" size="lg" label="Country (error message)" name="country" id="country-3" :options="countryOptions" error-message="Min 8 characters"/>
+              <TSelect v-model="tSelectModel.country4" label="Country (disabled)" name="country" id="country-4" :options="countryOptions" :disabled="true"/>
+              <TSelect v-model="tSelectModel.country5" size="sm" label="" name="country" id="country-5" :options="countryOptions"/>
             </div>
 
             <div class="fields">
-              <TSelect v-model="model.timezone1" size="lg" label="Timezone (long list)" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
-              <TSelect v-model="model.timezone1" size="lg" label="" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
+              <TSelect v-model="tSelectModel.timezone1" size="lg" label="Timezone (long list)" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
+              <TSelect v-model="tSelectModel.timezone1" size="lg" label="" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
             </div>
           </div>
 
           <div class="fields-container">
-            <h3>TSelectTable</h3>
+            <h3 class="title">
+              TSelectTable <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tSelectTableModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TSelectTable v-model="model.tags1" label="Tags" name="tags1" :options="tagOptions"/>
-              <TSelectTable v-model="model.tags1" label="" name="tags1" :options="tagOptions"/>
-              <TSelectTable v-model="model.tags2" label="Tags (pre-selected)" name="tags2" :options="tagOptions"/>
-              <TSelectTable v-model="model.tags3" label="Tags (multiple)" name="tags3" :options="tagOptions"/>
+              <TSelectTable v-model="tSelectTableModel.tags1" label="Tags" name="tags1" :options="tagOptions"/>
+              <TSelectTable v-model="tSelectTableModel.tags2" label="" name="tags2" :options="tagOptions"/>
+              <TSelectTable v-model="tSelectTableModel.tags3" label="Tags (pre-selected)" name="tags2" :options="tagOptions"/>
+              <TSelectTable v-model="tSelectTableModel.tags4" label="Tags (multiple)" name="tags3" :options="tagOptions"/>
             </div>
 
             <div class="fields">
               <TSelectTable
-                v-model="model.tags4"
+                v-model="tSelectTableModel.tags5"
                 label="Tags (server paginated)"
-                name="tags4"
+                name="tags5"
                 size="lg"
                 :options="paginatedTags"
                 :options-length="tagsData.length"
                 :options-loading="tagsDataLoading"
-                :pagination="{ limit: 5, client: false }"
+                :pagination="tagsPagination"
                 @offset-change="loadTagsOnOffsetChange"
               />
               <TSelectTable
-                v-model="model.tags5"
+                v-model="tSelectTableModel.tags6"
                 label="Tags select (single server paginated)"
-                name="tags5"
+                name="tags6"
                 :multiple="false"
                 :options="paginatedTags"
                 :options-length="tagsData.length"
                 :options-loading="tagsDataLoading"
-                :pagination="{ limit: 5, client: false }"
+                :pagination="tagsPagination"
                 @offset-change="loadTagsOnOffsetChange"
               />
             </div>
 
             <div class="fields">
-              <TSelectTable v-model="model.tags6" label="Tags (disabled)" name="tags6" :options="tagOptions" :disabled="true"/>
-              <TSelectTable v-model="model.tags7" label="Tags (error message)" name="tags7" :options="tagOptions" error-message="Field is required!"/>
+              <TSelectTable v-model="tSelectTableModel.tags7" label="Tags (disabled)" name="tags6" :options="tagOptions" :disabled="true"/>
+              <TSelectTable v-model="tSelectTableModel.tags8" label="Tags (error message)" name="tags7" :options="tagOptions" error-message="Field is required!"/>
             </div>
           </div>
 
           <div class="fields-container">
-            <h3>TCheckbox</h3>
+            <h3 class="title">
+              TCheckbox <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tCheckboxModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TCheckbox v-model="model.subscribe" label="Subscribe newsletter"/>
-              <TCheckbox v-model="model.agree" label="Agree T&C" error-message="Required!"/>
-              <TCheckbox v-model="model.selected" label="Selected"/>
-              <TCheckbox v-model="model.agree2" label="Agree (disabled)" :disabled="true"/>
+              <TCheckbox v-model="tCheckboxModel.subscribe" label="Subscribe newsletter"/>
+              <TCheckbox v-model="tCheckboxModel.agree" label="Agree T&C" error-message="Required!"/>
+              <TCheckbox v-model="tCheckboxModel.selected" label="Selected"/>
+              <TCheckbox v-model="tCheckboxModel.agree2" label="Agree (disabled)" :disabled="true"/>
             </div>
           </div>
 
           <div class="fields-container">
-            <h3>TDatePicker</h3>
+            <h3 class="title">
+              TDatePicker <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tDatePickerModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TDatePicker v-model="model.startDate" label="Start Date" align-pickers="bottom"/>
-              <TDatePicker v-model="model.endDate" label="End Date" error-message="Cannot be earlier than start date!" align-pickers="top"/>
-              <TDatePicker v-model="model.createdDate" label="Created Date (disabled)" :disabled="true"/>
-              <TDatePicker v-model="model.historyDate" label="History Date" :min="historyStartDate" :max="historyEndDate"/>
+              <TDatePicker v-model="tDatePickerModel.startDate" label="Start Date" align-pickers="bottom"/>
+              <TDatePicker v-model="tDatePickerModel.endDate" label="End Date" error-message="Cannot be earlier than start date!" align-pickers="top"/>
+              <TDatePicker v-model="tDatePickerModel.createdDate" label="Created Date (disabled)" :disabled="true"/>
+              <TDatePicker v-model="tDatePickerModel.historyDate" label="History Date" :min="historyStartDate" :max="historyEndDate"/>
 
               <TDateRange
-                v-model:start-date="model.dateRange1.start"
-                v-model:end-date="model.dateRange1.end"
+                v-model:start-date="tDatePickerModel.dateRange1.start"
+                v-model:end-date="tDatePickerModel.dateRange1.end"
                 label="Date Range"
                 :start-min="historyStartDate"
                 :start-max="historyEndDate"
@@ -534,15 +618,15 @@ onMounted(() => {
               />
 
               <TDateRange
-                v-model:start-date="model.dateRange2.start"
-                v-model:end-date="model.dateRange2.end"
+                v-model:start-date="tDatePickerModel.dateRange2.start"
+                v-model:end-date="tDatePickerModel.dateRange2.end"
                 label="Date Range (error message)"
                 error-message="End date cannot be earlier than start date!"
               />
 
               <TDateRange
-                v-model:start-date="model.dateRange3.start"
-                v-model:end-date="model.dateRange3.end"
+                v-model:start-date="tDatePickerModel.dateRange3.start"
+                v-model:end-date="tDatePickerModel.dateRange3.end"
                 label="Date Range (disabled)"
                 :disabled="true"
               />
@@ -550,36 +634,42 @@ onMounted(() => {
           </div>
 
           <div class="fields-container">
-            <h3>TDateTimePicker</h3>
+            <h3 class="title">
+              TDateTimePicker <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ tDateTimePickerModel }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TDateTimePicker v-model="model.startTime" label="Start Time" align-pickers="top"/>
-              <TDateTimePicker v-model="model.endTime" name="log" label="End Time" :hour12="true" :min="historyStartDate" :max="historyEndDate" align-pickers="bottom"/>
-              <TDateTimePicker v-model="model.updatedTime" label="Updated Time" :hour12="true" :disabled="true"/>
+              <TDateTimePicker v-model="tDateTimePickerModel.startTime" label="Start Time" align-pickers="top"/>
+              <TDateTimePicker v-model="tDateTimePickerModel.endTime" name="log" label="End Time" :hour12="true" :min="historyStartDate" :max="historyEndDate" align-pickers="bottom"/>
+              <TDateTimePicker v-model="tDateTimePickerModel.updatedTime" label="Updated Time" :hour12="true" :disabled="true"/>
 
               <TDateTimeRange
-                v-model:start-time="model.timeRange1.start"
-                v-model:end-time="model.timeRange1.end"
+                v-model:start-time="tDateTimePickerModel.timeRange1.start"
+                v-model:end-time="tDateTimePickerModel.timeRange1.end"
                 label="Time Range"
               />
 
               <TDateTimeRange
-                v-model:start-time="model.timeRange2.start"
-                v-model:end-time="model.timeRange2.end"
+                v-model:start-time="tDateTimePickerModel.timeRange2.start"
+                v-model:end-time="tDateTimePickerModel.timeRange2.end"
                 label="Time Range (error message)"
                 error-message="End time cannot be earlier than start time!"
               />
 
               <TDateTimeRange
-                v-model:start-time="model.timeRange3.start"
-                v-model:end-time="model.timeRange3.end"
+                v-model:start-time="tDateTimePickerModel.timeRange3.start"
+                v-model:end-time="tDateTimePickerModel.timeRange3.end"
                 label="Time Range (disabled)"
                 :disabled="true"
               />
 
               <TDateTimeRange
-                v-model:start-time="model.timeRange3.start"
-                v-model:end-time="model.timeRange3.end"
+                v-model:start-time="tDateTimePickerModel.timeRange3.start"
+                v-model:end-time="tDateTimePickerModel.timeRange3.end"
                 label="Time Range (AM/PM)"
                 :hour12="true"
               />
@@ -587,12 +677,18 @@ onMounted(() => {
           </div>
 
           <div class="fields-container">
-            <h3>TFilePicker</h3>
+            <h3 class="title">
+              TFilePicker <i class="fa-solid fa-eye"></i>
+
+              <div class="data">
+                {{ JSON.stringify(formatFileModelForDisplay(tFilePickerModel), false, 4) }}
+              </div>
+            </h3>
 
             <div class="fields">
-              <TFilePicker v-model="model.file1" size="md" label="File 1"/>
-              <TFilePicker v-model="model.file2" label="File 2 (disabled)" :disabled="true"/>
-              <TFilePicker v-model="model.file3" size="lg" label="File 3"/>
+              <TFilePicker v-model="tFilePickerModel.file1" size="md" label="File 1"/>
+              <TFilePicker v-model="tFilePickerModel.file2" label="File 2 (disabled)" :disabled="true"/>
+              <TFilePicker v-model="tFilePickerModel.file3" size="lg" label="File 3"/>
             </div>
           </div>
 
@@ -603,15 +699,15 @@ onMounted(() => {
               <TTable name="Work Logs (empty)" :headers="tableData.headers" :data="[]" no-data-text="Currently no data"/>
               <TTable :headers="tableData.headers" :data="tableData.data" />
               <TTable name="Work Logs" :headers="tableData.headers" :data="tableData.data" :actions="tableData.actions" :table-actions="tableData.tableActions" @offset-change="offsetChange"/>
-              <TTable name="Work Logs (out of bound)" :headers="tableData.headers" :data="tableData.data" :pagination="{ limit: 3, client: true }"/>
-              <TTable name="Work Logs (server pagination)" :loading="serverDataLoading" :headers="serverData.headers" :data="paginatedData" :pagination="{ limit: 3, client: false }" :total-data="serverData.data.length" @offset-change="loadDataOnOffsetChange" />
+              <TTable name="Work Logs (out of bound)" :headers="tableData.headers" :data="tableData.data" :pagination="{ offset: 0, limit: 3, client: true }"/>
+              <TTable name="Work Logs (server pagination)" :loading="serverDataLoading" :headers="serverData.headers" :data="paginatedData" :pagination="worklogsPagination" :total-data="serverData.data.length" @offset-change="loadDataOnOffsetChange" />
 
               <TTable
                 name="Work Logs (server pagination custom loading bar)"
                 :loading="serverDataLoading"
                 :headers="serverData.headers"
                 :data="paginatedData"
-                :pagination="{ limit: 3, client: false }"
+                :pagination="worklogsPagination"
                 :total-data="serverData.data.length"
                 @offset-change="loadDataOnOffsetChange"
               >
@@ -791,15 +887,6 @@ onMounted(() => {
         </div>
       </div> <!-- form-container -->
 
-      <div class="result">
-        <h2>Output</h2>
-        <div
-          v-for="key in Object.keys(model)"
-        >
-          {{ key }}: {{ model[key] }}
-        </div>
-      </div>
-
       <Transition>
         <TAlert
           title="Alert"
@@ -828,23 +915,20 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  padding: 0 1rem 0 0;
-  width: 80%;
+  padding: 0;
+  width: 100%;
 }
 
 .form {
   width: 100%;
 }
 
-.result {
-  width: 20%;
-}
-
 .fields-container-single,
 .fields-container {
-  margin: 1rem 0 ;
+  margin: 1rem 0;
   padding: 1rem;
   border: 1px solid var(--color-border);
+  overflow: auto;
 }
 
 .fields-container .fields {
@@ -860,12 +944,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-@media screen and (max-width: 768px) {
-  .result {
-    display: none;
-  }
 }
 
 .date-range {
@@ -930,4 +1008,28 @@ onMounted(() => {
 .dialog-leave-to {
   opacity: 0;
 }
+
+.fields-container .title:hover .data {
+  visibility: visible;
+}
+
+.fields-container .title:hover .fa-eye {
+  cursor: pointer;
+}
+
+.data {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1000;
+  left: 180px;
+  top: 0;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.8rem;
+  font-size: 0.8rem;
+  max-width: 80vw;
+  white-space: break-spaces;
+}
+
 </style>
