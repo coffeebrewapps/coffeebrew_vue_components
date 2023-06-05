@@ -6,12 +6,16 @@ import TButton from '../form/TButton.vue'
 
 const props = defineProps({
   modelValue: {
-    type: File,
+    type: [File, Array],
     default: null
   },
   multiple: {
     type: Boolean,
-    default: true
+    default: false
+  },
+  accept: {
+    type: String,
+    default: 'image/*,.pdf'
   },
   name: {
     type: String,
@@ -62,10 +66,35 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
 const file = ref('file')
-const selectedFile = ref()
+const selectedFile = computed(() => {
+  if (props.multiple) {
+    return {
+      name: (props.modelValue || []).map(f => f.name).join(', '),
+      files: props.modelValue || []
+    }
+  } else {
+    return {
+      name: (props.modelValue || {}).name,
+      files: [props.modelValue || []].flat()
+    }
+  }
+})
+
 const previewDialog = ref(false)
-const rawFileContent = ref()
+const rawFileContent = ref([])
 const previewFileError = ref()
+
+const previewDialogTitle = computed(() => {
+  if (props.multiple) {
+    return `Preview Files`
+  } else {
+    return `Preview File`
+  }
+})
+
+const hasSelectedFiles = computed(() => {
+  return selectedFile.value.files.length > 0
+})
 
 const computedInputControlClass = computed(() => {
   const className = []
@@ -88,39 +117,79 @@ function toggleSelect() {
 }
 
 function handleFileUpload(event) {
-  const file = event.target.files[0]
-  selectedFile.value = file
-  emit('update:modelValue', file)
+  if (props.multiple) {
+    const length = event.target.files.length
+    const files = []
+    for (let i = 0; i < length; i++) {
+      files.push(event.target.files[i])
+    }
+    emit('update:modelValue', files)
+  } else {
+    const file = event.target.files[0]
+    emit('update:modelValue', file)
+  }
 }
 
 function previewFile() {
   previewDialog.value = false
-  rawFileContent.value = null
+  rawFileContent.value = []
   previewFileError.value = null
 
   if (selectedFile.value) {
-    const fileReader = new FileReader()
-    fileReader.readAsDataURL(selectedFile.value)
-    fileReader.onload = () => {
-      rawFileContent.value = fileReader.result
-      previewDialog.value = true
-    }
-    fileReader.onerror = (error) => {
-      previewFileError.value = JSON.stringify(error, false, 4)
-      previewDialog.value = true
-    }
+    const promises = selectedFile.value.files.map((file) => {
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        rawFileContent.value.push({ name: file.name, rawData: fileReader.result })
+      }
+      fileReader.onerror = (error) => {
+        previewFileError.value = JSON.stringify(error, false, 4)
+      }
+      return fileReader
+    })
+
+    Promise.all(promises)
+      .then((results) => {
+        previewDialog.value = true
+      })
+  }
+}
+
+const currentPreviewFile = ref(0)
+
+function viewFile(index) {
+  currentPreviewFile.value = index
+}
+
+function previewTabStyle(index) {
+  if (currentPreviewFile.value === index) {
+    return `preview-tab selected`
+  } else {
+    return `preview-tab`
+  }
+}
+
+function rawFileContentStyle(index) {
+  if (currentPreviewFile.value === index) {
+    return `preview-file selected`
+  } else {
+    return `preview-file`
   }
 }
 
 function closeDialog() {
   previewDialog.value = false
-  rawFileContent.value = null
+  rawFileContent.value = []
   previewFileError.value = null
+  currentPreviewFile.value = 0
 }
 
 function resetField() {
-  selectedFile.value = null
-  emit('update:modelValue', null)
+  if (props.multiple) {
+    emit('update:modelValue', [])
+  } else {
+    emit('update:modelValue', null)
+  }
 }
 </script>
 
@@ -144,7 +213,7 @@ function resetField() {
         <div
           class="selected"
         >
-          <span v-if="selectedFile">
+          <span v-if="hasSelectedFiles">
             {{ selectedFile.name }}
           </span>
         </div>
@@ -152,16 +221,31 @@ function resetField() {
         <div class="toggle">
           <i class="fa-solid fa-file"></i>
         </div>
+
+        <div
+          v-if="hasSelectedFiles"
+          class="filenames"
+        >
+          <div
+            v-for="(filename, i) in selectedFile.name.split(', ')"
+            :key="i"
+            class="filename"
+          >
+            {{ filename }}
+          </div>
+        </div>
       </div>
 
       <input
         type="file"
         ref="file"
+        :accept="accept"
+        :multiple="multiple"
         @change="handleFileUpload"
       />
 
       <div
-        v-if="selectedFile"
+        v-if="hasSelectedFiles"
         class="preview-toggle"
         @click="previewFile"
       >
@@ -187,15 +271,35 @@ function resetField() {
       <TDialog
         v-if="previewDialog"
         v-model="previewDialog"
-        title="Preview File"
-        :width="800"
-        :height="600"
+        class="preview-dialog"
+        :title="previewDialogTitle"
+        :width="1000"
+        :height="700"
       >
         <template #body>
-          <img
-            v-if="rawFileContent"
-            :src="rawFileContent"
-          />
+          <div
+            v-if="!previewFileError"
+            class="preview-tabs"
+          >
+            <div
+              v-for="(rawFile, i) in rawFileContent"
+              :key="i"
+              :class="previewTabStyle(i)"
+              @click="viewFile(i)"
+            >
+              <div class="filename">{{ rawFile.name }}</div>
+            </div>
+          </div>
+
+          <div
+            v-for="(rawFile, i) in rawFileContent"
+            :key="i"
+            :class="rawFileContentStyle(i)"
+          >
+            <iframe
+              :src="rawFile.rawData"
+            />
+          </div>
 
           <div
             v-if="previewFileError"
@@ -276,6 +380,39 @@ function resetField() {
   width: 0;
 }
 
+.input-control .input-field .select .filenames {
+  display: none;
+  position: absolute;
+  top: 60px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.input-control.sm .input-field .select .filenames {
+  left: 50px;
+}
+
+.input-control .input-field .select .filenames,
+.input-control.md .input-field .select .filenames {
+  left: 100px;
+}
+
+.input-control.lg .input-field .select .filenames {
+  left: 250px;
+}
+
+.input-control .input-field .select:hover .filenames {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.input-control .input-field .select .filenames .filename {
+  padding: 4px;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
 .input-field .clean-toggle {
   position: absolute;
   top: -20px;
@@ -313,5 +450,43 @@ function resetField() {
   margin-bottom: 8px;
   font-size: 0.8rem;
   color: var(--color-error);
+}
+
+.preview-dialog .preview-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.preview-dialog .preview-tabs .preview-tab {
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.preview-dialog .preview-tabs .preview-tab.selected {
+  font-weight: 600;
+  border-bottom: 3px solid var(--color-border);
+}
+
+.preview-dialog .preview-tabs .preview-tab:hover {
+  cursor: pointer;
+  background-color: var(--color-border-hover);
+}
+
+.preview-dialog .preview-file {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.preview-dialog .preview-file.selected {
+  display: flex;
+}
+
+.preview-dialog .preview-file iframe {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  border: none;
 }
 </style>
