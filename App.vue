@@ -21,6 +21,22 @@ import {
   TProgressBar
 } from '@/src/index'
 
+const theme = ref(true) // true: dark, false: light
+const themeIcon = computed(() => {
+  if (theme.value) {
+    return `fa-solid fa-moon`;
+  } else {
+    return `fa-solid fa-sun`;
+  }
+})
+
+function toggleTheme() {
+  theme.value = !theme.value
+
+  document.body.classList.toggle('dark', theme.value)
+  document.body.classList.toggle('light', !theme.value)
+}
+
 const tInputModel = ref({
   username: '',
   name: '',
@@ -446,7 +462,17 @@ onMounted(() => {
 
 <template>
   <div class="content-container">
-    <h1>Demo Form Elements</h1>
+    <div class="top-nav">
+      <h1>Demo Form Elements</h1>
+
+      <div class="actions">
+        <TButton
+          button-type="icon"
+          :icon="themeIcon"
+          @click="toggleTheme"
+        />
+      </div>
+    </div>
 
     <div class="page-container">
       <div class="form-container">
@@ -958,6 +984,19 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.content-container .top-nav {
+  display: flex;
+  align-items: center;
+}
+
+.content-container .top-nav h1 {
+  flex-grow: 1;
+}
+
+.content-container .top-nav .actions {
+  padding: 0 1rem;
+}
+
 .spacer {
   margin: 1rem 0;
 }
