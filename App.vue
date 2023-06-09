@@ -128,6 +128,14 @@ const tFilePickerModel = ref({
   file5: []
 })
 
+function loadFile2() {
+  FakeAPI
+    .loadFile('logo-white.png', 'image/png')
+    .then((file) => {
+      tFilePickerModel.value.file2 = file
+    })
+}
+
 function loadFile4() {
   FakeAPI
     .loadFile('logo-white.png', 'image/png')
@@ -455,6 +463,7 @@ function formatFileModelForDisplay(model) {
 onMounted(() => {
   loadDataOnOffsetChange(0)
   loadTagsOnOffsetChange(0)
+  loadFile2()
   loadFile4()
   loadFile5()
 })
