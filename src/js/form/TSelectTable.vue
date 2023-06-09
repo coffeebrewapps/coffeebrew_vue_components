@@ -67,6 +67,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
 const inputField = ref('inputField')
+const selectField = ref('selectField')
 const cleanToggle = ref('cleanToggle')
 const tableDialog = ref(false)
 
@@ -130,9 +131,10 @@ const selectedOptionsForDisplay = computed(() => {
   }
 })
 
-function toggleSelect() {
+function toggleSelect(event) {
   event.preventDefault()
 
+  if (event instanceof MouseEvent && event.target !== selectField.value) { return }
   if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
 
   if (props.disabled) { return; }
@@ -142,6 +144,11 @@ function toggleSelect() {
 
 function closeSelect() {
   tableDialog.value = false
+}
+
+function removeSelected(index) {
+  const row = props.modelValue[index];
+  updateSelected(row);
 }
 
 function resetField(event) {
@@ -207,14 +214,26 @@ onMounted(() => {
     >
       <div
         class="select"
+        ref="selectField"
         @click="toggleSelect"
       >
         <div class="selected-list">
           <div
             class="selected"
-            v-for="selected in selectedOptionsForDisplay"
+            v-for="(selected, i) in selectedOptionsForDisplay"
+            :key="i"
           >
-            <div class="tag">{{ selected }}</div>
+            <div
+              tabindex="0"
+              class="closeable-tag"
+              @keydown.backspace="removeSelected(i)"
+            >
+              <span>{{ selected }}</span>
+              <i
+                class="fa-solid fa-xmark"
+                @click="removeSelected(i)"
+              ></i>
+            </div>
           </div>
         </div>
 
@@ -351,6 +370,29 @@ onMounted(() => {
 .input-field .select .selected-list {
   display: flex;
   flex-wrap: wrap;
+}
+
+.input-field .select .selected-list .closeable-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  height: 20px;
+  text-align: center;
+  margin: 4px;
+  padding: 0.4rem 0.8rem;
+  gap: 8px;
+  border-radius: 4px;
+  background-color: var(--color-background-soft);
+  color: var(--color-text);
+}
+
+.input-field .select .selected-list .closeable-tag:focus {
+  outline: 3px solid var(--color-border-hover);
+}
+
+.input-field .select .selected-list .closeable-tag i:hover {
+  color: var(--color-border-hover);
 }
 
 .input-control .clean-toggle {
