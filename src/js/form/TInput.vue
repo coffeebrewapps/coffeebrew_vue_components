@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: 'text'
   },
+  step: {
+    type: Number,
+    default: 1
+  },
   size: {
     type: String,
     default: 'md'
@@ -30,6 +34,7 @@ const props = defineProps({
   }
 })
 
+const input = ref('input')
 const cleanToggle = ref('cleanToggle')
 
 const computedControlClass = computed(() => {
@@ -45,6 +50,28 @@ const computedControlClass = computed(() => {
 
   return className.join(' ')
 })
+
+function incrementNumber() {
+  if (props.type !== 'number') { return }
+
+  const step = input.value.step
+  if (!isNaN(parseFloat(step))) {
+    emit('update:modelValue', parseFloat(props.modelValue) + parseFloat(step));
+  } else {
+    emit('update:modelValue', parseFloat(props.modelValue) + 1);
+  }
+}
+
+function decrementNumber() {
+  if (props.type !== 'number') { return }
+
+  const step = input.value.step
+  if (!isNaN(parseFloat(step))) {
+    emit('update:modelValue', parseFloat(props.modelValue) - parseFloat(step));
+  } else {
+    emit('update:modelValue', parseFloat(props.modelValue) - 1);
+  }
+}
 
 function updateInput(value) {
   if (props.type === 'number') {
@@ -79,11 +106,27 @@ function resetField(event) {
       class="input-field"
     >
       <input
+        ref="input"
         :type="type"
+        :step="step"
         :value="modelValue"
         :disabled="disabled"
         @input="updateInput($event.target.value)"
       >
+
+      <div
+        v-if="type === 'number'"
+        class="number-spin-button"
+      >
+        <i
+          class="fa-solid fa-caret-up fa-sm"
+          @click="incrementNumber"
+        ></i>
+        <i
+          class="fa-solid fa-caret-down fa-sm"
+          @click="decrementNumber"
+        ></i>
+      </div>
 
       <div
         tabindex="0"
@@ -130,6 +173,28 @@ function resetField(event) {
   height: 50px;
 }
 
+.input-field input[type=number]::-webkit-outer-spin-button,
+.input-field input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+}
+
+.input-field .number-spin-button {
+  position: absolute;
+  top: 22px;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+}
+
+.input-field .number-spin-button i:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
+}
+
 .input-field input:focus {
   outline: 3px solid var(--color-border-hover);
 }
@@ -138,8 +203,10 @@ function resetField(event) {
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field input:hover {
+.input-control.disabled .input-field input:hover,
+.input-control.disabled .input-field .number-spin-button i:hover {
   cursor: not-allowed;
+  color: var(--color-text);
 }
 
 .input-control.sm .input-label,
