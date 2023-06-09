@@ -65,18 +65,13 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
+const selectField = ref('selectField')
 const file = ref('file')
-const selectedFile = computed(() => {
+const selectedFiles = computed(() => {
   if (props.multiple) {
-    return {
-      name: (props.modelValue || []).map(f => f.name).join(', '),
-      files: props.modelValue || []
-    }
+    return props.modelValue || []
   } else {
-    return {
-      name: (props.modelValue || {}).name,
-      files: [props.modelValue || []].flat()
-    }
+    return [props.modelValue || []].flat()
   }
 })
 
@@ -93,7 +88,7 @@ const previewDialogTitle = computed(() => {
 })
 
 const hasSelectedFiles = computed(() => {
-  return selectedFile.value.files.length > 0
+  return selectedFiles.value.length > 0
 })
 
 const computedInputControlClass = computed(() => {
@@ -112,22 +107,28 @@ const computedInputControlClass = computed(() => {
   return className.join(' ')
 })
 
-function toggleSelect() {
+function toggleSelect(event) {
+  if (event.target !== selectField.value) { return }
+
   file.value.showPicker()
 }
 
 function handleFileUpload(event) {
+  const length = event.target.files.length
+  for (let i = 0; i < length; i++) {
+    selectedFiles.value.push(event.target.files[i])
+  }
+
   if (props.multiple) {
-    const length = event.target.files.length
-    const files = []
-    for (let i = 0; i < length; i++) {
-      files.push(event.target.files[i])
-    }
-    emit('update:modelValue', files)
+    emit('update:modelValue', selectedFiles.value)
   } else {
-    const file = event.target.files[0]
+    const file = selectedFiles.value[0]
     emit('update:modelValue', file)
   }
+}
+
+function removeFile(index) {
+  selectedFiles.value.splice(index, 1);
 }
 
 function previewFile() {
@@ -135,8 +136,8 @@ function previewFile() {
   rawFileContent.value = []
   previewFileError.value = null
 
-  if (selectedFile.value) {
-    const promises = selectedFile.value.files.map((file) => {
+  if (selectedFiles.value) {
+    const promises = selectedFiles.value.map((file) => {
       const fileReader = new FileReader()
       fileReader.readAsDataURL(file)
       fileReader.onload = () => {
@@ -208,31 +209,27 @@ function resetField() {
     >
       <div
         class="select"
+        ref="selectField"
         @click="toggleSelect"
       >
-        <div
-          class="selected"
-        >
-          <span v-if="hasSelectedFiles">
-            {{ selectedFile.name }}
-          </span>
+        <div class="selected-list">
+          <div
+            class="selected"
+            v-for="(selected, i) in selectedFiles"
+            :key="i"
+          >
+            <div class="closeable-tag">
+              <span>{{ selected.name }}</span>
+              <i
+                class="fa-solid fa-xmark"
+                @click="removeFile(i)"
+              ></i>
+            </div>
+          </div>
         </div>
 
         <div class="toggle">
           <i class="fa-solid fa-file"></i>
-        </div>
-
-        <div
-          v-if="hasSelectedFiles"
-          class="filenames"
-        >
-          <div
-            v-for="(filename, i) in selectedFile.name.split(', ')"
-            :key="i"
-            class="filename"
-          >
-            {{ filename }}
-          </div>
         </div>
       </div>
 
@@ -345,18 +342,11 @@ function resetField() {
   align-items: center;
   text-align: center;
   padding: 12px;
+  margin: 2px 0 8px 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
   box-sizing: border-box;
-  height: 50px;
-}
-
-.input-control .input-field .select .selected,
-.input-control .input-field .select .selected span {
-  font-size: 0.8rem;
-  height: 20px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-height: 50px;
 }
 
 .input-field .select:hover,
@@ -380,37 +370,28 @@ function resetField() {
   width: 0;
 }
 
-.input-control .input-field .select .filenames {
-  display: none;
-  position: absolute;
-  top: 60px;
-  padding: 0.5rem;
-  width: 100%;
-}
-
-.input-control.sm .input-field .select .filenames {
-  left: 50px;
-}
-
-.input-control .input-field .select .filenames,
-.input-control.md .input-field .select .filenames {
-  left: 100px;
-}
-
-.input-control.lg .input-field .select .filenames {
-  left: 250px;
-}
-
-.input-control .input-field .select:hover .filenames {
+.input-field .select .selected-list {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
 }
 
-.input-control .input-field .select .filenames .filename {
-  padding: 4px;
+.input-field .select .selected-list .closeable-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.8rem;
-  text-align: left;
+  height: 20px;
+  text-align: center;
+  margin: 4px;
+  padding: 0.4rem 0.8rem;
+  gap: 8px;
+  border-radius: 4px;
+  background-color: var(--color-background-soft);
+  color: var(--color-text);
+}
+
+.input-field .select .selected-list .closeable-tag i:hover {
+  color: var(--color-border-hover);
 }
 
 .input-field .clean-toggle {
