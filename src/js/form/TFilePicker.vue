@@ -108,6 +108,8 @@ const computedInputControlClass = computed(() => {
 })
 
 function toggleSelect(event) {
+  if (props.disabled) { return }
+
   if (event.target !== selectField.value) { return }
 
   file.value.showPicker()
@@ -392,6 +394,11 @@ function resetField() {
 
 .input-field .select .selected-list .closeable-tag i:hover {
   color: var(--color-border-hover);
+}
+
+.input-control.disabled .input-field .select .selected-list .closeable-tag i:hover {
+  color: var(--color-text);
+  cursor: not-allowed;
 }
 
 .input-field .clean-toggle {
