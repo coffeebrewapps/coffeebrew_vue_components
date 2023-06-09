@@ -981,7 +981,7 @@ const El = (e) => (Q("data-v-d956c037"), e = e(), X(), e), Ll = { class: "input-
     ]));
   }
 }, Ps = /* @__PURE__ */ N(Jl, [["__scopeId", "data-v-d956c037"]]);
-const Ae = (e) => (Q("data-v-9a44eeb8"), e = e(), X(), e), ql = { class: "input-label" }, Gl = { class: "input-field" }, Ql = { class: "selected-list" }, Xl = { class: "closeable-tag" }, Zl = ["onClick"], ea = /* @__PURE__ */ Ae(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
+const Ae = (e) => (Q("data-v-9e83ad1c"), e = e(), X(), e), ql = { class: "input-label" }, Gl = { class: "input-field" }, Ql = { class: "selected-list" }, Xl = { class: "closeable-tag" }, Zl = ["onClick"], ea = /* @__PURE__ */ Ae(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-file" })
 ], -1)), ta = ["accept", "multiple"], la = /* @__PURE__ */ Ae(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-eye" }, null, -1)), aa = [
   la
@@ -1063,7 +1063,7 @@ const Ae = (e) => (Q("data-v-9a44eeb8"), e = e(), X(), e), ql = { class: "input-
       return o.push("input-control"), l.size && o.push(l.size), l.disabled && o.push("disabled"), o.join(" ");
     });
     function A(o) {
-      o.target === i.value && c.value.showPicker();
+      l.disabled || o.target === i.value && c.value.showPicker();
     }
     function D(o) {
       const n = o.target.files.length;
@@ -1202,7 +1202,7 @@ const Ae = (e) => (Q("data-v-9a44eeb8"), e = e(), X(), e), ql = { class: "input-
       })
     ], 2));
   }
-}, Fs = /* @__PURE__ */ N(fa, [["__scopeId", "data-v-9a44eeb8"]]);
+}, Fs = /* @__PURE__ */ N(fa, [["__scopeId", "data-v-9e83ad1c"]]);
 const va = (e) => (Q("data-v-3e6c3b23"), e = e(), X(), e), pa = { class: "input-label" }, ma = { class: "input-field" }, ga = ["type", "value", "disabled"], ya = /* @__PURE__ */ va(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-broom" }, null, -1)), ha = [
   ya
 ], ba = {
@@ -1740,7 +1740,7 @@ const Qe = (e) => (Q("data-v-906659c0"), e = e(), X(), e), Aa = { class: "table-
     ], 544));
   }
 }, rs = /* @__PURE__ */ N(us, [["__scopeId", "data-v-906659c0"]]);
-const Xe = (e) => (Q("data-v-7b90f383"), e = e(), X(), e), ds = { class: "input-label" }, cs = { class: "selected-list" }, fs = ["onKeydown"], vs = ["onClick"], ps = /* @__PURE__ */ Xe(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
+const Xe = (e) => (Q("data-v-021a56fc"), e = e(), X(), e), ds = { class: "input-label" }, cs = { class: "selected-list" }, fs = ["onKeydown"], vs = ["onClick"], ps = /* @__PURE__ */ Xe(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-magnifying-glass" })
 ], -1)), ms = /* @__PURE__ */ Xe(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-broom" }, null, -1)), gs = [
   ms
@@ -1829,7 +1829,7 @@ const Xe = (e) => (Q("data-v-7b90f383"), e = e(), X(), e), ds = { class: "input-
     v({});
     const A = g(() => l.modelValue ? l.modelValue.map((s) => s.label) : []);
     function D(s) {
-      s.preventDefault(), !(s instanceof MouseEvent && s.target !== c.value) && (s instanceof KeyboardEvent && s.target !== i.value || l.disabled || (p.value = !p.value));
+      l.disabled || (s.preventDefault(), !(s instanceof MouseEvent && s.target !== c.value) && (s instanceof KeyboardEvent && s.target !== i.value || (p.value = !p.value)));
     }
     function w() {
       p.value = !1;
@@ -1955,7 +1955,7 @@ const Xe = (e) => (Q("data-v-7b90f383"), e = e(), X(), e), ds = { class: "input-
       })
     ], 2));
   }
-}, Rs = /* @__PURE__ */ N(bs, [["__scopeId", "data-v-7b90f383"]]);
+}, Rs = /* @__PURE__ */ N(bs, [["__scopeId", "data-v-021a56fc"]]);
 const _s = (e) => (Q("data-v-d1d240d1"), e = e(), X(), e), ks = { class: "input-label" }, $s = { class: "input-field" }, ws = ["rows", "cols", "value", "disabled"], Ts = /* @__PURE__ */ _s(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-broom" }, null, -1)), Ss = [
   Ts
 ], Cs = {
