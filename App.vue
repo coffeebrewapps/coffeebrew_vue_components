@@ -44,7 +44,9 @@ const tInputModel = ref({
   description: '',
   password: '',
   amount: 0,
-  noLabel: '',
+  amount2: 0,
+  amount3: 194.56,
+  noLabel: 'I have no label',
 })
 
 const tTextareaModel = ref({
@@ -559,8 +561,16 @@ onMounted(() => {
               <TInput v-model="tInputModel.username" type="text" label="Username"/>
               <TInput v-model="tInputModel.name" type="text" size="md" label="Name"/>
               <TInput v-model="tInputModel.description" type="text" size="lg" label="Description"/>
-              <TInput v-model="tInputModel.amount" type="number" size="sm" label="Invoice Billable Amount"/>
-              <TInput v-model="tInputModel.noLabel" type="text" size="sm" label=""/>
+            </div>
+
+            <div class="fields">
+              <TInput v-model="tInputModel.amount" type="number" size="lg" label="Invoice Billable Amount"/>
+              <TInput v-model="tInputModel.amount2" type="number" size="sm" :step="5" label="Multiples of 5"/>
+              <TInput v-model="tInputModel.amount3" type="number" size="md" :disabled="true" label="Amount (disabled)"/>
+            </div>
+
+            <div class="fields">
+              <TInput v-model="tInputModel.noLabel" type="text" size="md" label=""/>
               <TInput v-model="tInputModel.password" type="password" label="Password (error message)" error-message="Min 8 characters"/>
               <TInput v-model="tInputModel.email" type="text" size="lg" label="Email (disabled)" :disabled="true"/>
             </div>
