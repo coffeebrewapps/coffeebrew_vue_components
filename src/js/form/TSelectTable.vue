@@ -136,7 +136,7 @@ function toggleSelect(event) {
 
   event.preventDefault()
 
-  if (event instanceof MouseEvent && event.target !== selectField.value) { return }
+  if (event instanceof MouseEvent && event.target !== selectField.value && event.target !== inputField.value) { return }
   if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
 
   tableDialog.value = !tableDialog.value
@@ -276,6 +276,7 @@ onMounted(() => {
             :headers="tableHeaders"
             :data="options"
             :actions="actions"
+            :row-action="updateSelected"
             :loading="optionsLoading"
             :total-data="optionsLength"
             :pagination="pagination"
@@ -377,7 +378,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  height: 20px;
+  min-height: 20px;
   text-align: center;
   margin: 4px;
   padding: 0.4rem 0.8rem;

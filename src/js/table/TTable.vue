@@ -28,6 +28,10 @@ const props = defineProps({
     type: Object,
     default: {}
   },
+  rowAction: {
+    type: Function,
+    default: null
+  },
   pagination: {
     type: Object,
     default() {
@@ -97,10 +101,25 @@ const computedTableClass = computed(() => {
 })
 
 function currentRowClass(i) {
+  const className = []
+  className.push(`row`)
+
   if (i % 2 === 0) {
-    return `row even`
+    className.push(`even`)
   } else {
-    return `row odd`
+    className.push(`odd`)
+  }
+
+  if (props.rowAction) {
+    className.push(`clickable`)
+  }
+
+  return className.join(' ')
+}
+
+function clickRow(row, i) {
+  if (props.rowAction) {
+    props.rowAction(row, i)
   }
 }
 
@@ -287,9 +306,12 @@ function pageRight(event) {
         v-if="computedTotalData > 0"
       >
         <tr
+          tabindex="0"
           v-for="(row, i) in computedPaginatedData"
           :class="currentRowClass(i)"
           v-if="!computedLoading"
+          @click="clickRow(row, i)"
+          @keydown.enter="clickRow(row, i)"
         >
           <slot name="data-row" v-bind="{ headers, row, actions, i }">
             <slot name="data-content" v-bind="{ headers, row, i }">
@@ -473,8 +495,17 @@ function pageRight(event) {
   text-align: center !important;
 }
 
+.body .row:focus,
 .body .row:hover {
   background-color: var(--color-border-hover);
+}
+
+.body .row.clickable:hover {
+  cursor: pointer;
+}
+
+.body .row.clickable:focus {
+  outline: none;
 }
 
 .body .row .actions {
@@ -515,7 +546,7 @@ function pageRight(event) {
 }
 
 .table-container:focus,
-.pagination .pager:focus {
+.pagination .pager:focus    {
   outline: 3px solid var(--color-border);
 }
 
