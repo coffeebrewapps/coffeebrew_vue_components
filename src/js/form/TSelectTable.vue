@@ -132,12 +132,12 @@ const selectedOptionsForDisplay = computed(() => {
 })
 
 function toggleSelect(event) {
+  if (props.disabled) { return; }
+
   event.preventDefault()
 
   if (event instanceof MouseEvent && event.target !== selectField.value) { return }
   if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
-
-  if (props.disabled) { return; }
 
   tableDialog.value = !tableDialog.value
 }
@@ -393,6 +393,11 @@ onMounted(() => {
 
 .input-field .select .selected-list .closeable-tag i:hover {
   color: var(--color-border-hover);
+}
+
+.input-control.disabled .input-field .select .selected-list .closeable-tag i:hover {
+  color: var(--color-text);
+  cursor: not-allowed;
 }
 
 .input-control .clean-toggle {
