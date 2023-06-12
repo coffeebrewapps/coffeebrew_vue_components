@@ -47,10 +47,10 @@ function closeDialog() {
 const computedStyles = computed(() => {
   if (dialog.value) {
     if (props.fullscreen) {
-      const width = `90vw`
-      const height = `90vh`
-      const top = `calc((100vh - ${height}) / 2)`
-      const left  = `calc((100vw - ${width}) / 2)`
+      const width = `100vw`
+      const height = `100vh`
+      const top = `0`
+      const left  = `0`
 
       return `width:${width}; height:${height}; top:${top}; left:${left};`
     } else {
@@ -155,8 +155,9 @@ onMounted(() => {
 
 .window .close-button {
   position: absolute;
-  top: -20px;
-  left: -20px;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;

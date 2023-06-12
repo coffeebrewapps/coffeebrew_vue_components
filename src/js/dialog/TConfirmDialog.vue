@@ -82,8 +82,25 @@ function cancel() {
     </template>
 
     <template #actions>
-      <TButton class="confirm-button" button-type="text" value="Confirm" icon="fa-solid fa-check" @click="confirm()"/>
-      <TButton button-type="text" value="Cancel" icon="fa-solid fa-xmark" @click="cancel()"/>
+      <TButton
+        tabindex="0"
+        class="confirm-button"
+        button-type="text"
+        value="Confirm"
+        icon="fa-solid fa-check"
+        @click="confirm()"
+        @keydown.enter="confirm()"
+      />
+
+      <TButton
+        tabindex="0"
+        class="cancel-button"
+        button-type="text"
+        value="Cancel"
+        icon="fa-solid fa-xmark"
+        @click="cancel()"
+        @keydown.enter="cancel()"
+      />
     </template>
   </TDialog>
 </template>
@@ -91,5 +108,10 @@ function cancel() {
 <style scoped>
 .dialog .container .body .primary-text {
   font-weight: bold;
+}
+
+.confirm-button:focus,
+.cancel-button:focus {
+  outline: 3px solid var(--color-border-hover);
 }
 </style>
