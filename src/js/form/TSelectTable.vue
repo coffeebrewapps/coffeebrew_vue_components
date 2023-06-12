@@ -206,45 +206,47 @@ onMounted(() => {
       @keydown.esc="closeSelect()"
       @keydown.backspace="resetField($event)"
     >
-      <div
-        class="select"
-        ref="selectField"
-        @click="toggleSelect"
-      >
-        <div class="selected-list">
-          <div
-            class="selected"
-            v-for="(selected, i) in selectedOptionsForDisplay"
-            :key="i"
-          >
+      <div class="wrapper">
+        <div
+          class="select"
+          ref="selectField"
+          @click="toggleSelect"
+        >
+          <div class="selected-list">
             <div
-              tabindex="0"
-              class="closeable-tag"
-              @keydown.backspace="removeSelected(i)"
+              class="selected"
+              v-for="(selected, i) in selectedOptionsForDisplay"
+              :key="i"
             >
-              <span>{{ selected }}</span>
-              <i
-                class="fa-solid fa-xmark"
-                @click="removeSelected(i)"
-              ></i>
+              <div
+                tabindex="0"
+                class="closeable-tag"
+                @keydown.backspace="removeSelected(i)"
+              >
+                <span>{{ selected }}</span>
+                <i
+                  class="fa-solid fa-xmark"
+                  @click="removeSelected(i)"
+                ></i>
+              </div>
             </div>
+          </div>
+
+          <div class="toggle">
+            <i class="fa-solid fa-magnifying-glass"></i>
           </div>
         </div>
 
-        <div class="toggle">
-          <i class="fa-solid fa-magnifying-glass"></i>
+        <div
+          tabindex="0"
+          class="clean-toggle"
+          ref="cleanToggle"
+          @click="resetField($event)"
+          @keydown.enter="resetField($event)"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
         </div>
-      </div>
-
-      <div
-        tabindex="0"
-        class="clean-toggle"
-        ref="cleanToggle"
-        @click="resetField($event)"
-        @keydown.enter="resetField($event)"
-      >
-        <i class="fa-solid fa-broom"></i>
-      </div>
+      </div> <!-- wrapper -->
     </div>
 
     <div
@@ -306,11 +308,11 @@ onMounted(() => {
 }
 
 .input-control.sm {
-  width: 100px;
+  width: 150px;
 }
 
 .input-control.md {
-  width: 200px;
+  width: 250px;
 }
 
 .input-control.lg {
@@ -326,37 +328,44 @@ onMounted(() => {
   outline: none;
 }
 
+.input-field .wrapper {
+  display: grid;
+  grid-template-columns: auto 26px;
+  align-items: center;
+  margin: 2px 0 0 0;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
 .input-field .select {
   display: grid;
   grid-template-columns: 9fr 1fr;
   align-items: center;
   text-align: center;
   padding: 12px;
-  margin: 2px 0 8px 0;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  margin: 0;
   box-sizing: border-box;
   min-height: 50px;
 }
 
-.input-field .select:hover,
-.input-control .clean-toggle:hover {
+.input-field .wrapper:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
-.input-field:focus .select,
+.input-field:focus .wrapper,
 .input-control .clean-toggle:focus,
 .checkbox:focus {
   outline: 3px solid var(--color-border-hover);
 }
 
-.input-control.disabled .input-field .select {
+.input-control.disabled .input-field .wrapper {
+  grid-template-columns: auto;
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field .select:hover {
+.input-control.disabled .input-field .wrapper:hover {
   cursor: not-allowed;
 }
 
@@ -394,17 +403,17 @@ onMounted(() => {
 }
 
 .input-control .clean-toggle {
-  position: absolute;
-  top: -20px;
-  right: -12px;
-  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  width: 15px;
+  height: 15px;
+}
+
+.input-control .clean-toggle:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
 }
 
 .input-control.disabled .clean-toggle {
