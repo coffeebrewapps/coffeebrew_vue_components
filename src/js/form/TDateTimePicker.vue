@@ -866,7 +866,8 @@ onMounted(() => {
   margin: 2px 0 8px 0;
 }
 
-.input-field .wrapper:hover {
+.input-field .wrapper:hover,
+.input-field .wrapper:hover .selected input {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
@@ -942,7 +943,7 @@ onMounted(() => {
 
 .input-field .clean-toggle:hover {
   cursor: pointer;
-  color: var(--color-border-hover);
+  color: var(--color-background);
 }
 
 .input-field .clean-toggle:focus {
