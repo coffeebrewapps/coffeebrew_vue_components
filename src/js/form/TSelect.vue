@@ -405,7 +405,7 @@ onMounted(() => {
 
 .input-control .clean-toggle:hover {
   cursor: pointer;
-  color: var(--color-border-hover);
+  color: var(--color-background);
 }
 
 .input-control.disabled .toggle,
