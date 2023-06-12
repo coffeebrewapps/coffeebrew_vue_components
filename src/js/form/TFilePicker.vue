@@ -426,7 +426,7 @@ function resetField() {
 .input-control .clean-toggle:hover,
 .input-control .preview-toggle:hover {
   cursor: pointer;
-  color: var(--color-border-hover);
+  color: var(--color-background);
 }
 
 .input-control.disabled .input-field .select {
