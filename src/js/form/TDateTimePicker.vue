@@ -520,7 +520,7 @@ function resetField() {
     showSecondPicker.value = false
   }
 
-  emit('update:modelValue', computedSelectedDate)
+  emit('update:modelValue', computedSelectedDate.value)
 }
 
 function closeSelect() {
@@ -633,31 +633,34 @@ onMounted(() => {
     <div
       :class="computedFieldClass"
     >
-      <div
-        class="select"
-        @click="toggleSelect"
-      >
-        <div class="selected">
-          <input disabled :value="displayDate.date.year">
-          <input disabled :value="displayDate.date.month">
-          <input disabled :value="displayDate.date.day">
-          <input v-if="displayTime" disabled :value="displayDate.time.hour">
-          <input v-if="displayTime" disabled :value="displayDate.time.minute">
-          <input v-if="displayTime" disabled :value="displayDate.time.second">
-          <input v-if="displayTime && hour12" disabled :value="displayDate.time.amPm">
+      <div class="wrapper">
+        <div
+          class="select"
+          @click="toggleSelect"
+        >
+          <div class="selected">
+            <input disabled :value="displayDate.date.year">
+            <input disabled :value="displayDate.date.month">
+            <input disabled :value="displayDate.date.day">
+            <input v-if="displayTime" disabled :value="displayDate.time.hour">
+            <input v-if="displayTime" disabled :value="displayDate.time.minute">
+            <input v-if="displayTime" disabled :value="displayDate.time.second">
+            <input v-if="displayTime && hour12" disabled :value="displayDate.time.amPm">
+          </div>
+
+          <div class="toggle">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
         </div>
 
-        <div class="toggle">
-          <i class="fa-solid fa-calendar-days"></i>
+        <div
+          tabindex="0"
+          class="clean-toggle"
+          @click="resetField"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
         </div>
-      </div>
-
-      <div
-        class="clean-toggle"
-        @click="resetField"
-      >
-        <i class="fa-solid fa-broom"></i>
-      </div>
+      </div> <!-- wrapper -->
 
       <div class="pickers">
         <div
@@ -834,11 +837,24 @@ onMounted(() => {
 <style scoped>
 .input-control {
   margin: 2px 8px 8px 0;
-  width: 200px;
+  width: 250px;
+}
+
+.input-control.disabled {
+  width: 225px;
 }
 
 .input-control.display-time {
+  width: 500px;
+}
+
+.input-control.disabled.display-time.hour24 {
   width: 400px;
+}
+
+.input-control.disabled.display-time,
+.input-control.display-time.hour24 {
+  width: 450px;
 }
 
 .input-label {
@@ -850,36 +866,45 @@ onMounted(() => {
   margin: 2px 0 8px 0;
 }
 
-.input-field .select:hover {
+.input-field .wrapper:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
-.input-control.disabled .input-field .select {
+.input-control.disabled .input-field .wrapper {
+  grid-template-columns: auto;
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field .select .selected input:hover,
-.input-control.disabled .input-field .select:hover {
+.input-control.disabled .input-field .wrapper:hover {
   cursor: not-allowed;
 }
 
-.input-field .select {
+.input-field .wrapper {
   display: grid;
-  grid-template-columns: 9fr 1fr;
+  grid-template-columns: auto 26px;
   align-items: center;
-  text-align: center;
-  padding: 12px;
+  margin: 2px 0 0 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
+}
+
+.input-field .select {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+  text-align: center;
+  padding: 12px;
   box-sizing: border-box;
   height: 50px;
 }
 
 .input-field .select .selected {
-  display: grid;
+  display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .input-control .input-field .select .selected {
@@ -904,25 +929,24 @@ onMounted(() => {
 }
 
 .input-field .clean-toggle {
-  position: absolute;
-  top: -20px;
-  left: 180px;
-  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  width: 15px;
+  height: 15px;
 }
 
-.input-control.display-time .input-field .clean-toggle {
-  left: 380px;
+.input-field .clean-toggle:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
 }
 
-.input-control.disabled .input-field .clean-toggle,
-.input-field.expanded .clean-toggle {
+.input-field .clean-toggle:focus {
+  outline: 3px solid var(--color-border-hover);
+}
+
+.input-control.disabled .input-field .clean-toggle {
   display: none;
 }
 
@@ -946,7 +970,6 @@ onMounted(() => {
   display: none;
 }
 
-.input-field .clean-toggle:hover,
 .input-field .confirm-toggle:hover,
 .input-field .close-toggle:hover,
 .input-field .shortcut-toggle:hover {
@@ -989,7 +1012,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  left: 200px;
+  left: 250px;
 }
 
 .input-field.center .pickers {
@@ -1005,7 +1028,7 @@ onMounted(() => {
 }
 
 .input-control.display-time .input-field .pickers {
-  left: 400px;
+  left: 500px;
 }
 
 .input-field .picker {

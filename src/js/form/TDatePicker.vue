@@ -41,6 +41,7 @@ const selectedDate = computed({
     return props.modelValue
   },
   set: (val) => {
+    console.log({ val })
     emit('update:modelValue', val)
   }
 })

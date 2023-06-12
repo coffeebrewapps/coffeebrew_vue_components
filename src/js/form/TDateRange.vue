@@ -71,6 +71,7 @@ const selectedEndDate = computed({
 
     <div class="input-field">
       <TDatePicker
+        class="start-date"
         v-model="selectedStartDate"
         label=""
         :disabled="disabled"
@@ -82,6 +83,7 @@ const selectedEndDate = computed({
       <div class="to">to</div>
 
       <TDatePicker
+        class="end-date"
         v-model="selectedEndDate"
         label=""
         :disabled="disabled"
@@ -117,15 +119,11 @@ const selectedEndDate = computed({
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  margin: 2px 8px 4px 0;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  margin: 0 0 8px 0;
 }
 
 .input-field .to {
-  margin: 0 8px 0 4px;
-  padding: 2rem 0;
+  text-align: center;
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -134,5 +132,31 @@ const selectedEndDate = computed({
   margin-bottom: 8px;
   font-size: 0.8rem;
   color: var(--color-error);
+}
+
+.start-date,
+.end-date,
+.start-date:deep(.input-field),
+.end-date:deep(.input-field) {
+  margin: 0 !important;
+}
+
+.start-date:deep(.input-label),
+.end-date:deep(.input-label) {
+  display: none;
+}
+
+@media screen and (max-width: 680px) {
+  .input-field {
+    flex-direction: column !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .input-field .to {
+    margin: 4px 0 !important;
+    padding: 0 !important;
+  }
 }
 </style>

@@ -75,6 +75,7 @@ const selectedEndTime = computed({
 
     <div class="input-field">
       <TDateTimePicker
+        class="start-time"
         v-model="selectedStartTime"
         label=""
         :disabled="disabled"
@@ -87,6 +88,7 @@ const selectedEndTime = computed({
       <div class="to">to</div>
 
       <TDateTimePicker
+        class="end-time"
         v-model="selectedEndTime"
         label=""
         :disabled="disabled"
@@ -123,15 +125,11 @@ const selectedEndTime = computed({
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
-  margin: 2px 8px 4px 0;
-  padding: 0 12px;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  margin: 0 0 8px 0;
 }
 
 .input-field .to {
-  margin: 0 8px 0 4px;
-  padding: 2rem 0;
+  text-align: center;
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -140,5 +138,31 @@ const selectedEndTime = computed({
   margin-bottom: 8px;
   font-size: 0.8rem;
   color: var(--color-error);
+}
+
+.start-time,
+.end-time,
+.start-time:deep(.input-field),
+.end-time:deep(.input-field) {
+  margin: 0 !important;
+}
+
+.start-time:deep(.input-label),
+.end-time:deep(.input-label) {
+  display: none;
+}
+
+@media screen and (max-width: 1100px) {
+  .input-field {
+    flex-direction: column !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .input-field .to {
+    margin: 4px 0 !important;
+    padding: 0 !important;
+  }
 }
 </style>
