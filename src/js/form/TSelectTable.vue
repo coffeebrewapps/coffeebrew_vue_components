@@ -74,18 +74,12 @@ const tableDialog = ref(false)
 const tableHeaders = computed(() => {
   return [
     { key: 'value', type: 'text', label: 'Value' },
-    { key: 'label', type: 'text', label: 'Label' }
+    { key: 'label', type: 'text', label: 'Label' },
+    { key: 'selected', type: 'text', label: '' }
   ]
 })
 
 const actions = ref([
-  {
-    name: 'Select',
-    icon: '',
-    click: function(row, index) {
-      updateSelected(row)
-    }
-  }
 ])
 
 const computedInputControlClass = computed(() => {
@@ -283,11 +277,9 @@ onMounted(() => {
             @offset-change="updateOffsetAndReload"
           >
 
-            <template #data-action="{ row, action, i }">
+            <template #[`data-col.selected`]="{ header, row, i }">
               <div
-                tabindex="0"
                 :class="checkboxClass(row)"
-                @keydown.enter="updateSelected(row)"
               >
               </div>
             </template>
