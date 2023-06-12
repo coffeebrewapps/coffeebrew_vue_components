@@ -171,6 +171,7 @@ function resetField(event) {
   grid-template-columns: auto 26px;
   align-items: center;
   margin: 2px 0 8px 0;
+  background-color: var(--color-background);
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
