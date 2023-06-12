@@ -51,6 +51,10 @@ const computedControlClass = computed(() => {
   return className.join(' ')
 })
 
+const computedInputFieldClass = computed(() => {
+  return `input-field ${props.type}`
+})
+
 function incrementNumber() {
   if (props.type !== 'number') { return }
 
@@ -103,39 +107,41 @@ function resetField(event) {
     </div>
 
     <div
-      class="input-field"
+      :class="computedInputFieldClass"
     >
-      <input
-        ref="input"
-        :type="type"
-        :step="step"
-        :value="modelValue"
-        :disabled="disabled"
-        @input="updateInput($event.target.value)"
-      >
+      <div class="wrapper">
+        <input
+          ref="input"
+          :type="type"
+          :step="step"
+          :value="modelValue"
+          :disabled="disabled"
+          @input="updateInput($event.target.value)"
+        >
 
-      <div
-        v-if="type === 'number'"
-        class="number-spin-button"
-      >
-        <i
-          class="fa-solid fa-caret-up fa-sm"
-          @click="incrementNumber"
-        ></i>
-        <i
-          class="fa-solid fa-caret-down fa-sm"
-          @click="decrementNumber"
-        ></i>
-      </div>
+        <div
+          v-if="type === 'number'"
+          class="number-spin-button"
+        >
+          <i
+            class="fa-solid fa-caret-up fa-sm"
+            @click="incrementNumber"
+          ></i>
+          <i
+            class="fa-solid fa-caret-down fa-sm"
+            @click="decrementNumber"
+          ></i>
+        </div>
 
-      <div
-        tabindex="0"
-        class="clean-toggle"
-        ref="cleanToggle"
-        @click="resetField($event)"
-        @keydown.enter="resetField($event)"
-      >
-        <i class="fa-solid fa-broom"></i>
+        <div
+          tabindex="0"
+          class="clean-toggle"
+          ref="cleanToggle"
+          @click="resetField($event)"
+          @keydown.enter="resetField($event)"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
       </div>
     </div>
 
@@ -160,16 +166,32 @@ function resetField(event) {
   min-height: 20px;
 }
 
-.input-field input {
-  padding: 12px;
+.input-field .wrapper {
+  display: grid;
+  grid-template-columns: auto 26px;
+  align-items: center;
   margin: 2px 0 8px 0;
-  display: inline-block;
   border: 1px solid var(--color-border);
   border-radius: 4px;
+}
+
+.input-field.number .wrapper {
+  grid-template-columns: auto 26px 24px;
+}
+
+.input-control.disabled .input-field .wrapper {
+  grid-template-columns: auto;
+}
+
+.input-field input {
+  padding: 12px;
+  display: inline-block;
+  border: none;
   box-sizing: border-box;
   color: var(--color-text);
   background-color: var(--color-background);
   font-size: 0.8rem;
+  width: 100%;
   height: 50px;
 }
 
@@ -179,9 +201,6 @@ function resetField(event) {
 }
 
 .input-field .number-spin-button {
-  position: absolute;
-  top: 22px;
-  right: 1rem;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -195,11 +214,16 @@ function resetField(event) {
   color: var(--color-border-hover);
 }
 
-.input-field input:focus {
-  outline: 3px solid var(--color-border-hover);
+.input-control.disabled .input-field .number-spin-button {
+  display: none;
 }
 
-.input-control.disabled .input-field input {
+.input-field input:focus {
+  outline: none;
+}
+
+.input-control.disabled .input-field input,
+.input-control.disabled .input-field .wrapper {
   background-color: var(--color-background-mute);
 }
 
@@ -211,50 +235,46 @@ function resetField(event) {
 
 .input-control.sm .input-label,
 .input-control.sm .input-field,
-.input-control.sm .input-field input {
+.input-control.sm .input-field .wrapper {
   width: 100px;
 }
 
 .input-control .input-label,
 .input-control .input-field,
+.input-control .input-field .wrapper,
 .input-control.md .input-label,
 .input-control.md .input-field,
-.input-control.md .input-field input {
+.input-control.md .input-field .wrapper {
   width: 200px;
 }
 
 .input-control.lg .input-label,
 .input-control.lg .input-field,
-.input-control.lg .input-field input {
+.input-control.lg .input-field .wrapper {
   width: 500px;
 }
 
 .input-control .clean-toggle {
-  position: absolute;
-  bottom: 36px;
-  right: -12px;
-  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  width: 15px;
+  height: 15px;
 }
 
 .input-control.disabled .clean-toggle {
   display: none;
 }
 
+.input-control .input-field .wrapper:has(input:focus),
 .input-control .clean-toggle:focus {
   outline: 3px solid var(--color-border-hover);
 }
 
 .input-control .clean-toggle:hover {
   cursor: pointer;
-  background-color: var(--color-border-hover);
-  color: var(--color-text);
+  color: var(--color-border-hover);
 }
 
 .input-error {
