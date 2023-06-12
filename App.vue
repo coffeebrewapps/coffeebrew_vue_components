@@ -1043,7 +1043,6 @@ onMounted(() => {
   margin: 1rem 0;
   padding: 1rem;
   border: 1px solid var(--color-border);
-  overflow: auto;
 }
 
 .fields-container .fields {
