@@ -837,24 +837,24 @@ onMounted(() => {
 <style scoped>
 .input-control {
   margin: 2px 8px 8px 0;
-  width: 250px;
+  width: 200px;
 }
 
 .input-control.disabled {
-  width: 225px;
+  width: 200px;
 }
 
 .input-control.display-time {
-  width: 500px;
+  width: 400px;
 }
 
 .input-control.disabled.display-time.hour24 {
-  width: 400px;
+  width: 350px;
 }
 
 .input-control.disabled.display-time,
 .input-control.display-time.hour24 {
-  width: 450px;
+  width: 350px;
 }
 
 .input-label {
@@ -904,7 +904,6 @@ onMounted(() => {
 .input-field .select .selected {
   display: flex;
   align-items: center;
-  gap: 1rem;
 }
 
 .input-control .input-field .select .selected {
@@ -923,9 +922,13 @@ onMounted(() => {
   text-align: center;
   width: 40px;
   height: 20px;
-  background-color: var(--color-background-soft);
+  background-color: var(--color-background);
   color: var(--color-text);
   border: none;
+}
+
+.input-control.disabled .input-field .select .selected input {
+  background-color: var(--color-background-mute);
 }
 
 .input-field .clean-toggle {
@@ -1012,7 +1015,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  left: 250px;
+  left: 200px;
 }
 
 .input-field.center .pickers {
@@ -1028,7 +1031,7 @@ onMounted(() => {
 }
 
 .input-control.display-time .input-field .pickers {
-  left: 500px;
+  left: 350px;
 }
 
 .input-field .picker {

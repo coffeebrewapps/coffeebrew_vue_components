@@ -132,6 +132,7 @@ const selectedEndDate = computed({
   margin-bottom: 8px;
   font-size: 0.8rem;
   color: var(--color-error);
+  max-width: 200px;
 }
 
 .start-date,

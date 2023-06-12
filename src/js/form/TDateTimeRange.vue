@@ -138,6 +138,7 @@ const selectedEndTime = computed({
   margin-bottom: 8px;
   font-size: 0.8rem;
   color: var(--color-error);
+  max-width: 350px;
 }
 
 .start-time,
