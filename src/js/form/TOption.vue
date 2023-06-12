@@ -64,18 +64,7 @@ const computedOptionClass = computed(() => {
   color: var(--color-text);
   font-weight: 600;
   outline: none;
-}
-
-.option.sm {
-  width: 100px;
-}
-
-.option.md {
-  width: 200px;
-}
-
-.option.lg {
-  width: 500px;
+  width: 100%;
 }
 
 .option.selected {

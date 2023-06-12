@@ -68,6 +68,8 @@ const computedControlClass = computed(() => {
     className.push(`disabled`)
   }
 
+  className.push(toggleState.value)
+
   return className.join(' ')
 })
 
@@ -166,59 +168,61 @@ onMounted(() => {
       @keydown.esc="closeSelect($event)"
       @keydown.backspace="resetField($event)"
     >
-      <div
-        class="select"
-        :name="name"
-        ref="selectField"
-        @click="toggleSelect($event)"
-      >
-        <div class="selected">{{ computedSelectedOption }}</div>
+      <div class="wrapper">
+        <div
+          class="select"
+          :name="name"
+          ref="selectField"
+          @click="toggleSelect($event)"
+        >
+          <div class="selected">{{ computedSelectedOption }}</div>
 
-        <div class="toggle">
-          <i class="fa-solid fa-caret-down"></i>
-          <i class="fa-solid fa-caret-up"></i>
+          <div class="toggle">
+            <i class="fa-solid fa-caret-down"></i>
+            <i class="fa-solid fa-caret-up"></i>
+          </div>
+        </div>
+
+        <div
+          class="clean-toggle"
+          ref="cleanToggle"
+          @click="resetField($event)"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
         </div>
       </div>
+    </div> <!-- wrapper -->
 
-      <div
-        class="clean-toggle"
-        ref="cleanToggle"
-        @click="resetField($event)"
-      >
-        <i class="fa-solid fa-broom"></i>
-      </div>
+    <div
+      v-if="searchable"
+      class="search"
+    >
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        v-model="searchString"
+        ref="searchInput"
+        @keydown.esc="clearSearchString"
+      />
+      <i
+        class="fa-solid fa-xmark"
+        @click="clearSearch"
+      ></i>
+    </div>
 
-      <div
-        v-if="searchable"
-        class="search"
-      >
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input
-          v-model="searchString"
-          ref="searchInput"
-          @keydown.esc="clearSearchString"
-        />
-        <i
-          class="fa-solid fa-xmark"
-          @click="clearSearch"
-        ></i>
-      </div>
-
-      <div
-        class="options"
-      >
-        <TOption
-          tabindex="0"
-          v-for="(option, i) in computedOptions"
-          :key="i"
-          :value="option.value"
-          :label="option.label"
-          :size="size"
-          :selected="setOptionSelectedState(option.value)"
-          @select="selectOption(option.value)"
-          @keydown.enter="selectOption(option.value, $event)"
-        />
-      </div>
+    <div
+      class="options"
+    >
+      <TOption
+        tabindex="0"
+        v-for="(option, i) in computedOptions"
+        :key="i"
+        :value="option.value"
+        :label="option.label"
+        :size="size"
+        :selected="setOptionSelectedState(option.value)"
+        @select="selectOption(option.value)"
+        @keydown.enter="selectOption(option.value, $event)"
+      />
     </div>
 
     <div
@@ -236,11 +240,11 @@ onMounted(() => {
 }
 
 .input-control.sm {
-  width: 100px;
+  width: 150px;
 }
 
 .input-control.md {
-  width: 200px;
+  width: 250px;
 }
 
 .input-control.lg {
@@ -253,29 +257,38 @@ onMounted(() => {
 }
 
 .input-field {
-  margin: 2px 0 8px 0;
+  margin: 2px 0 0 0;
 }
 
 .input-field:focus {
   outline: none;
 }
 
-.input-field .select:hover,
-.input-control .clean-toggle:hover {
+.input-field .wrapper {
+  display: grid;
+  grid-template-columns: auto 26px;
+  align-items: center;
+  margin: 2px 0 0 0;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.input-field .wrapper:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
-.input-field:focus .select {
+.input-field:focus .wrapper {
   outline: 3px solid var(--color-border-hover);
 }
 
-.input-control.disabled .input-field .select {
+.input-control.disabled .input-field .wrapper {
+  grid-template-columns: auto;
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field .select:hover {
+.input-control.disabled .input-field .wrapper:hover {
   cursor: not-allowed;
 }
 
@@ -285,11 +298,12 @@ onMounted(() => {
   align-items: center;
   text-align: center;
   padding: 12px;
-  margin: 2px 0 0 0;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
   box-sizing: border-box;
   height: 50px;
+}
+
+.input-control.disabled .input-field .select {
+  grid-template-columns: auto !important;
 }
 
 .input-field .select .selected {
@@ -320,7 +334,7 @@ onMounted(() => {
   display: none;
 }
 
-.input-field .options {
+.input-control .options {
   position: absolute;
   left: 0;
   right: 0;
@@ -333,20 +347,20 @@ onMounted(() => {
   overflow-y: auto;
 }
 
-.input-field.collapsed .options {
+.input-control.collapsed .options {
   display: none;
 }
 
-.input-field.expanded .options {
+.input-control.expanded .options {
   display: block;
 }
 
-.input-field.collapsed .search input,
-.input-field.collapsed .search .fa-solid {
+.input-control.collapsed .search input,
+.input-control.collapsed .search .fa-solid {
   display: none;
 }
 
-.input-field.expanded .search {
+.input-control.expanded .search {
   padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
@@ -356,11 +370,11 @@ onMounted(() => {
   border-bottom: none;
 }
 
-.input-field.expanded .search .fa-solid {
+.input-control.expanded .search .fa-solid {
   display: inline-block;
 }
 
-.input-field.expanded .search input {
+.input-control.expanded .search input {
   padding: 0.5rem;
   outline: none;
   border: none;
@@ -370,30 +384,31 @@ onMounted(() => {
   font-size: 0.8rem;
 }
 
-.input-field.expanded .search input:focus {
+.input-control.expanded .search input:focus {
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
 
-.input-field.expanded .search .fa-xmark:hover {
+.input-control.expanded .search .fa-xmark:hover {
   cursor: pointer;
   color: var(--color-border-hover);
 }
 
 .input-control .clean-toggle {
-  position: absolute;
-  bottom: 38px;
-  right: -12px;
-  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  width: 15px;
+  height: 15px;
 }
 
+.input-control .clean-toggle:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
+}
+
+.input-control.disabled .toggle,
 .input-control.disabled .clean-toggle {
   display: none;
 }
