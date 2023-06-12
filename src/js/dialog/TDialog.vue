@@ -67,6 +67,11 @@ const computedStyles = computed(() => {
 })
 
 onMounted(() => {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && showDialog.value) {
+      closeDialog()
+    }
+  })
 })
 </script>
 
