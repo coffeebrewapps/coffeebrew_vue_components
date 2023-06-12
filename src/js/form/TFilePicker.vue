@@ -67,6 +67,10 @@ const emit = defineEmits(['update:modelValue', 'offsetChange'])
 
 const selectField = ref('selectField')
 const file = ref('file')
+const removeFileInput = ref('removeFileInput')
+const previewFileInput = ref('previewFileInput')
+const resetFieldInput = ref('resetFieldInput')
+
 const selectedFiles = computed(() => {
   if (props.multiple) {
     return props.modelValue || []
@@ -107,10 +111,29 @@ const computedInputControlClass = computed(() => {
   return className.join(' ')
 })
 
-function toggleSelect(event) {
-  if (props.disabled) { return }
+const computedInputFieldClass = computed(() => {
+  const className = []
 
-  if (event.target !== selectField.value) { return }
+  className.push(`input-field`)
+
+  if (hasSelectedFiles.value) {
+    className.push(`previewable`)
+  }
+
+  return className.join(' ')
+})
+
+function toggleSelect(event) {
+  if (
+    event instanceof KeyboardEvent &&
+    (
+      event.target === removeFileInput.value ||
+      event.target === previewFileInput.value ||
+      event.target === resetFieldInput.value
+    )
+  ) { return }
+
+  if (props.disabled) { return }
 
   file.value.showPicker()
 }
@@ -207,56 +230,68 @@ function resetField() {
     </div>
 
     <div
-      class="input-field"
+      tabindex="0"
+      :class="computedInputFieldClass"
+      @keydown.enter="toggleSelect"
+      @keydown.backspace="resetField"
     >
-      <div
-        class="select"
-        ref="selectField"
-        @click="toggleSelect"
-      >
-        <div class="selected-list">
-          <div
-            class="selected"
-            v-for="(selected, i) in selectedFiles"
-            :key="i"
-          >
-            <div class="closeable-tag">
-              <span>{{ selected.name }}</span>
+      <div class="wrapper">
+        <div
+          class="select"
+          ref="selectField"
+          @click="toggleSelect"
+        >
+          <div class="selected-list">
+            <div
+              tabindex="0"
+              class="closeable-tag"
+              v-for="(selected, i) in selectedFiles"
+              :key="i"
+              @keydown.esc="removeFile(i)"
+            >
+              <div>{{ selected.name }}</div>
               <i
+                ref="removeFileInput"
                 class="fa-solid fa-xmark"
                 @click="removeFile(i)"
               ></i>
             </div>
           </div>
+
+          <div class="toggle">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+
+          <input
+            type="file"
+            ref="file"
+            :accept="accept"
+            :multiple="multiple"
+            @change="handleFileUpload"
+          />
         </div>
 
-        <div class="toggle">
-          <i class="fa-solid fa-file"></i>
+        <div
+          tabindex="0"
+          ref="previewFileInput"
+          v-if="hasSelectedFiles"
+          class="preview-toggle"
+          @click="previewFile"
+          @keydown.enter="previewFile"
+        >
+          <i class="fa-solid fa-circle-info"></i>
         </div>
-      </div>
 
-      <input
-        type="file"
-        ref="file"
-        :accept="accept"
-        :multiple="multiple"
-        @change="handleFileUpload"
-      />
-
-      <div
-        v-if="hasSelectedFiles"
-        class="preview-toggle"
-        @click="previewFile"
-      >
-        <i class="fa-solid fa-eye"></i>
-      </div>
-
-      <div
-        class="clean-toggle"
-        @click="resetField"
-      >
-        <i class="fa-solid fa-broom"></i>
-      </div>
+        <div
+          tabindex="0"
+          ref="resetFieldInput"
+          class="clean-toggle"
+          @click="resetField"
+          @keydown.enter="resetField"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
+      </div> <!-- wrapper -->
     </div>
 
     <div
@@ -322,20 +357,59 @@ function resetField() {
 }
 
 .input-control.sm {
-  width: 100px;
+  min-width: 150px;
 }
 
 .input-control.md {
-  width: 200px;
+  min-width: 250px;
 }
 
 .input-control.lg {
-  width: 500px;
+  min-width: 500px;
 }
 
 .input-label {
   font-size: 0.8rem;
   min-height: 20px;
+}
+
+.input-field .wrapper {
+  display: grid;
+  grid-template-columns: auto 26px;
+  align-items: center;
+  margin: 2px 0 0 0;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+.input-field.previewable .wrapper {
+  grid-template-columns: auto 26px 26px;
+}
+
+.input-field .wrapper:hover {
+  cursor: pointer;
+  background-color: var(--color-border-hover);
+  color: var(--color-text);
+}
+
+.input-field:focus {
+  outline: none;
+}
+
+.input-field:focus .wrapper,
+.input-field .select .selected-list .closeable-tag:focus,
+.input-control .clean-toggle:focus,
+.input-control .preview-toggle:focus {
+  outline: 3px solid var(--color-border-hover);
+}
+
+.input-control.disabled .input-field .wrapper {
+  grid-template-columns: auto;
+  background-color: var(--color-background-mute);
+}
+
+.input-control.disabled .input-field .wrapper:hover {
+  cursor: not-allowed;
 }
 
 .input-control .input-field .select {
@@ -344,30 +418,27 @@ function resetField() {
   align-items: center;
   text-align: center;
   padding: 12px;
-  margin: 2px 0 8px 0;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
+  margin: 0;
   box-sizing: border-box;
   min-height: 50px;
 }
 
-.input-field .select:hover,
 .input-control .clean-toggle:hover,
 .input-control .preview-toggle:hover {
   cursor: pointer;
-  background-color: var(--color-border-hover);
-  color: var(--color-text);
+  color: var(--color-border-hover);
 }
 
 .input-control.disabled .input-field .select {
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field .select:hover {
+.input-control.disabled .input-field .wrapper:hover {
   cursor: not-allowed;
 }
 
 .input-control .input-field input {
+  position: absolute;
   visibility: hidden;
   width: 0;
 }
@@ -382,7 +453,7 @@ function resetField() {
   align-items: center;
   justify-content: center;
   font-size: 0.8rem;
-  height: 20px;
+  min-height: 20px;
   text-align: center;
   margin: 4px;
   padding: 0.4rem 0.8rem;
@@ -402,31 +473,21 @@ function resetField() {
 }
 
 .input-field .clean-toggle {
-  position: absolute;
-  top: -20px;
-  right: -12px;
-  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  width: 15px;
+  height: 15px;
 }
 
 .input-field .preview-toggle {
-  position: absolute;
-  bottom: 2px;
-  right: -12px;
-  z-index: 1;
   border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  width: 15px;
+  height: 15px;
 }
 
 .input-control.disabled .clean-toggle,
