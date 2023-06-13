@@ -310,7 +310,6 @@ function pageRight(event) {
           v-for="(row, i) in computedPaginatedData"
           :class="currentRowClass(i)"
           v-if="!computedLoading"
-          @click="clickRow(row, i)"
           @keydown.enter="clickRow(row, i)"
         >
           <slot name="data-row" v-bind="{ headers, row, actions, i }">
@@ -318,6 +317,7 @@ function pageRight(event) {
               <td
                 v-for="header in headers"
                 class="col"
+                @click="clickRow(row, i)"
               >
                 <slot :name="`data-col.${header.key}`" v-bind="{ header, row, i }">
                   {{ row[header.key] }}
@@ -504,6 +504,7 @@ function pageRight(event) {
   cursor: pointer;
 }
 
+.body .row:focus,
 .body .row.clickable:focus {
   outline: none;
 }
