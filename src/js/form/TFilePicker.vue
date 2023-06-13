@@ -247,7 +247,7 @@ function resetField() {
               class="closeable-tag"
               v-for="(selected, i) in selectedFiles"
               :key="i"
-              @keydown.esc="removeFile(i)"
+              @keydown.backspace="removeFile(i)"
             >
               <div>{{ selected.name }}</div>
               <i
