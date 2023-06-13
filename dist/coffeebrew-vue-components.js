@@ -1,4 +1,4 @@
-import { ref as c, computed as v, onMounted as we, openBlock as o, createBlock as ge, Transition as Ue, withCtx as se, unref as s, createElementBlock as r, normalizeClass as $, createElementVNode as t, normalizeStyle as At, renderSlot as A, createTextVNode as Ve, toDisplayString as k, createCommentVNode as V, pushScopeId as re, popScopeId as de, isRef as me, createVNode as ee, withKeys as _, watch as je, withDirectives as ze, Fragment as z, renderList as Y, vShow as ut, vModelText as Et, normalizeProps as G, guardReactiveProps as Q } from "vue";
+import { ref as c, computed as v, onMounted as we, openBlock as o, createBlock as ge, Transition as Ue, withCtx as se, unref as s, createElementBlock as r, normalizeClass as $, createElementVNode as t, normalizeStyle as At, renderSlot as A, createTextVNode as Ve, toDisplayString as k, createCommentVNode as V, pushScopeId as re, popScopeId as de, isRef as me, createVNode as ee, withKeys as _, watch as je, withDirectives as ze, Fragment as z, renderList as Y, vShow as ut, vModelText as Et, normalizeProps as Q, guardReactiveProps as X } from "vue";
 const W = (e, m) => {
   const l = e.__vccOpts || e;
   for (const [n, d] of m)
@@ -432,9 +432,9 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
       "F",
       "S",
       "S"
-    ], D = v(() => l.mondayStart ? K : R), M = c(Array.from(Array(31)).map((a, C) => C + 1)), E = Array.from(Array(24)).map((a, C) => C), B = Array.from(Array(60)).map((a, C) => C), te = Array.from(Array(60)).map((a, C) => C), X = c("yearPicker"), U = c("monthPicker"), u = c("dayPicker"), i = c("hourPicker"), p = c("minutePicker"), T = c("secondPicker"), P = c("yearOptions"), x = c("monthOptions"), Z = c("dayOptions"), N = c("hourOptions"), H = c("minuteOptions"), $e = c("secondOptions"), Me = c([]), ft = c([]), vt = c([]), Te = c([]), Se = c([]), xe = c([]), he = c("collapsed"), O = c(), j = c(), le = c(), oe = c(), ie = c(), ue = c();
+    ], D = v(() => l.mondayStart ? K : R), M = c(Array.from(Array(31)).map((a, C) => C + 1)), E = Array.from(Array(24)).map((a, C) => C), B = Array.from(Array(60)).map((a, C) => C), te = Array.from(Array(60)).map((a, C) => C), Z = c("yearPicker"), U = c("monthPicker"), u = c("dayPicker"), i = c("hourPicker"), p = c("minutePicker"), T = c("secondPicker"), P = c("yearOptions"), x = c("monthOptions"), J = c("dayOptions"), N = c("hourOptions"), H = c("minuteOptions"), $e = c("secondOptions"), Me = c([]), ft = c([]), vt = c([]), Te = c([]), Se = c([]), xe = c([]), he = c("collapsed"), O = c(), j = c(), le = c(), oe = c(), ie = c(), ue = c();
     c();
-    const ce = c(!1), ve = c(!1), J = c(!1), q = c(!1), fe = c(!1);
+    const ce = c(!1), ve = c(!1), q = c(!1), G = c(!1), fe = c(!1);
     c(!1);
     const pt = c(!1), yt = c(!1), Je = c("inputField"), qe = c("selectField"), mt = v(() => {
       const a = [];
@@ -442,7 +442,7 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
     }), gt = v(() => {
       const a = [];
       return a.push("input-field"), l.alignPickers === "top" ? a.push("top-align") : l.alignPickers === "bottom" ? a.push("bottom-align") : a.push("center"), a.push(he.value), a.join(" ");
-    }), ht = v(() => Object.is(ve.value, !0) ? "year picker show" : "year picker hide"), bt = v(() => Object.is(J.value, !0) ? "month picker show" : "month picker hide"), _t = v(() => Object.is(q.value, !0) ? "day picker show" : "day picker hide"), kt = v(() => "hour picker show"), wt = v(() => "minute picker show"), $t = v(() => "second picker show"), Ce = v(() => {
+    }), ht = v(() => Object.is(ve.value, !0) ? "year picker show" : "year picker hide"), bt = v(() => Object.is(q.value, !0) ? "month picker show" : "month picker hide"), _t = v(() => Object.is(G.value, !0) ? "day picker show" : "day picker hide"), kt = v(() => "hour picker show"), wt = v(() => "minute picker show"), $t = v(() => "second picker show"), Ce = v(() => {
       const a = O.value, C = j.value, y = le.value;
       if (d(a) || d(C) || d(y))
         return null;
@@ -452,7 +452,7 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
       return Object.is(l.displayTime, !0) && d(I) || Object.is(l.displayTime, !0) && d(L) || Object.is(l.displayTime, !0) && d(ae) ? null : new Date(a, C, y, I, L, ae);
     }), pe = v(() => d(l.modelValue) ? { date: {}, time: {} } : Tt(l.modelValue)), Ae = v(() => {
       const a = [];
-      return n(O.value) && a.unshift(O.value), ce.value ? q.value && n(j.value) && a.unshift(F[j.value]) : fe.value && (n(j.value) && a.unshift(F[j.value]), n(le.value) && a.unshift(le.value)), a.join(" ");
+      return n(O.value) && a.unshift(O.value), ce.value ? G.value && n(j.value) && a.unshift(F[j.value]) : fe.value && (n(j.value) && a.unshift(F[j.value]), n(le.value) && a.unshift(le.value)), a.join(" ");
     });
     function Tt(a) {
       return St(
@@ -476,7 +476,7 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
       };
     }
     function Ge(a) {
-      Object.is(l.disabled, !0) || (a.preventDefault(), !(a instanceof KeyboardEvent && a.target !== Je.value && a.target !== qe.value) && (he.value === "collapsed" ? (he.value = "expanded", d(O.value) ? (ce.value = !0, ve.value = !0) : d(j.value) ? (ce.value = !0, J.value = !0) : l.displayTime ? fe.value = !0 : (ce.value = !0, q.value = !0)) : (he.value = "collapsed", ve.value = !1, J.value = !1, q.value = !1, ce.value = !1, fe.value = !1)));
+      Object.is(l.disabled, !0) || (a.preventDefault(), !(a instanceof KeyboardEvent && a.target !== Je.value && a.target !== qe.value) && (he.value === "collapsed" ? (he.value = "expanded", d(O.value) ? (ce.value = !0, ve.value = !0) : d(j.value) ? (ce.value = !0, q.value = !0) : l.displayTime ? fe.value = !0 : (ce.value = !0, G.value = !0)) : (he.value = "collapsed", ve.value = !1, q.value = !1, G.value = !1, ce.value = !1, fe.value = !1)));
     }
     function xt(a) {
       return a === O.value ? "option selected" : "option";
@@ -531,27 +531,27 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
     }), je(ue, () => {
       et();
     });
-    const Kt = v(() => J.value || q.value);
+    const Kt = v(() => q.value || G.value);
     function tt() {
       const a = /* @__PURE__ */ new Date();
       a < b.value || a > f.value || (Oe(a.getFullYear()), Ke(a.getMonth()), Ie(a.getDate()), l.displayTime && (Pe(a.getHours()), Be(a.getMinutes()), Ne(a.getSeconds())));
     }
     function lt() {
-      if (J.value) {
+      if (q.value) {
         if (O.value === b.value.getFullYear())
           return;
         O.value = O.value - 1;
-      } else if (q.value) {
+      } else if (G.value) {
         const a = new Date(O.value, j.value, le.value || 1);
         a.setMonth(a.getMonth() - 1), O.value = a.getFullYear(), j.value = a.getMonth(), M.value = S(O.value, j.value);
       }
     }
     function at() {
-      if (J.value) {
+      if (q.value) {
         if (O.value === f.value.getFullYear())
           return;
         O.value = O.value + 1;
-      } else if (q.value) {
+      } else if (G.value) {
         const a = new Date(O.value, j.value, le.value || 1);
         a.setMonth(a.getMonth() + 1), O.value = a.getFullYear(), j.value = a.getMonth(), M.value = S(O.value, j.value);
       }
@@ -560,39 +560,39 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
       const a = /* @__PURE__ */ new Date();
       return a < b.value || a > f.value ? "shortcut-toggle hide" : "shortcut-toggle show";
     }), Pt = v(() => {
-      if (J.value)
+      if (q.value)
         return O.value > b.value.getFullYear() ? "shortcut-toggle show" : "shortcut-toggle hide";
-      if (q.value) {
+      if (G.value) {
         const a = new Date(O.value, j.value, le.value || 1);
         return a.setMonth(a.getMonth() - 1), a >= b.value ? "shortcut-toggle show" : "shortcut-toggle hide";
       } else
         return "shortcut-toggle hide";
     }), Bt = v(() => {
-      if (J.value)
+      if (q.value)
         return O.value < f.value.getFullYear() ? "shortcut-toggle show" : "shortcut-toggle hide";
-      if (q.value) {
+      if (G.value) {
         const a = new Date(O.value, j.value, le.value || 1);
         return a.setMonth(a.getMonth() + 1), a < f.value ? "shortcut-toggle show" : "shortcut-toggle hide";
       } else
         return "shortcut-toggle hide";
     });
     function Oe(a) {
-      O.value = a, ve.value = !1, J.value = !0;
+      O.value = a, ve.value = !1, q.value = !0;
     }
     function Ke(a) {
-      j.value = a, M.value = S(O.value, j.value), J.value = !1, q.value = !0;
+      j.value = a, M.value = S(O.value, j.value), q.value = !1, G.value = !0;
     }
     function Ie(a) {
       d(a) || (le.value = a, Object.is(l.displayTime, !0) ? (ce.value = !1, fe.value = !0) : Ee());
     }
     function be(a) {
-      a === "month" ? (J.value = !1, ve.value = !0) : a === "day" ? (q.value = !1, J.value = !0) : a === "time" && (fe.value = !1, ce.value = !0, q.value = !0);
+      a === "month" ? (q.value = !1, ve.value = !0) : a === "day" ? (G.value = !1, q.value = !0) : a === "time" && (fe.value = !1, ce.value = !0, G.value = !0);
     }
     function st() {
-      O.value = null, j.value = null, le.value = null, ve.value = !1, J.value = !1, q.value = !1, Object.is(l.displayTime, !0) && (oe.value = null, ie.value = null, ue.value = null, fe.value = !1), m("update:modelValue", Ce.value);
+      O.value = null, j.value = null, le.value = null, ve.value = !1, q.value = !1, G.value = !1, Object.is(l.displayTime, !0) && (oe.value = null, ie.value = null, ue.value = null, fe.value = !1), m("update:modelValue", Ce.value);
     }
     function ye() {
-      he.value = "collapsed", ve.value = !1, J.value = !1, q.value = !1, fe.value = !1, it();
+      he.value = "collapsed", ve.value = !1, q.value = !1, G.value = !1, fe.value = !1, it();
     }
     const nt = v(() => Object.is(l.displayTime, !0) && n(Ce.value) || n(Ce.value));
     function Ee() {
@@ -631,7 +631,7 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
       });
     }, { threshold: [0] });
     return we(() => {
-      _e.observe(X.value), _e.observe(U.value), _e.observe(u.value), Object.is(l.displayTime, !0) && (_e.observe(i.value), _e.observe(p.value), _e.observe(T.value)), it();
+      _e.observe(Z.value), _e.observe(U.value), _e.observe(u.value), Object.is(l.displayTime, !0) && (_e.observe(i.value), _e.observe(p.value), _e.observe(T.value)), it();
     }), (a, C) => (o(), r("div", {
       class: $(s(mt))
     }, [
@@ -709,7 +709,7 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
           t("div", {
             class: $(s(ht)),
             ref_key: "yearPicker",
-            ref: X
+            ref: Z
           }, [
             Sl,
             t("div", {
@@ -783,7 +783,7 @@ const ne = (e) => (re("data-v-0b111f1b"), e = e(), de(), e), ol = { class: "inpu
             t("div", {
               class: "options",
               ref_key: "dayOptions",
-              ref: Z
+              ref: J
             }, [
               (o(!0), r(z, null, Y(s(D), (y, I) => (o(), r("div", {
                 key: I,
@@ -1274,8 +1274,8 @@ const He = (e) => (re("data-v-4719d08c"), e = e(), de(), e), _a = { class: "inpu
       x instanceof KeyboardEvent && (x.target === h.value || x.target === g.value || x.target === b.value) || l.disabled || d.value.showPicker();
     }
     function B(x) {
-      const Z = x.target.files.length;
-      for (let N = 0; N < Z; N++)
+      const J = x.target.files.length;
+      for (let N = 0; N < J; N++)
         f.value.push(x.target.files[N]);
       if (l.multiple)
         m("update:modelValue", f.value);
@@ -1287,17 +1287,17 @@ const He = (e) => (re("data-v-4719d08c"), e = e(), de(), e), _a = { class: "inpu
     function te(x) {
       f.value.splice(x, 1);
     }
-    function X() {
+    function Z() {
       if (w.value = !1, F.value = [], S.value = null, f.value) {
-        const x = f.value.map((Z) => {
+        const x = f.value.map((J) => {
           const N = new FileReader();
-          return N.readAsDataURL(Z), N.onload = () => {
-            F.value.push({ name: Z.name, rawData: N.result });
+          return N.readAsDataURL(J), N.onload = () => {
+            F.value.push({ name: J.name, rawData: N.result });
           }, N.onerror = (H) => {
             S.value = JSON.stringify(H, !1, 4);
           }, N;
         });
-        Promise.all(x).then((Z) => {
+        Promise.all(x).then((J) => {
           w.value = !0;
         });
       }
@@ -1318,7 +1318,7 @@ const He = (e) => (re("data-v-4719d08c"), e = e(), de(), e), _a = { class: "inpu
     function P() {
       l.multiple ? m("update:modelValue", []) : m("update:modelValue", null);
     }
-    return (x, Z) => (o(), r("div", {
+    return (x, J) => (o(), r("div", {
       class: $(s(D))
     }, [
       t("div", _a, k(e.label), 1),
@@ -1370,8 +1370,8 @@ const He = (e) => (re("data-v-4719d08c"), e = e(), de(), e), _a = { class: "inpu
             ref_key: "previewFileInput",
             ref: g,
             class: "preview-toggle",
-            onClick: X,
-            onKeydown: _(X, ["enter"])
+            onClick: Z,
+            onKeydown: _(Z, ["enter"])
           }, Fa, 40, Da)) : V("", !0),
           t("div", {
             tabindex: "0",
@@ -1389,7 +1389,7 @@ const He = (e) => (re("data-v-4719d08c"), e = e(), de(), e), _a = { class: "inpu
           w.value ? (o(), ge(Re, {
             key: 0,
             modelValue: w.value,
-            "onUpdate:modelValue": Z[1] || (Z[1] = (N) => w.value = N),
+            "onUpdate:modelValue": J[1] || (J[1] = (N) => w.value = N),
             class: "preview-dialog",
             title: s(R),
             width: 1e3,
@@ -1420,7 +1420,7 @@ const He = (e) => (re("data-v-4719d08c"), e = e(), de(), e), _a = { class: "inpu
                 "button-type": "text",
                 value: "Close",
                 icon: "fa-solid fa-check",
-                onClick: Z[0] || (Z[0] = (N) => T())
+                onClick: J[0] || (J[0] = (N) => T())
               })
             ]),
             _: 1
@@ -1646,14 +1646,14 @@ const We = (e) => (re("data-v-5abddd16"), e = e(), de(), e), Za = { class: "inpu
     function te(u) {
       return u === w.value;
     }
-    function X(u, i) {
+    function Z(u, i) {
       i && i.preventDefault(), n.value = "collapsed", m("update:modelValue", u);
     }
     function U(u) {
       u instanceof KeyboardEvent && u.target !== d.value || m("update:modelValue", null);
     }
     return we(() => {
-      X(l.modelValue);
+      Z(l.modelValue);
     }), (u, i) => (o(), r("div", {
       class: $(s(F))
     }, [
@@ -1711,8 +1711,8 @@ const We = (e) => (re("data-v-5abddd16"), e = e(), de(), e), Za = { class: "inpu
           label: p.label,
           size: e.size,
           selected: te(p.value),
-          onSelect: (P) => X(p.value),
-          onKeydown: _((P) => X(p.value, P), ["enter"])
+          onSelect: (P) => Z(p.value),
+          onKeydown: _((P) => Z(p.value, P), ["enter"])
         }, null, 8, ["value", "label", "size", "selected", "onSelect", "onKeydown"]))), 128))
       ]),
       e.errorMessage.length > 0 ? (o(), r("div", ds, k(e.errorMessage), 1)) : V("", !0)
@@ -1780,7 +1780,7 @@ const fs = { class: "progress-bar" }, vs = {
     ]));
   }
 }, ps = /* @__PURE__ */ W(vs, [["__scopeId", "data-v-8639eecf"]]);
-const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "table-actions" }, ms = { class: "actions" }, gs = ["onClick"], hs = { class: "tooltip" }, bs = { class: "header" }, _s = { class: "row" }, ks = { class: "col" }, ws = {
+const dt = (e) => (re("data-v-823c88be"), e = e(), de(), e), ys = { class: "table-actions" }, ms = { class: "actions" }, gs = ["onClick"], hs = { class: "tooltip" }, bs = { class: "header" }, _s = { class: "row" }, ks = { class: "col" }, ws = {
   key: 0,
   class: "col"
 }, $s = {
@@ -1792,7 +1792,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
 }, xs = ["colspan"], Cs = {
   key: 1,
   class: "body"
-}, Ds = ["onClick", "onKeydown"], Vs = { class: "col" }, Fs = {
+}, Ds = ["onKeydown"], Vs = ["onClick"], Fs = {
   key: 0,
   class: "col"
 }, Ms = { class: "actions" }, Os = ["onClick"], Ks = { class: "tooltip" }, Is = /* @__PURE__ */ dt(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-chevron-left" }, null, -1)), Ps = { class: "page-number" }, Bs = {
@@ -1867,7 +1867,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
     const D = v(() => M.value > 0 ? "pagination show" : "pagination hide"), M = v(() => l.pagination.client ? l.data.length : l.totalData), E = v(() => l.pagination.client ? l.data.slice(g.value, g.value + b.value) : l.data), B = v(() => ({
       start: g.value + 1,
       end: g.value + E.value.length
-    })), te = v(() => B.value.start === 1 ? "pager left" : "pager left show"), X = v(() => B.value.end === M.value ? "pager right" : "pager right show");
+    })), te = v(() => B.value.start === 1 ? "pager left" : "pager left show"), Z = v(() => B.value.end === M.value ? "pager right" : "pager right show");
     function U(i) {
       i instanceof KeyboardEvent && i.target !== d.value && i.target !== n.value || B.value.start === 1 || (g.value - b.value < 0 ? m("offsetChange", 0) : m("offsetChange", g.value - b.value));
     }
@@ -1885,11 +1885,11 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
       ]
     }, [
       t("div", ys, [
-        A(i.$slots, "table-actions", G(Q({ name: e.name, actions: e.tableActions })), () => [
+        A(i.$slots, "table-actions", Q(X({ name: e.name, actions: e.tableActions })), () => [
           t("div", {
             class: $(s(F))
           }, [
-            A(i.$slots, "table-name", G(Q({ name: e.name })), () => [
+            A(i.$slots, "table-name", Q(X({ name: e.name })), () => [
               Ve(k(e.name), 1)
             ], !0)
           ], 2),
@@ -1898,7 +1898,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
               class: "action",
               onClick: (P) => T.click(e.data)
             }, [
-              A(i.$slots, "table-action", G(Q({ action: T, data: e.data })), () => [
+              A(i.$slots, "table-action", Q(X({ action: T, data: e.data })), () => [
                 t("i", {
                   class: $(T.icon)
                 }, null, 2),
@@ -1913,19 +1913,19 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
       }, [
         t("thead", bs, [
           t("tr", _s, [
-            A(i.$slots, "header-row", G(Q({ headers: e.headers, actions: e.actions })), () => [
+            A(i.$slots, "header-row", Q(X({ headers: e.headers, actions: e.actions })), () => [
               (o(!0), r(z, null, Y(e.headers, (T, P) => (o(), r("th", ks, [
-                A(i.$slots, `header-col.${T.key}`, G(Q({ header: T, i: P })), () => [
+                A(i.$slots, `header-col.${T.key}`, Q(X({ header: T, i: P })), () => [
                   Ve(k(T.label), 1)
                 ], !0)
               ]))), 256)),
               e.actions.length > 0 ? (o(), r("th", ws, [
-                A(i.$slots, "header-actions", G(Q({ actions: e.actions })), void 0, !0)
+                A(i.$slots, "header-actions", Q(X({ actions: e.actions })), void 0, !0)
               ])) : V("", !0)
             ], !0)
           ]),
           s(f) ? (o(), r("tr", $s, [
-            A(i.$slots, "progress-bar", G(Q({ headers: e.headers, actions: e.actions, span: s(w) })), () => [
+            A(i.$slots, "progress-bar", Q(X({ headers: e.headers, actions: e.actions, span: s(w) })), () => [
               t("th", { colspan: s(w) }, [
                 ee(ps)
               ], 8, Ts)
@@ -1946,25 +1946,27 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
           s(f) ? V("", !0) : (o(!0), r(z, { key: 0 }, Y(s(E), (T, P) => (o(), r("tr", {
             tabindex: "0",
             class: $(R(P)),
-            onClick: (x) => K(T, P),
             onKeydown: _((x) => K(T, P), ["enter"])
           }, [
-            A(i.$slots, "data-row", G(Q({ headers: e.headers, row: T, actions: e.actions, i: P })), () => [
-              A(i.$slots, "data-content", G(Q({ headers: e.headers, row: T, i: P })), () => [
-                (o(!0), r(z, null, Y(e.headers, (x) => (o(), r("td", Vs, [
-                  A(i.$slots, `data-col.${x.key}`, G(Q({ header: x, row: T, i: P })), () => [
+            A(i.$slots, "data-row", Q(X({ headers: e.headers, row: T, actions: e.actions, i: P })), () => [
+              A(i.$slots, "data-content", Q(X({ headers: e.headers, row: T, i: P })), () => [
+                (o(!0), r(z, null, Y(e.headers, (x) => (o(), r("td", {
+                  class: "col",
+                  onClick: (J) => K(T, P)
+                }, [
+                  A(i.$slots, `data-col.${x.key}`, Q(X({ header: x, row: T, i: P })), () => [
                     Ve(k(T[x.key]), 1)
                   ], !0)
-                ]))), 256))
+                ], 8, Vs))), 256))
               ], !0),
               e.actions.length > 0 ? (o(), r("td", Fs, [
-                A(i.$slots, "data-actions", G(Q({ row: T, actions: e.actions, i: P })), () => [
+                A(i.$slots, "data-actions", Q(X({ row: T, actions: e.actions, i: P })), () => [
                   t("div", Ms, [
                     (o(!0), r(z, null, Y(e.actions, (x) => (o(), r("div", {
                       class: "action",
-                      onClick: (Z) => x.click(T, P)
+                      onClick: (J) => x.click(T, P)
                     }, [
-                      A(i.$slots, "data-action", G(Q({ row: T, action: x, i: P })), () => [
+                      A(i.$slots, "data-action", Q(X({ row: T, action: x, i: P })), () => [
                         t("i", {
                           class: $(x.icon)
                         }, null, 2),
@@ -1981,7 +1983,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
       t("div", {
         class: $(s(D))
       }, [
-        A(i.$slots, "pagination", G(Q({ pageLeft: U, pageRight: u, start: s(B).start, end: s(B).end, total: s(M) })), () => [
+        A(i.$slots, "pagination", Q(X({ pageLeft: U, pageRight: u, start: s(B).start, end: s(B).end, total: s(M) })), () => [
           t("div", {
             tabindex: "0",
             ref_key: "pagerLeft",
@@ -1994,7 +1996,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
             ], !0)
           ], 2),
           t("div", Ps, [
-            A(i.$slots, "page-number", G(Q({ start: s(B).start, end: s(B).end, total: s(M) })), () => [
+            A(i.$slots, "page-number", Q(X({ start: s(B).start, end: s(B).end, total: s(M) })), () => [
               s(B).start !== s(B).end ? (o(), r("span", Bs, k(s(B).start) + " - ", 1)) : V("", !0),
               t("span", Ns, k(s(B).end), 1),
               Ve(" / " + k(s(M)), 1)
@@ -2004,7 +2006,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
             tabindex: "0",
             ref_key: "pagerRight",
             ref: h,
-            class: $(s(X)),
+            class: $(s(Z)),
             onClick: p[1] || (p[1] = (T) => u(T)),
             onKeydown: p[2] || (p[2] = _((T) => u(T), ["enter"]))
           }, [
@@ -2016,7 +2018,7 @@ const dt = (e) => (re("data-v-45e6fde0"), e = e(), de(), e), ys = { class: "tabl
       ], 2)
     ], 544));
   }
-}, As = /* @__PURE__ */ W(Rs, [["__scopeId", "data-v-45e6fde0"]]);
+}, As = /* @__PURE__ */ W(Rs, [["__scopeId", "data-v-823c88be"]]);
 const ct = (e) => (re("data-v-61298639"), e = e(), de(), e), Es = { class: "input-label" }, Ls = { class: "wrapper" }, zs = { class: "selected-list" }, Ys = ["onKeydown"], Us = ["onClick"], Hs = /* @__PURE__ */ ct(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-magnifying-glass" })
 ], -1)), Ws = /* @__PURE__ */ ct(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-xmark" }, null, -1)), Js = [
@@ -2112,13 +2114,13 @@ const ct = (e) => (re("data-v-61298639"), e = e(), de(), e), Es = { class: "inpu
       u instanceof KeyboardEvent && u.target !== h.value || m("update:modelValue", []);
     }
     function B(u) {
-      l.multiple ? m("update:modelValue", te(u)) : m("update:modelValue", X(u));
+      l.multiple ? m("update:modelValue", te(u)) : m("update:modelValue", Z(u));
     }
     function te(u) {
       const i = Array.from(l.modelValue || []), p = S.value.findIndex((T) => T === u.value);
       return p < 0 ? i.push({ value: u.value, label: u.label }) : i.splice(p, 1), i;
     }
-    function X(u) {
+    function Z(u) {
       return Array.from(l.modelValue || []), S.value.findIndex((p) => p === u.value) < 0 ? [{ value: u.value, label: u.label }] : [];
     }
     function U(u) {
