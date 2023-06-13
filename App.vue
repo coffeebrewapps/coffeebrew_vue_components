@@ -18,7 +18,8 @@ import {
   TSelectTable,
   TTextarea,
   TTable,
-  TProgressBar
+  TProgressBar,
+  THorizontalBar
 } from '@/src/index'
 
 const theme = ref(true) // true: dark, false: light
@@ -36,6 +37,80 @@ function toggleTheme() {
   document.body.classList.toggle('dark', theme.value)
   document.body.classList.toggle('light', !theme.value)
 }
+
+const tHorizontalBarModel = ref([
+  {
+    config: {
+      xScale: 100,
+      xAxisLabel: 'Hours',
+      yAxisLabel: 'Company'
+    },
+    data: [
+      {
+        yValue: 'Company ABC',
+        xValue: 100
+      },
+      {
+        yValue: 'Company XYZ',
+        xValue: 394
+      },
+      {
+        yValue: 'Company ACME',
+        xValue: 249
+      }
+    ]
+  },
+  {
+    config: {
+      xScale: 10,
+      xAxisLabel: 'Hours',
+      yAxisLabel: 'Activity'
+    },
+    data: [
+      {
+        yValue: 'Design',
+        xValue: 127.24
+      },
+      {
+        yValue: 'Implementation',
+        xValue: 28.58
+      },
+      {
+        yValue: 'Testing',
+        xValue: 49.69
+      },
+      {
+        yValue: 'Requirements',
+        xValue: 109.24
+      }
+    ]
+  },
+  {
+    config: {
+      xScale: 250,
+      xAxisLabel: 'USD ($)',
+      yAxisLabel: 'Company',
+      colors: {
+        highlightColor: '#a0c5d5',
+        lineColor: '#ecebf7'
+      }
+    },
+    data: [
+      {
+        yValue: 'Company ABC',
+        xValue: 948.19
+      },
+      {
+        yValue: 'Company XYZ',
+        xValue: 1037.38
+      },
+      {
+        yValue: 'Company ACME',
+        xValue: 1286.42
+      }
+    ]
+  }
+])
 
 const tInputModel = ref({
   username: '',
@@ -496,6 +571,18 @@ onMounted(() => {
               <TProgressBar/>
               <TProgressBar :speed="500" :bidirection="false"/>
               <TProgressBar :speed="500" :bidirection="false" :indefinite="false"/>
+            </div>
+          </div>
+
+          <div class="fields-container-single">
+            <h3>THorizontalBar</h3>
+
+            <div class="fields">
+              <THorizontalBar
+                v-for="(model, i) in tHorizontalBarModel"
+                :config="model.config"
+                :data="model.data"
+              />
             </div>
           </div>
 
