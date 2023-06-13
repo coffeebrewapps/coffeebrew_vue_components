@@ -703,7 +703,7 @@ onMounted(() => {
 
             <div class="fields">
               <TDatePicker v-model="tDatePickerModel.startDate" label="Start Date" align-pickers="bottom"/>
-              <TDatePicker v-model="tDatePickerModel.endDate" label="End Date" error-message="Cannot be earlier than start date!" align-pickers="top"/>
+              <TDatePicker v-model="tDatePickerModel.endDate" label="End Date" error-message="Cannot be earlier than start date!" align-pickers="top" :monday-start="false"/>
               <TDatePicker v-model="tDatePickerModel.createdDate" label="Created Date (disabled)" :disabled="true"/>
               <TDatePicker v-model="tDatePickerModel.historyDate" label="History Date" :min="historyStartDate" :max="historyEndDate"/>
 
