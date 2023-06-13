@@ -195,6 +195,9 @@ const showHourPicker = ref(false)
 const showMinutePicker = ref(false)
 const showSecondPicker = ref(false)
 
+const inputField = ref('inputField')
+const selectField = ref('selectField')
+
 const computedControlClass = computed(() => {
   const className = []
 
@@ -357,8 +360,14 @@ function formatDateParts(year, month, day, hour, minute, second) {
   }
 }
 
-function toggleSelect() {
+function toggleSelect(event) {
   if (Object.is(props.disabled, true)) { return; }
+
+  event.preventDefault()
+
+  if (event instanceof KeyboardEvent && event.target !== inputField.value && event.target !== selectField.value) {
+    return
+  }
 
   if (toggleState.value === 'collapsed') {
     toggleState.value = 'expanded'
@@ -701,6 +710,8 @@ const confirmReady = computed(() => {
 })
 
 function confirmDate() {
+  if (!confirmReady.value) { return }
+
   toggleState.value = 'collapsed'
   showDayPickers.value = false
   showTimePickers.value = false
@@ -724,6 +735,30 @@ function selectMinute(val) {
 
 function selectSecond(val) {
   selectedSecond.value = val
+}
+
+function focusHour() {
+  if (notEmpty(selectedHour.value)) {
+    hourRefs.value[hours.indexOf(selectedHour.value)].focus()
+  } else {
+    hourRefs.value[0].focus()
+  }
+}
+
+function focusMinute() {
+  if (notEmpty(selectedMinute.value)) {
+    minuteRefs.value[minutes.indexOf(selectedMinute.value)].focus()
+  } else {
+    minuteRefs.value[0].focus()
+  }
+}
+
+function focusSecond() {
+  if (notEmpty(selectedSecond.value)) {
+    secondRefs.value[seconds.indexOf(selectedSecond.value)].focus()
+  } else {
+    secondRefs.value[0].focus()
+  }
 }
 
 function initDateFromModelValue() {
@@ -787,11 +822,16 @@ onMounted(() => {
     </div>
 
     <div
+      tabindex="0"
       :class="computedFieldClass"
+      ref="inputField"
+      @keydown.enter="toggleSelect"
+      @keydown.esc="closeSelect"
     >
       <div class="wrapper">
         <div
           class="select"
+          ref="selectField"
           @click="toggleSelect"
         >
           <div class="selected">
@@ -813,6 +853,7 @@ onMounted(() => {
           tabindex="0"
           class="clean-toggle"
           @click="resetField"
+          @keydown.enter="resetField"
         >
           <i class="fa-solid fa-circle-xmark"></i>
         </div>
@@ -821,10 +862,13 @@ onMounted(() => {
       <div
         v-show="showDayPickers"
         class="day pickers"
+        @keydown.esc="closeSelect"
       >
         <div
+          tabindex="0"
           class="close-toggle"
           @click="closeSelect"
+          @keydown.enter="closeSelect"
         >
           <i class="fa-solid fa-circle-xmark"></i>
         </div>
@@ -846,7 +890,11 @@ onMounted(() => {
               ref="yearRefs"
               @click="selectYear(year)"
             >
-              <div class="value">{{ year }}</div>
+              <div
+                tabindex="0"
+                class="value"
+                @keydown.enter="selectYear(year)"
+              >{{ year }}</div>
             </div>
           </div>
         </div> <!-- yearPicker -->
@@ -856,9 +904,13 @@ onMounted(() => {
           ref="monthPicker"
         >
           <div
+            tabindex="0"
             class="title"
             @click="goToPrevPart('month')"
-          >{{ titleDate }}</div>
+            @keydown.enter="goToPrevPart('month')"
+          >
+            <span>{{ titleDate }}</span>
+          </div>
 
           <div
             class="options"
@@ -871,7 +923,11 @@ onMounted(() => {
               ref="monthRefs"
               @click="selectMonth(month)"
             >
-              <div class="value">{{ months[month] }}</div>
+              <div
+                tabindex="0"
+                class="value"
+                @keydown.enter="selectMonth(month)"
+              >{{ months[month] }}</div>
             </div>
           </div>
         </div> <!-- monthPicker -->
@@ -881,9 +937,13 @@ onMounted(() => {
           ref="dayPicker"
         >
           <div
+            tabindex="0"
             class="title"
             @click="goToPrevPart('day')"
-          >{{ titleDate }}</div>
+            @keydown.enter="goToPrevPart('day')"
+          >
+            <span>{{ titleDate }}</span>
+          </div>
 
           <div
             class="options"
@@ -898,13 +958,24 @@ onMounted(() => {
             </div>
 
             <div
-              v-for="day in days"
+              v-for="(day, i) in days"
+              :key="i"
               :class="setDayClass(day)"
               :value="day"
               ref="dayRefs"
               @click="selectDay(day)"
             >
-              <div class="value">{{ day }}</div>
+              <div
+                tabindex="0"
+                v-if="day"
+                class="value"
+                @keydown.enter="selectDay(day)"
+              >{{ day }}</div>
+
+              <div
+                v-else
+                class="value"
+              >{{ day }}</div>
             </div>
           </div>
         </div> <!-- dayPicker -->
@@ -914,22 +985,28 @@ onMounted(() => {
           class="shortcuts"
         >
           <div
+            tabindex="0"
             :class="shortcutLeftStyle"
             @click="shortcutLeft"
+            @keydown.enter="shortcutLeft"
           >
             <i class="fa-solid fa-caret-left"></i>
           </div>
 
           <div
+            tabindex="0"
             :class="shortcutTodayStyle"
             @click="shortcutToday"
+            @keydown.enter="shortcutToday"
           >
             <div class="value">Today</div>
           </div>
 
           <div
+            tabindex="0"
             :class="shortcutRightStyle"
             @click="shortcutRight"
+            @keydown.enter="shortcutRight"
           >
             <i class="fa-solid fa-caret-right"></i>
           </div>
@@ -939,18 +1016,25 @@ onMounted(() => {
       <div
         v-show="showTimePickers"
         class="time pickers"
+        @keydown.esc="closeSelect"
       >
         <div
+          tabindex="0"
           class="close-toggle"
           @click="closeSelect"
+          @keydown.enter="closeSelect"
         >
           <i class="fa-solid fa-circle-xmark"></i>
         </div>
 
         <div
+          tabindex="0"
           class="title"
           @click="goToPrevPart('time')"
-        >{{ titleDate }}</div>
+          @keydown.enter="goToPrevPart('time')"
+        >
+          <span>{{ titleDate }}</span>
+        </div>
 
         <div class="wrapper">
           <div
@@ -964,11 +1048,15 @@ onMounted(() => {
               ref="hourOptions"
             >
               <div
-                v-for="hour in hours"
+                tabindex="0"
+                v-for="(hour, i) in hours"
                 :class="setHourClass(hour)"
+                :key="i"
                 :value="hour"
                 ref="hourRefs"
                 @click="selectHour(hour)"
+                @keydown.enter="selectHour(hour)"
+                @keydown.right="focusMinute"
               >
                 <div class="value">{{ hour }}</div>
               </div>
@@ -986,11 +1074,16 @@ onMounted(() => {
               ref="minuteOptions"
             >
               <div
-                v-for="minute in minutes"
+                tabindex="0"
+                v-for="(minute, i) in minutes"
                 :class="setMinuteClass(minute)"
+                :key="i"
                 :value="minute"
                 ref="minuteRefs"
                 @click="selectMinute(minute)"
+                @keydown.enter="selectMinute(minute)"
+                @keydown.left="focusHour"
+                @keydown.right="focusSecond"
               >
                 <div class="value">{{ minute }}</div>
               </div>
@@ -1008,11 +1101,15 @@ onMounted(() => {
               ref="secondOptions"
             >
               <div
-                v-for="second in seconds"
+                tabindex="0"
+                v-for="(second, i) in seconds"
                 :class="setSecondClass(second)"
+                :key="i"
                 :value="second"
                 ref="secondRefs"
                 @click="selectSecond(second)"
+                @keydown.enter="selectSecond(second)"
+                @keydown.left="focusMinute"
               >
                 <div class="value">{{ second }}</div>
               </div>
@@ -1024,9 +1121,11 @@ onMounted(() => {
           class="shortcuts"
         >
           <TButton
+            tabindex="0"
             button-type="text"
             value="Confirm"
             icon="fa-solid fa-check"
+            :disabled="!confirmReady"
             @click="confirmDate"
             @keydown.enter="confirmDate"
           />
@@ -1067,12 +1166,18 @@ onMounted(() => {
 }
 
 .input-label {
+  margin-bottom: 2px;
   font-size: 0.8rem;
   min-height: 20px;
 }
 
 .input-field {
   margin: 2px 0 8px 0;
+}
+
+.input-field:focus {
+  outline: 3px solid var(--color-border-hover);
+  border-radius: 4px;
 }
 
 .input-field .wrapper:hover {
@@ -1099,7 +1204,6 @@ onMounted(() => {
   display: grid;
   grid-template-columns: auto 26px;
   align-items: center;
-  margin: 2px 0 0 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
@@ -1194,6 +1298,17 @@ onMounted(() => {
   color: var(--color-border-hover);
 }
 
+.input-field .close-toggle:focus,
+.input-field .pickers.time .close-toggle:focus {
+  outline: none;
+}
+
+.input-field .close-toggle:focus i,
+.input-field .pickers.time .close-toggle:focus i {
+  border-radius: 50%;
+  border: 3px solid var(--color-border-hover);
+}
+
 .input-field .shortcuts {
   display: flex;
   align-items: center;
@@ -1206,6 +1321,10 @@ onMounted(() => {
 
 .input-field .pickers.time .shortcuts:deep(.button) {
   margin: 0;
+}
+
+.input-field .pickers.time .shortcuts:deep(.button):focus {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-field .shortcut-toggle {
@@ -1231,6 +1350,10 @@ onMounted(() => {
 .input-field .shortcut-toggle:hover {
   cursor: pointer;
   color: var(--color-border-hover);
+}
+
+.input-field .shortcut-toggle:focus {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-field .pickers {
@@ -1310,6 +1433,11 @@ onMounted(() => {
 .input-field .pickers.time .title {
   padding: 4px;
   text-align: center;
+}
+
+.input-field .picker .title span,
+.input-field .pickers.time .title span,
+.input-field .pickers.time .title {
   font-size: 0.8rem;
   font-weight: 600;
 }
@@ -1320,6 +1448,18 @@ onMounted(() => {
   cursor: pointer;
   color: var(--color-border-hover);
   font-weight: 600;
+}
+
+.input-field .picker.month .title:focus,
+.input-field .picker.day .title:focus,
+.input-field .pickers.time .title:focus {
+  outline: 0;
+}
+
+.input-field .picker.month .title:focus span,
+.input-field .picker.day .title:focus span,
+.input-field .pickers.time .title:focus span {
+  outline: 3px solid var(--color-border-hover);
 }
 
 .input-field .picker .options {
@@ -1359,6 +1499,11 @@ onMounted(() => {
   background-color: var(--color-border-hover);
 }
 
+.input-field .picker.year .options .option .value:focus {
+  outline: 3px solid var(--color-border-hover);
+  border-radius: 4px;
+}
+
 .input-field .picker.month .options {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1375,6 +1520,11 @@ onMounted(() => {
 .input-field .picker.month .options .option.selected .value {
   border-radius: 4px;
   background-color: var(--color-border-hover);
+}
+
+.input-field .picker.month .options .option .value:focus {
+  outline: 3px solid var(--color-border-hover);
+  border-radius: 4px;
 }
 
 .input-field .picker.day .options {
@@ -1395,6 +1545,12 @@ onMounted(() => {
 .input-field .picker.day .options .option.selected .value {
   border-radius: 50%;
   background-color: var(--color-border-hover);
+}
+
+.input-field .picker.day .options .option .value:focus {
+  outline: none;
+  border-radius: 50%;
+  border: 3px solid var(--color-border-hover);
 }
 
 .input-field .picker.day .option.heading {
@@ -1433,6 +1589,12 @@ onMounted(() => {
   cursor: pointer;
   border-radius: 4px;
   background-color: var(--color-border-hover);
+}
+
+.input-field .pickers.time .picker .option:focus {
+  outline: 0;
+  border-radius: 4px;
+  border: 3px solid var(--color-border-hover);
 }
 
 .input-field .pickers.time .picker .option.selected {

@@ -17,6 +17,10 @@ const props = defineProps({
   icon: {
     type: String,
     default: ''
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -25,7 +29,16 @@ const emit = defineEmits({
 })
 
 const computedBtnClass = computed(() => {
-  return `button ${props.buttonType} ${props.size}`.trim()
+  const className = []
+  className.push(`button`)
+  className.push(props.buttonType)
+  className.push(props.size)
+
+  if (props.disabled) {
+    className.push(`disabled`)
+  }
+
+  return className.join(' ')
 })
 
 const computedIconClass = computed(() => {
@@ -62,6 +75,11 @@ const computedIconClass = computed(() => {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.button.disabled:hover {
+  cursor: not-allowed;
+  background-color: initial;
 }
 
 .button i {

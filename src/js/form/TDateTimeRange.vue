@@ -116,6 +116,7 @@ const selectedEndTime = computed({
 }
 
 .input-label {
+  margin-bottom: 2px;
   font-size: 0.8rem;
 }
 
