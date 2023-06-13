@@ -18,6 +18,8 @@ import TTextarea from './js/form/TTextarea.vue'
 import TTable from './js/table/TTable.vue'
 import TProgressBar from './js/TProgressBar.vue'
 
+import THorizontalBar from './js/chart/THorizontalBar.vue'
+
 import '../public/fontawesome/css/fontawesome.min.css';
 import '../public/fontawesome/css/brands.min.css';
 import '../public/fontawesome/css/solid.min.css';
@@ -39,5 +41,6 @@ export {
   TSelectTable,
   TTextarea,
   TTable,
-  TProgressBar
+  TProgressBar,
+  THorizontalBar
 }
