@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, computed, ref, watch } from 'vue'
 
+import TButton from './TButton.vue'
+
 function notEmpty(val) {
   return !isEmpty(val)
 }
@@ -19,7 +21,7 @@ const minDate = computed(() => {
   if (notEmpty(props.min)) {
     return props.min
   } else {
-    return new Date(today.getFullYear() - 10, 0, 1)
+    return new Date(today.getFullYear() - 100, 0, 1)
   }
 })
 
@@ -27,13 +29,13 @@ const maxDate = computed(() => {
   if (notEmpty(props.max)) {
     return props.max
   } else {
-    return new Date(today.getFullYear() + 9, 11, 31)
+    return new Date(today.getFullYear() + 100, 11, 31)
   }
 })
 
 const years = computed(() => {
   return [
-    ...Array(maxDate.value.getFullYear() - minDate.value.getFullYear()).keys()
+    ...Array(1 + maxDate.value.getFullYear() - minDate.value.getFullYear()).keys()
   ].map(y => y + minDate.value.getFullYear())
 })
 
@@ -54,10 +56,54 @@ const months = [
 
 function daysInMonth(year, month) {
   const monthStart = new Date(year, month, 1)
-  monthStart.setMonth(monthStart.getMonth() + 1)
-  monthStart.setDate(monthStart.getDate() - 1)
-  return Array.from(Array(monthStart.getDate())).map((_, i) => (i + 1))
+  const monthEnd = new Date(monthStart)
+  monthEnd.setMonth(monthEnd.getMonth() + 1)
+  monthEnd.setDate(monthEnd.getDate() - 1)
+
+  const dayOfWeek = monthStart.getDay()
+  const daysPadding = []
+
+  if (props.mondayStart) {
+    if (dayOfWeek === 0) {
+      daysPadding.push(Array.from(new Array(6)))
+    } else {
+      daysPadding.push(Array.from(new Array(dayOfWeek - 1)))
+    }
+  } else {
+    daysPadding.push(Array.from(new Array(dayOfWeek)))
+  }
+
+  const displayDays = Array.from(Array(monthEnd.getDate())).map((_, i) => (i + 1))
+  return daysPadding.concat(displayDays).flat()
 }
+
+const daysOfWeekSunStart = [
+  'S',
+  'M',
+  'T',
+  'W',
+  'T',
+  'F',
+  'S'
+]
+
+const daysOfWeekMonStart = [
+  'M',
+  'T',
+  'W',
+  'T',
+  'F',
+  'S',
+  'S'
+]
+
+const daysOfWeek = computed(() => {
+  if (props.mondayStart) {
+    return daysOfWeekMonStart;
+  } else {
+    return daysOfWeekSunStart;
+  }
+})
 
 const days = ref(Array.from(Array(31)).map((_v, i) => (i + 1)))
 const hours = Array.from(Array(24)).map((_v, i) => i)
@@ -100,6 +146,10 @@ const props = defineProps({
   alignPickers: {
     type: String,
     default: 'center'
+  },
+  mondayStart: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -135,9 +185,12 @@ const selectedMinute = ref()
 const selectedSecond = ref()
 const selectedDate = ref()
 
+const showDayPickers = ref(false)
 const showYearPicker = ref(false)
 const showMonthPicker = ref(false)
 const showDayPicker = ref(false)
+
+const showTimePickers = ref(false)
 const showHourPicker = ref(false)
 const showMinutePicker = ref(false)
 const showSecondPicker = ref(false)
@@ -207,27 +260,15 @@ const computedDayPickerClass = computed(() => {
 })
 
 const computedHourPickerClass = computed(() => {
-  if (Object.is(props.displayTime, true) && Object.is(showHourPicker.value, true)) {
-    return `hour picker show`
-  } else {
-    return `hour picker hide`
-  }
+  return `hour picker show`
 })
 
 const computedMinutePickerClass = computed(() => {
-  if (Object.is(props.displayTime, true) && Object.is(showMinutePicker.value, true)) {
-    return `minute picker show`
-  } else {
-    return `minute picker hide`
-  }
+  return `minute picker show`
 })
 
 const computedSecondPickerClass = computed(() => {
-  if (Object.is(props.displayTime, true) && Object.is(showSecondPicker.value, true)) {
-    return `second picker show`
-  } else {
-    return `second picker hide`
-  }
+  return `second picker show`
 })
 
 const computedSelectedDate = computed(() => {
@@ -258,6 +299,32 @@ const displayDate = computed(() => {
   if (isEmpty(props.modelValue)) { return { date: {}, time: {} } }
 
   return formatDate(props.modelValue)
+})
+
+const titleDate = computed(() => {
+  const parts = []
+
+  if (notEmpty(selectedYear.value)) {
+    parts.unshift(selectedYear.value)
+  }
+
+  if (showDayPickers.value) {
+    if (showDayPicker.value) {
+      if (notEmpty(selectedMonth.value)) {
+        parts.unshift(months[selectedMonth.value])
+      }
+    }
+  } else if (showTimePickers.value) {
+    if (notEmpty(selectedMonth.value)) {
+      parts.unshift(months[selectedMonth.value])
+    }
+
+    if (notEmpty(selectedDay.value)) {
+      parts.unshift(selectedDay.value)
+    }
+  }
+
+  return parts.join(' ')
 })
 
 function formatDate(date) {
@@ -295,20 +362,29 @@ function toggleSelect() {
 
   if (toggleState.value === 'collapsed') {
     toggleState.value = 'expanded'
-    showYearPicker.value = true
-    if (notEmpty(selectedYear.value)) { showMonthPicker.value = true }
-    if (notEmpty(selectedMonth.value)) { showDayPicker.value = true }
-    if (notEmpty(selectedDay.value)) { showHourPicker.value = true }
-    if (notEmpty(selectedHour.value)) { showMinutePicker.value = true }
-    if (notEmpty(selectedMinute.value)) { showSecondPicker.value = true }
+
+    if (isEmpty(selectedYear.value)) {
+      showDayPickers.value = true
+      showYearPicker.value = true
+    }
+    else if (isEmpty(selectedMonth.value)) {
+      showDayPickers.value = true
+      showMonthPicker.value = true
+    }
+    else if (!props.displayTime) {
+      showDayPickers.value = true
+      showDayPicker.value = true
+    } else {
+      showTimePickers.value = true
+    }
   } else {
     toggleState.value = 'collapsed'
     showYearPicker.value = false
     showMonthPicker.value = false
     showDayPicker.value = false
-    showHourPicker.value = false
-    showMinutePicker.value = false
-    showSecondPicker.value = false
+
+    showDayPickers.value = false
+    showTimePickers.value = false
   }
 }
 
@@ -329,11 +405,29 @@ function setMonthClass(val) {
 }
 
 function setDayClass(val) {
+  const now = new Date()
+
+  const className = []
+  className.push(`option`)
+
   if (val === selectedDay.value) {
-    return `option selected`
-  } else {
-    return `option`
+    className.push(`selected`)
   }
+
+  if (isEmpty(val)) {
+    className.push(`disabled`)
+  }
+
+  if (
+    notEmpty(val) &&
+    selectedYear.value === now.getFullYear() &&
+    selectedMonth.value === now.getMonth() &&
+    val === now.getDate()
+  ) {
+    className.push(`today`)
+  }
+
+  return className.join(' ')
 }
 
 function setHourClass(val) {
@@ -362,8 +456,6 @@ function setSecondClass(val) {
 
 function scrollOptionsIntoView() {
   scrollYearOptionsIntoView()
-  scrollMonthOptionsIntoView()
-  scrollDayOptionsIntoView()
 
   if (Object.is(props.displayTime, false)) { return }
 
@@ -381,27 +473,7 @@ function scrollYearOptionsIntoView() {
   } else {
     yearRef = yearRefs.value[years.value.indexOf(minDate.value.getFullYear())]
   }
-  yearOptions.value.scrollTop = yearRef.offsetTop
-}
-
-function scrollMonthOptionsIntoView() {
-  let monthRef = null
-  if (notEmpty(selectedMonth.value)) {
-    monthRef = monthRefs.value[selectedMonth.value]
-  } else {
-    monthRef = monthRefs.value[0]
-  }
-  monthOptions.value.scrollTop = monthRef.offsetTop
-}
-
-function scrollDayOptionsIntoView() {
-  let dayRef = null
-  if (notEmpty(selectedDay.value)) {
-    dayRef = dayRefs.value[days.value.indexOf(selectedDay.value)]
-  } else {
-    dayRef = dayRefs.value[0]
-  }
-  dayOptions.value.scrollTop = dayRef.offsetTop
+  yearOptions.value.scrollTop = yearRef.offsetTop - 96;
 }
 
 function scrollHourOptionsIntoView() {
@@ -444,14 +516,6 @@ watch(selectedYear, () => {
   scrollYearOptionsIntoView()
 })
 
-watch(selectedMonth, () => {
-  scrollMonthOptionsIntoView()
-})
-
-watch(selectedDay, () => {
-  scrollDayOptionsIntoView()
-})
-
 watch(selectedHour, () => {
   scrollHourOptionsIntoView()
 })
@@ -465,12 +529,13 @@ watch(selectedSecond, () => {
 })
 
 const allowShortcut = computed(() => {
-  const now = new Date()
-  return now >= minDate.value && now <= maxDate.value
+  return showMonthPicker.value || showDayPicker.value
 })
 
 function shortcutToday() {
   const now = new Date()
+  if (now < minDate.value || now > maxDate.value) { return }
+
   selectYear(now.getFullYear())
   selectMonth(now.getMonth())
   selectDay(now.getDate())
@@ -482,22 +547,120 @@ function shortcutToday() {
   }
 }
 
+function shortcutLeft() {
+  if (showMonthPicker.value) {
+    if (selectedYear.value === minDate.value.getFullYear()) { return }
+
+    selectedYear.value = selectedYear.value - 1
+  } else if (showDayPicker.value) {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
+    current.setMonth(current.getMonth() - 1)
+    selectedYear.value = current.getFullYear()
+    selectedMonth.value = current.getMonth()
+    days.value = daysInMonth(selectedYear.value, selectedMonth.value)
+  }
+}
+
+function shortcutRight() {
+  if (showMonthPicker.value) {
+    if (selectedYear.value === maxDate.value.getFullYear()) { return }
+
+    selectedYear.value = selectedYear.value + 1
+  } else if (showDayPicker.value) {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
+    current.setMonth(current.getMonth() + 1)
+    selectedYear.value = current.getFullYear()
+    selectedMonth.value = current.getMonth()
+    days.value = daysInMonth(selectedYear.value, selectedMonth.value)
+  }
+}
+
+const shortcutTodayStyle = computed(() => {
+  const now = new Date()
+  if (now < minDate.value || now > maxDate.value) {
+    return `shortcut-toggle hide`
+  } else {
+    return `shortcut-toggle show`
+  }
+})
+
+const shortcutLeftStyle = computed(() => {
+  if (showMonthPicker.value) {
+    if (selectedYear.value > minDate.value.getFullYear()) {
+      return `shortcut-toggle show`
+    } else {
+      return `shortcut-toggle hide`
+    }
+  } else if (showDayPicker.value) {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
+    current.setMonth(current.getMonth() - 1)
+    if (current >= minDate.value) {
+      return `shortcut-toggle show`
+    } else {
+      return `shortcut-toggle hide`
+    }
+  } else {
+    return `shortcut-toggle hide`
+  }
+})
+
+const shortcutRightStyle = computed(() => {
+  if (showMonthPicker.value) {
+    if (selectedYear.value < maxDate.value.getFullYear()) {
+      return `shortcut-toggle show`
+    } else {
+      return `shortcut-toggle hide`
+    }
+  } else if (showDayPicker.value) {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
+    current.setMonth(current.getMonth() + 1)
+    if (current < maxDate.value) {
+      return `shortcut-toggle show`
+    } else {
+      return `shortcut-toggle hide`
+    }
+  } else {
+    return `shortcut-toggle hide`
+  }
+})
+
 function selectYear(val) {
   selectedYear.value = val
+  showYearPicker.value = false
   showMonthPicker.value = true
 }
 
 function selectMonth(val) {
   selectedMonth.value = val
   days.value = daysInMonth(selectedYear.value, selectedMonth.value)
+  showMonthPicker.value = false
   showDayPicker.value = true
 }
 
 function selectDay(val) {
+  if (isEmpty(val)) { return }
+
   selectedDay.value = val
 
   if (Object.is(props.displayTime, true)) {
-    showHourPicker.value = true
+    showDayPickers.value = false
+    showTimePickers.value = true
+  } else {
+    confirmDate()
+  }
+}
+
+function goToPrevPart(currentPart) {
+  if (currentPart === 'month') {
+    showMonthPicker.value = false
+    showYearPicker.value = true
+  } else if (currentPart === 'day') {
+    showDayPicker.value = false
+    showMonthPicker.value = true
+  } else if (currentPart === 'time') {
+    showTimePickers.value = false
+    showDayPickers.value = true
+    showDayPicker.value = true
   }
 }
 
@@ -515,9 +678,7 @@ function resetField() {
     selectedMinute.value = null
     selectedSecond.value = null
 
-    showHourPicker.value = false
-    showMinutePicker.value = false
-    showSecondPicker.value = false
+    showTimePickers.value = false
   }
 
   emit('update:modelValue', computedSelectedDate.value)
@@ -528,9 +689,8 @@ function closeSelect() {
   showYearPicker.value = false
   showMonthPicker.value = false
   showDayPicker.value = false
-  showHourPicker.value = false
-  showMinutePicker.value = false
-  showSecondPicker.value = false
+
+  showTimePickers.value = false
 
   initDateFromModelValue()
 }
@@ -542,12 +702,8 @@ const confirmReady = computed(() => {
 
 function confirmDate() {
   toggleState.value = 'collapsed'
-  showYearPicker.value = false
-  showMonthPicker.value = false
-  showDayPicker.value = false
-  showHourPicker.value = false
-  showMinutePicker.value = false
-  showSecondPicker.value = false
+  showDayPickers.value = false
+  showTimePickers.value = false
 
   if (notEmpty(computedSelectedDate.value)) {
     emit('update:modelValue', computedSelectedDate.value)
@@ -662,19 +818,22 @@ onMounted(() => {
         </div>
       </div> <!-- wrapper -->
 
-      <div class="pickers">
+      <div
+        v-show="showDayPickers"
+        class="day pickers"
+      >
         <div
           class="close-toggle"
           @click="closeSelect"
         >
-          <i class="fa-solid fa-xmark"></i>
+          <i class="fa-solid fa-circle-xmark"></i>
         </div>
 
         <div
           :class="computedYearPickerClass"
           ref="yearPicker"
         >
-          <div class="title">Year</div>
+          <div class="title"></div>
 
           <div
             class="options"
@@ -688,7 +847,6 @@ onMounted(() => {
               @click="selectYear(year)"
             >
               <div class="value">{{ year }}</div>
-              <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
         </div> <!-- yearPicker -->
@@ -697,7 +855,10 @@ onMounted(() => {
           :class="computedMonthPickerClass"
           ref="monthPicker"
         >
-          <div class="title">Month</div>
+          <div
+            class="title"
+            @click="goToPrevPart('month')"
+          >{{ titleDate }}</div>
 
           <div
             class="options"
@@ -711,7 +872,6 @@ onMounted(() => {
               @click="selectMonth(month)"
             >
               <div class="value">{{ months[month] }}</div>
-              <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
         </div> <!-- monthPicker -->
@@ -720,12 +880,23 @@ onMounted(() => {
           :class="computedDayPickerClass"
           ref="dayPicker"
         >
-          <div class="title">Day</div>
+          <div
+            class="title"
+            @click="goToPrevPart('day')"
+          >{{ titleDate }}</div>
 
           <div
             class="options"
             ref="dayOptions"
           >
+            <div
+              v-for="(d, i) in daysOfWeek"
+              :key="i"
+              class="option heading"
+            >
+              {{ d }}
+            </div>
+
             <div
               v-for="day in days"
               :class="setDayClass(day)"
@@ -734,95 +905,133 @@ onMounted(() => {
               @click="selectDay(day)"
             >
               <div class="value">{{ day }}</div>
-              <i class="fa-solid fa-caret-right"></i>
             </div>
           </div>
         </div> <!-- dayPicker -->
 
         <div
-          :class="computedHourPickerClass"
-          ref="hourPicker"
-        >
-          <div class="title">Hour</div>
-
-          <div
-            class="options"
-            ref="hourOptions"
-          >
-            <div
-              v-for="hour in hours"
-              :class="setHourClass(hour)"
-              :value="hour"
-              ref="hourRefs"
-              @click="selectHour(hour)"
-            >
-              <div class="value">{{ hour }}</div>
-              <i class="fa-solid fa-caret-right"></i>
-            </div>
-          </div>
-        </div> <!-- hourPicker -->
-
-        <div
-          :class="computedMinutePickerClass"
-          ref="minutePicker"
-        >
-          <div class="title">Minute</div>
-
-          <div
-            class="options"
-            ref="minuteOptions"
-          >
-            <div
-              v-for="minute in minutes"
-              :class="setMinuteClass(minute)"
-              :value="minute"
-              ref="minuteRefs"
-              @click="selectMinute(minute)"
-            >
-              <div class="value">{{ minute }}</div>
-              <i class="fa-solid fa-caret-right"></i>
-            </div>
-          </div>
-        </div> <!-- minutePicker -->
-
-        <div
-          :class="computedSecondPickerClass"
-          ref="secondPicker"
-        >
-          <div class="title">Second</div>
-
-          <div
-            class="options"
-            ref="secondOptions"
-          >
-            <div
-              v-for="second in seconds"
-              :class="setSecondClass(second)"
-              :value="second"
-              ref="secondRefs"
-              @click="selectSecond(second)"
-            >
-              <div class="value">{{ second }}</div>
-            </div>
-          </div>
-        </div> <!-- secondPicker -->
-
-        <div
-          v-if="confirmReady"
-          class="confirm-toggle"
-          @click="confirmDate"
-        >
-          <i class="fa-solid fa-check"></i>
-        </div>
-
-        <div
           v-if="allowShortcut"
-          class="shortcut-toggle"
-          @click="shortcutToday"
+          class="shortcuts"
         >
-          <i class="fa-solid fa-bolt"></i>
+          <div
+            :class="shortcutLeftStyle"
+            @click="shortcutLeft"
+          >
+            <i class="fa-solid fa-caret-left"></i>
+          </div>
+
+          <div
+            :class="shortcutTodayStyle"
+            @click="shortcutToday"
+          >
+            <div class="value">Today</div>
+          </div>
+
+          <div
+            :class="shortcutRightStyle"
+            @click="shortcutRight"
+          >
+            <i class="fa-solid fa-caret-right"></i>
+          </div>
         </div>
-      </div> <!-- pickers -->
+      </div> <!-- day.pickers -->
+
+      <div
+        v-show="showTimePickers"
+        class="time pickers"
+      >
+        <div
+          class="close-toggle"
+          @click="closeSelect"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+        </div>
+
+        <div
+          class="title"
+          @click="goToPrevPart('time')"
+        >{{ titleDate }}</div>
+
+        <div class="wrapper">
+          <div
+            :class="computedHourPickerClass"
+            ref="hourPicker"
+          >
+            <div class="title">Hour</div>
+
+            <div
+              class="options"
+              ref="hourOptions"
+            >
+              <div
+                v-for="hour in hours"
+                :class="setHourClass(hour)"
+                :value="hour"
+                ref="hourRefs"
+                @click="selectHour(hour)"
+              >
+                <div class="value">{{ hour }}</div>
+              </div>
+            </div>
+          </div> <!-- hourPicker -->
+
+          <div
+            :class="computedMinutePickerClass"
+            ref="minutePicker"
+          >
+            <div class="title">Minute</div>
+
+            <div
+              class="options"
+              ref="minuteOptions"
+            >
+              <div
+                v-for="minute in minutes"
+                :class="setMinuteClass(minute)"
+                :value="minute"
+                ref="minuteRefs"
+                @click="selectMinute(minute)"
+              >
+                <div class="value">{{ minute }}</div>
+              </div>
+            </div>
+          </div> <!-- minutePicker -->
+
+          <div
+            :class="computedSecondPickerClass"
+            ref="secondPicker"
+          >
+            <div class="title">Second</div>
+
+            <div
+              class="options"
+              ref="secondOptions"
+            >
+              <div
+                v-for="second in seconds"
+                :class="setSecondClass(second)"
+                :value="second"
+                ref="secondRefs"
+                @click="selectSecond(second)"
+              >
+                <div class="value">{{ second }}</div>
+              </div>
+            </div>
+          </div> <!-- secondPicker -->
+        </div> <!-- wrapper -->
+
+        <div
+          class="shortcuts"
+        >
+          <TButton
+            button-type="text"
+            value="Confirm"
+            icon="fa-solid fa-check"
+            @click="confirmDate"
+            @keydown.enter="confirmDate"
+          />
+        </div>
+      </div> <!-- time.pickers -->
     </div>
 
     <div
@@ -866,11 +1075,14 @@ onMounted(() => {
   margin: 2px 0 8px 0;
 }
 
-.input-field .wrapper:hover,
-.input-field .wrapper:hover .selected input {
+.input-field .wrapper:hover {
   cursor: pointer;
   background-color: var(--color-border-hover);
   color: var(--color-text);
+}
+
+.input-field .wrapper .select input:hover {
+  cursor: pointer;
 }
 
 .input-control.disabled .input-field .wrapper {
@@ -878,7 +1090,8 @@ onMounted(() => {
   background-color: var(--color-background-mute);
 }
 
-.input-control.disabled .input-field .wrapper:hover {
+.input-control.disabled .input-field .wrapper:hover,
+.input-control.disabled .input-field .wrapper .select input:hover {
   cursor: not-allowed;
 }
 
@@ -923,7 +1136,7 @@ onMounted(() => {
   text-align: center;
   width: 40px;
   height: 20px;
-  background-color: var(--color-background);
+  background-color: transparent;
   color: var(--color-text);
   border: none;
 }
@@ -956,8 +1169,8 @@ onMounted(() => {
 
 .input-field .close-toggle {
   position: absolute;
-  top: -20px;
-  left: -20px;
+  right: 20px;
+  top: 20px;
   z-index: 3;
   border-radius: 50%;
   display: grid;
@@ -965,58 +1178,85 @@ onMounted(() => {
   justify-content: center;
   width: 32px;
   height: 32px;
-  background-color: var(--color-border);
 }
 
-.input-field.collapsed .confirm-toggle,
 .input-field.collapsed .close-toggle,
 .input-field.collapsed .shortcut-toggle {
   display: none;
 }
 
-.input-field .confirm-toggle:hover,
-.input-field .close-toggle:hover,
-.input-field .shortcut-toggle:hover {
-  cursor: pointer;
-  background-color: var(--color-border-hover);
-  color: var(--color-text);
+.input-field .pickers.time .close-toggle {
+  top: 12px;
 }
 
-.input-field .confirm-toggle {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  z-index: 3;
-  border-radius: 50%;
-  display: grid;
+.input-field .close-toggle:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
+}
+
+.input-field .shortcuts {
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+  gap: 1rem;
+  margin: 0.5rem 0 0;
+  width: 100%;
+  background-color: var(--color-background-soft);
+}
+
+.input-field .pickers.time .shortcuts:deep(.button) {
+  margin: 0;
 }
 
 .input-field .shortcut-toggle {
-  position: absolute;
-  bottom: -20px;
-  left: -20px;
-  z-index: 3;
-  border-radius: 50%;
   display: grid;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-border);
+}
+
+.input-field .shortcut-toggle,
+.input-field .shortcut-toggle.show {
+  visibility: visible;
+}
+
+.input-field .shortcut-toggle.hide {
+  visibility: hidden;
+}
+
+.input-field .shortcut-toggle .value {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.input-field .shortcut-toggle:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
 }
 
 .input-field .pickers {
   position: absolute;
   z-index: 2;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
+  padding: 1rem;
   left: 200px;
+  border-radius: 4px;
+  background-color: var(--color-background-soft);
+}
+
+@media screen and (max-width: 796px) {
+  .input-field .pickers,
+  .input-control.display-time .input-field .pickers.time {
+    left: 0 !important;
+    top: 50px !important;
+  }
+}
+
+.input-field .pickers.time .wrapper {
+  border: none;
+  display: flex;
+  flex-direction: row;
 }
 
 .input-field.center .pickers {
@@ -1031,22 +1271,34 @@ onMounted(() => {
   bottom: 0;
 }
 
-.input-control.display-time .input-field .pickers {
+.input-control.display-time .input-field .pickers,
+.input-control.display-time .input-field .pickers.time {
   left: 350px;
 }
 
 .input-field .picker {
-  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   background-color: var(--color-background-soft);
   color: var(--color-text);
+  width: 300px;
+  height: 300px;
+}
+
+.input-field .pickers.time .picker {
   width: 100px;
 }
 
-.input-field.expanded .picker.show {
-  display: inline-block;
+.input-field .pickers.time .picker ::-webkit-scrollbar {
+  width: 0;
 }
 
-.input-field.collapsed .picker {
+.input-field.expanded .picker.show {
+  display: flex;
+}
+
+.input-field.collapsed .pickers {
   display: none;
 }
 
@@ -1054,54 +1306,142 @@ onMounted(() => {
   display: none;
 }
 
-.input-field .picker .title {
+.input-field .picker .title,
+.input-field .pickers.time .title {
   padding: 4px;
   text-align: center;
-  border-bottom: 1px solid var(--color-border);
   font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.input-field .picker.month .title:hover,
+.input-field .picker.day .title:hover,
+.input-field .pickers.time .title:hover {
+  cursor: pointer;
+  color: var(--color-border-hover);
   font-weight: 600;
 }
 
 .input-field .picker .options {
   scroll-behavior: smooth;
-  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 250px;
   overflow-y: scroll;
 }
 
 .input-field .picker .option {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
+  display: flex;
   align-items: center;
-  padding: 4px;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   text-align: center;
   font-size: 0.8rem;
 }
 
+.input-field .picker.year .options {
+  gap: 0.5rem;
+}
+
+.input-field .picker.year .options .option .value {
+  display: grid;
+  align-items: center;
+  padding: 0.5rem 0;
+  width: 80%;
+  height: 100%;
+}
+
+.input-field .picker.year .options .option .value:hover,
+.input-field .picker.year .options .option.selected .value {
+  border-radius: 4px;
+  background-color: var(--color-border-hover);
+}
+
+.input-field .picker.month .options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.input-field .picker.month .options .option .value {
+  display: grid;
+  align-items: center;
+  width: 80%;
+  height: 60%;
+}
+
+.input-field .picker.month .options .option .value:hover,
+.input-field .picker.month .options .option.selected .value {
+  border-radius: 4px;
+  background-color: var(--color-border-hover);
+}
+
+.input-field .picker.day .options {
+  display: grid;
+  padding: 4px;
+  grid-template-columns: repeat(7, minmax(42px, 1fr));
+  overflow: hidden;
+}
+
+.input-field .picker.day .options .option .value {
+  display: grid;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.input-field .picker.day .options .option .value:hover,
+.input-field .picker.day .options .option.selected .value {
+  border-radius: 50%;
+  background-color: var(--color-border-hover);
+}
+
+.input-field .picker.day .option.heading {
+  font-weight: 600;
+}
+
+.input-field .picker.day .option.today .value {
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+}
+
+.input-field .picker.day .option.today .value:hover {
+  border: none;
+}
+
+.input-field .picker.day .option.disabled .value:hover {
+  cursor: initial;
+  background-color: transparent;
+}
+
 .input-field .picker .option.selected {
-  background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
-.input-field .picker .option:hover {
+.input-field .picker .option .value:hover {
   cursor: pointer;
-  background-color: var(--color-border-hover);
   color: var(--color-text);
 }
 
-.input-control .input-field .day.picker .option .fa-caret-right {
-  display: none;
+.input-field .pickers.time .picker .option {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
 }
 
-.input-control.display-time .input-field .day.picker .option.selected .fa-caret-right {
-  display: inline-block;
+.input-field .pickers.time .picker .option:hover {
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: var(--color-border-hover);
 }
 
-.input-field .picker .option .fa-caret-right {
-  display: none;
+.input-field .pickers.time .picker .option.selected {
+  border-radius: 4px;
+  background-color: var(--color-border-hover);
 }
 
-.input-field .picker .option.selected .fa-caret-right {
-  display: inline-block;
+.input-field .pickers.time .picker .option .value {
+  font-size: 0.8rem;
 }
 
 .input-error {
