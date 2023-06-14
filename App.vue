@@ -37,6 +37,38 @@ function toggleTheme() {
 
   document.body.classList.toggle('dark', theme.value)
   document.body.classList.toggle('light', !theme.value)
+
+  tBarModel.value.forEach((chart) => {
+    if (chart.config.colors) {
+      if (theme.value) {
+        chart.config.colors = {
+          highlightColor: '#a0c5d5',
+          lineColor: '#ecebf7'
+        }
+      } else {
+        chart.config.colors = {
+          lineColor: '#e0c097',
+          highlightColor: '#5c3d2e'
+        }
+      }
+    }
+  })
+
+  tHorizontalBarModel.value.forEach((chart) => {
+    if (chart.config.colors) {
+      if (theme.value) {
+        chart.config.colors = {
+          highlightColor: '#a0c5d5',
+          lineColor: '#ecebf7'
+        }
+      } else {
+        chart.config.colors = {
+          lineColor: '#e0c097',
+          highlightColor: '#5c3d2e'
+        }
+      }
+    }
+  })
 }
 
 const tBarModel = ref([
