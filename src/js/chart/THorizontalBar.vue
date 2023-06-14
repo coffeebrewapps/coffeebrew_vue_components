@@ -24,14 +24,22 @@ const chartContainerStyle = computed(() => {
   return `max-width: ${maxContainerWidth.value}px`
 })
 
-const barBgColor = computed(() => {
+const chartHighlightColor = computed(() => {
   return (props.config.colors || {}).highlightColor ||
     getComputedStyle(document.documentElement).getPropertyValue('--color-text')
+});
+
+const chartLineColor = computed(() => {
+  return (props.config.colors || {}).lineColor ||
+    getComputedStyle(document.documentElement).getPropertyValue('--color-border-hover')
+});
+
+const barBgColor = computed(() => {
+  return chartHighlightColor.value
 })
 
 const barLineColor = computed(() => {
-  return (props.config.colors || {}).lineColor ||
-    getComputedStyle(document.documentElement).getPropertyValue('--color-border-hover')
+  return chartLineColor.value
 })
 
 const containerFactor = computed(() => {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 const props = defineProps({
   config: {
@@ -72,6 +72,26 @@ const yScaleConfig = computed(() => {
   return props.config.yScale || 100
 })
 
+const chartHighlightColor = computed(() => {
+  return (props.config.colors || {}).highlightColor ||
+    getComputedStyle(document.documentElement).getPropertyValue('--color-text')
+});
+
+const chartLineColor = computed(() => {
+  return (props.config.colors || {}).lineColor ||
+    getComputedStyle(document.documentElement).getPropertyValue('--color-border-hover')
+});
+
+watch(chartHighlightColor, (newVal, oldVal) => {
+  ctx.value.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
+  draw()
+})
+
+watch(chartLineColor, (newVal, oldVal) => {
+  ctx.value.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
+  draw()
+})
+
 const yMaxScale = computed(() => {
   const sortedScales = props.data.map((record) => {
     return Math.ceil(record.yValue)
@@ -97,13 +117,11 @@ const yScales = computed(() => {
 })
 
 const barBgColor = computed(() => {
-  return (props.config.colors || {}).highlightColor ||
-    getComputedStyle(document.documentElement).getPropertyValue('--color-text')
+  return chartHighlightColor.value
 })
 
 const barLineColor = computed(() => {
-  return (props.config.colors || {}).lineColor ||
-    getComputedStyle(document.documentElement).getPropertyValue('--color-border-hover')
+  return chartLineColor.value
 })
 
 const fontFamily = computed(() => {
