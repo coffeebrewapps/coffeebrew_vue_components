@@ -18,6 +18,7 @@ import TTextarea from './js/form/TTextarea.vue'
 import TTable from './js/table/TTable.vue'
 import TProgressBar from './js/TProgressBar.vue'
 
+import TBar from './js/chart/TBar.vue'
 import THorizontalBar from './js/chart/THorizontalBar.vue'
 
 import '../public/fontawesome/css/fontawesome.min.css';
@@ -42,5 +43,6 @@ export {
   TTextarea,
   TTable,
   TProgressBar,
+  TBar,
   THorizontalBar
 }
