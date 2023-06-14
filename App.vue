@@ -19,6 +19,7 @@ import {
   TTextarea,
   TTable,
   TProgressBar,
+  TBar,
   THorizontalBar
 } from '@/src/index'
 
@@ -37,6 +38,80 @@ function toggleTheme() {
   document.body.classList.toggle('dark', theme.value)
   document.body.classList.toggle('light', !theme.value)
 }
+
+const tBarModel = ref([
+  {
+    config: {
+      title: 'Hours Per Company',
+      yScale: 100,
+      xAxisLabel: 'Company',
+      yAxisLabel: 'Hours'
+    },
+    data: [
+      {
+        xValue: 'Company ABC',
+        yValue: 100
+      },
+      {
+        xValue: 'Company XYZ',
+        yValue: 394
+      },
+      {
+        xValue: 'Company ACME',
+        yValue: 249
+      }
+    ]
+  },
+  {
+    config: {
+      title: 'Hours Per Activity',
+      yScale: 10,
+      xAxisLabel: 'Activity',
+      yAxisLabel: 'Hours'
+    },
+    data: [
+      {
+        xValue: 'Design',
+        yValue: 127.24
+      },
+      {
+        xValue: 'Implementation',
+        yValue: 28.58
+      },
+      {
+        xValue: 'Testing',
+        yValue: 49.69
+      },
+      {
+        xValue: 'Requirements',
+        yValue: 109.24
+      }
+    ]
+  },
+  {
+    config: {
+      yScale: 250,
+      colors: {
+        highlightColor: '#a0c5d5',
+        lineColor: '#ecebf7'
+      }
+    },
+    data: [
+      {
+        xValue: 'Company ABC',
+        yValue: 948.19
+      },
+      {
+        xValue: 'Company XYZ',
+        yValue: 1037.38
+      },
+      {
+        xValue: 'Company ACME',
+        yValue: 1286.42
+      }
+    ]
+  }
+])
 
 const tHorizontalBarModel = ref([
   {
@@ -580,6 +655,18 @@ onMounted(() => {
             <div class="fields">
               <THorizontalBar
                 v-for="(model, i) in tHorizontalBarModel"
+                :config="model.config"
+                :data="model.data"
+              />
+            </div>
+          </div>
+
+          <div class="fields-container-single">
+            <h3>TBar</h3>
+
+            <div class="fields">
+              <TBar
+                v-for="(model, i) in tBarModel"
                 :config="model.config"
                 :data="model.data"
               />
