@@ -1,6 +1,9 @@
 <script setup>
+/** import:global **/
 import { ref, computed, watch, onMounted } from 'vue'
+/** import:global **/
 
+/** section:props **/
 const props = defineProps({
   config: {
     type: Object,
@@ -15,25 +18,30 @@ const props = defineProps({
     }
   }
 })
+/** section:props **/
 
+/** section:canvas **/
 const canvas = ref('canvas')
 const ctx = computed(() => {
   return canvas.value.getContext('2d')
 })
+/** section:canvas **/
 
+/** section:measurements **/
 const canvasWidth = computed(() => {
-  const width = Math.floor(0.8 * window.innerWidth)
-  return width
+  return (xPadding + xOffset + barWidth) * props.data.length
 })
 
 const canvasHeight = computed(() => {
-  return (yMaxScale.value * containerFactor.value) + 100 + titlePadding
+  return (yMaxScale.value - yMinScale.value) * containerFactor.value + yOffset + yPaddingBottom + titlePadding + chartTitleFontSize.value
 })
 
 const containerFactor = computed(() => {
-  if (yMaxScale.value > 400) {
+  if ((yMaxValue.value - yMinValue.value) > 3000) {
+    return 0.05
+  } else if ((yMaxValue.value - yMinValue.value) > 1000) {
     return 0.3
-  } else if (yMaxScale.value < 200) {
+  } else if ((yMaxValue.value - yMinValue.value) < 200) {
     return 3
   } else {
     return 1
@@ -42,34 +50,66 @@ const containerFactor = computed(() => {
 
 const xOffset = 100
 const xPadding = 100
-const xLabelPaddingBottom = 50
-const xAxisLabelPaddingBottom = 20
+const xLabelPaddingBottom = 30
 
 const yOffset = 80
 const yPaddingTop = 10
 const yPaddingLeft = 60
 
-const titlePadding = 100
+const titlePadding = 40
+const yPaddingBottom = 100
 
 const barWidth = 80
-const barGap = computed(() => {
-  return xOffset - barWidth
-})
-
-const chartTitle = computed(() => {
-  return props.config.title
-})
-
-const xAxisLabel = computed(() => {
-  return props.config.xAxisLabel
-})
-
-const yAxisLabel = computed(() => {
-  return props.config.yAxisLabel
+const lineWidth = computed(() => {
+  return (xOffset + barWidth) * props.data.length + xPadding
 })
 
 const yScaleConfig = computed(() => {
   return props.config.yScale || 100
+})
+/** section:measurements **/
+
+/** section:styles **/
+const fontFamily = computed(() => {
+  return document.body.computedStyleMap().get('font-family').toString()
+})
+
+const boldWeight = 600
+
+const baseFontSize = computed(() => {
+  return parseFloat(getComputedStyle(document.body).getPropertyValue('font-size'))
+})
+
+const xValueFontSize = computed(() => {
+  return baseFontSize.value * 0.8
+})
+
+const yValueFontSize = computed(() => {
+  return baseFontSize.value * 0.8
+})
+
+const lineLabelFontSize = computed(() => {
+  return baseFontSize.value
+})
+
+const xAxisLabelFontSize = computed(() => {
+  return baseFontSize.value * 1.2
+})
+
+const yAxisLabelFontSize = computed(() => {
+  return baseFontSize.value * 1.2
+})
+
+const chartTitleFontSize = computed(() => {
+  return baseFontSize.value * 1.4
+})
+
+const barBgColor = computed(() => {
+  return chartHighlightColor.value
+})
+
+const barLineColor = computed(() => {
+  return chartLineColor.value
 })
 
 const chartHighlightColor = computed(() => {
@@ -91,56 +131,135 @@ watch(chartLineColor, (newVal, oldVal) => {
   ctx.value.clearRect(0, 0, canvasWidth.value, canvasHeight.value)
   draw()
 })
+/** section:styles **/
 
-const yMaxScale = computed(() => {
-  const sortedScales = props.data.map((record) => {
+/** section:coordinates **/
+const sortedDataScales = computed(() => {
+  return props.data.map((record) => {
     return Math.ceil(record.yValue)
   }).sort((a, b) => {
     if (a < b) { return -1 }
     else if (a > b) { return 1 }
     else { return 0 }
   })
+})
 
-  return sortedScales[sortedScales.length - 1] || yScaleConfig.value
+const yMinValue = computed(() => {
+  const min = sortedDataScales.value[0]
+
+  if (min < 0) {
+    return min
+  } else {
+    return 0
+  }
+})
+
+const yMaxValue = computed(() => {
+  return sortedDataScales.value[sortedDataScales.value.length - 1] || yScaleConfig.value
+})
+
+const yMinScale = computed(() => {
+  if (yMinValue.value < 0) {
+    return -1 * (parseInt(Math.abs(yMinValue.value) / yScaleConfig.value) * yScaleConfig.value + yScaleConfig.value)
+  } else {
+    return 0
+  }
+})
+
+const yMaxScale = computed(() => {
+  const max = yMaxValue.value - (yMaxValue.value % yScaleConfig.value)
+
+  if (max <= yScaleConfig.value / 2) {
+    return max
+  } else {
+    return max + yScaleConfig.value
+  }
 })
 
 const yScalesCount = computed(() => {
-  return Math.ceil(yMaxScale.value / yScaleConfig.value)
+  return Math.ceil((yMaxScale.value - yMinScale.value) / yScaleConfig.value) + 1
 })
 
 const yScales = computed(() => {
-  return Array.from(new Array(yScalesCount.value)).map((_, i) => (i + 1) * yScaleConfig.value).sort((a, b) => {
+  const step = yScaleConfig.value
+
+  return Array.from(new Array(yScalesCount.value)).map((_, i) => yMinScale.value + i * step).sort((a, b) => {
     if (a < b) { return 1 }
     else if (a > b) { return -1 }
     else { return 0 }
   })
 })
 
-const barBgColor = computed(() => {
-  return chartHighlightColor.value
+const xAxisLabelCoords = computed(() => {
+  if (bars.value.length > 0) {
+    const baseLine = scaleLines.value[scaleLines.value.length - 1]
+    const x = Math.floor(lineWidth.value / 2)
+    const y = baseLine.y + xLabelPaddingBottom + 30
+    return { x, y }
+  } else {
+    return { x: 0, y: 0 }
+  }
 })
 
-const barLineColor = computed(() => {
-  return chartLineColor.value
+const yAxisLabelCoords = computed(() => {
+  if (bars.value.length > 0) {
+    const firstLine = scaleLines.value[0]
+    const x = yPaddingLeft - 10
+    const y = Math.floor(canvasHeight.value / 2)
+    return { x, y }
+  } else {
+    return { x: 0, y: 0 }
+  }
 })
 
-const fontFamily = computed(() => {
-  return document.body.computedStyleMap().get('font-family').toString()
+const chartTitleCoords = computed(() => {
+  if (scaleLines.value.length > 0) {
+    const firstLine = scaleLines.value[0]
+    const x = Math.floor(lineWidth.value / 2)
+    const y = firstLine.y - titlePadding
+    return { x, y }
+  } else {
+    return { x: 0, y: 0 }
+  }
+})
+/** section:coordinates **/
+
+/** section:data **/
+const chartTitle = computed(() => {
+  return props.config.title
+})
+
+const xAxisLabel = computed(() => {
+  return props.config.xAxisLabel
+})
+
+const yAxisLabel = computed(() => {
+  return props.config.yAxisLabel
 })
 
 const bars = computed(() => {
   return props.data.map((record, i) => {
     const x = i * xPadding + xOffset + barWidth
-    const y = parseFloat((canvasHeight.value - record.yValue * containerFactor.value - yOffset).toFixed(2))
+    const y = parseFloat((canvasHeight.value - record.yValue * containerFactor.value - yOffset - yPaddingBottom).toFixed(2))
     const width = barWidth
     const height = parseFloat((record.yValue * containerFactor.value).toFixed(2))
     const xValue = record.xValue
-    const yValue = record.yValue
+    const yValue = record.yValue.toFixed(2)
 
     return { x, y, width, height, xValue, yValue }
   })
 })
 
+const scaleLines = computed(() => {
+  return yScales.value.map((scale, i) => {
+    const x = xOffset
+    const y = canvasHeight.value - scale * containerFactor.value - yOffset - yPaddingBottom
+    return { scale, x, y }
+  })
+})
+/** section:data **/
+
+/** section:draw **/
 function drawBars() {
   bars.value.forEach(({ x, y, width, height, xValue, yValue }, i) => {
     const textMeasure = ctx.value.measureText(yValue)
@@ -149,62 +268,56 @@ function drawBars() {
     const textY = y + height / 2
 
     drawRect(x, y, width, height, barBgColor.value)
-    drawText(yValue, textX, textY, '0.8rem', 600, barLineColor.value, 'left');
-    drawText(xValue, x, canvasHeight.value - xLabelPaddingBottom, '0.8rem', 600, barBgColor.value, 'left');
+
+    const baseLine = scaleLines.value[scaleLines.value.length - 1]
+    drawText(xValue, x, baseLine.y + xLabelPaddingBottom, `${xValueFontSize.value}px`, boldWeight, barBgColor.value, 'left');
+
+    drawText(yValue, textX, textY, `${yValueFontSize.value}px`, boldWeight, barLineColor.value, 'left');
   })
 }
 
-const lineWidth = computed(() => {
-  return (xOffset + barWidth) * props.data.length + xPadding
-})
-
 function drawLines() {
-  const width = lineWidth.value
-
-  yScales.value.forEach((scale, i) => {
-    const x = xOffset
-    const y = canvasHeight.value - scale * containerFactor.value - yOffset
-    drawLine(x, y, width, 2, barLineColor.value)
-    drawText(scale, yPaddingLeft, y + yPaddingTop, '1rem', 600, barBgColor.value, 'left')
+  scaleLines.value.forEach(({ scale, x, y }) => {
+    drawLine(x, y, lineWidth.value, 2, barLineColor.value)
+    drawText(scale, yPaddingLeft, y + yPaddingTop, `${lineLabelFontSize.value}px`, boldWeight, barBgColor.value, 'left')
   })
-
-  drawLine(xOffset, canvasHeight.value - yOffset, width, 2, barLineColor.value)
 }
 
 function drawLabels() {
   if (yAxisLabel.value) {
     rotateText(
       yAxisLabel.value,
-      xOffset + xPadding,
-      Math.floor((canvasHeight.value - titlePadding) / 2),
-      '1.2rem', 600, barBgColor.value, 'center'
+      yAxisLabelCoords.value.x,
+      yAxisLabelCoords.value.y,
+      `${yAxisLabelFontSize.value}px`, boldWeight, barBgColor.value, 'center'
     )
   }
 
   if (xAxisLabel.value) {
     drawText(
       xAxisLabel.value,
-      Math.floor(lineWidth.value / 2),
-      canvasHeight.value - xAxisLabelPaddingBottom,
-      '1.2rem', 600, barBgColor.value, 'center'
+      xAxisLabelCoords.value.x,
+      xAxisLabelCoords.value.y,
+      `${xAxisLabelFontSize.value}px`, boldWeight, barBgColor.value, 'center'
     )
   }
 
   if (chartTitle.value) {
     drawText(
       chartTitle.value,
-      Math.floor(lineWidth.value / 2),
-      canvasHeight.value - yScales.value[0] * containerFactor.value - yOffset - 20,
-      '1.4rem', 600, barBgColor.value, 'center'
+      chartTitleCoords.value.x,
+      chartTitleCoords.value.y,
+      `${chartTitleFontSize.value}px`, boldWeight, barBgColor.value, 'center'
     )
   }
 }
 
 function rotateText(text, x, y, fontSize, weight, color, align) {
   ctx.value.save()
-  ctx.value.translate(-x, y)
+  ctx.value.translate(x, y)
   ctx.value.rotate(-Math.PI / 2)
-  drawText(text, 0, y, fontSize, weight, color, align)
+  ctx.value.translate(-x, -y)
+  drawText(text, x, y, fontSize, weight, color, align)
   ctx.value.restore()
 }
 
@@ -230,15 +343,37 @@ function drawLine(x, y, width, thickness, color) {
   ctx.value.stroke()
 }
 
-function initCanvas() {
-  canvas.value.style.width = `80%`
-}
-
 function draw() {
   drawLines()
   drawBars()
   drawLabels()
 }
+/** section:draw **/
+
+/** section:update **/
+const chartData = computed(() => {
+  return props.data
+})
+
+watch(chartData, (newVal, oldVal) => {
+  clearCanvas()
+  initCanvas()
+  draw()
+}, { deep: true })
+
+function initCanvas() {
+  const ratio = window.devicePixelRatio
+  canvas.value.width = canvasWidth.value * ratio
+  canvas.value.height = canvasHeight.value * ratio
+  canvas.value.style.width = `${canvasWidth.value}px`
+  canvas.value.style.height = `${canvasHeight.value}px`
+  ctx.value.scale(ratio, ratio)
+}
+
+function clearCanvas() {
+  ctx.value.clearRect(0, 0, canvas.value.width, canvas.value.height)
+}
+/** section:update **/
 
 onMounted(() => {
   initCanvas()
@@ -250,11 +385,12 @@ onMounted(() => {
   <div class="chart-container">
     <canvas
       ref="canvas"
-      :width="canvasWidth"
-      :height="canvasHeight"
     ></canvas>
   </div>
 </template>
 
 <style scoped>
+.chart-container {
+  overflow: auto;
+}
 </style>
