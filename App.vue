@@ -142,6 +142,32 @@ const tBarModel = ref([
         yValue: 1286.42
       }
     ]
+  },
+  {
+    config: {
+      title: 'Revenue per Month',
+      yScale: 1000,
+      xAxisLabel: 'Month',
+      yAxisLabel: 'Revenue'
+    },
+    data: [
+      {
+        xValue: '2023-3',
+        yValue: -256.54999999999995
+      },
+      {
+        xValue: '2023-4',
+        yValue: 7292.16
+      },
+      {
+        xValue: '2023-5',
+        yValue: 282.94
+      },
+      {
+        xValue: '2023-6',
+        yValue: -1363.86
+      }
+    ]
   }
 ])
 
