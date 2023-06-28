@@ -796,6 +796,10 @@ const observer = new IntersectionObserver((entries) => {
   })
 }, { threshold: [0] })
 
+watch(initDate, (newVal, oldVal) => {
+  initDateFromModelValue()
+})
+
 onMounted(() => {
   observer.observe(yearPicker.value)
   observer.observe(monthPicker.value)
