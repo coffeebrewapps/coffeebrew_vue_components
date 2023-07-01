@@ -1571,7 +1571,7 @@ const qa = ["value"], Ga = {
     }, w(e.label), 11, qa));
   }
 }, Qa = /* @__PURE__ */ Z(Ga, [["__scopeId", "data-v-708a2c4e"]]);
-const pt = (e) => (_e("data-v-5abddd16"), e = e(), ke(), e), Za = { class: "input-label" }, en = { class: "wrapper" }, tn = ["name"], ln = { class: "selected" }, an = /* @__PURE__ */ pt(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
+const pt = (e) => (_e("data-v-8417e3bf"), e = e(), ke(), e), Za = { class: "input-label" }, en = { class: "wrapper" }, tn = ["name"], ln = { class: "selected" }, an = /* @__PURE__ */ pt(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-caret-down" }),
   /* @__PURE__ */ t("i", { class: "fa-solid fa-caret-up" })
 ], -1)), nn = /* @__PURE__ */ pt(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-xmark" }, null, -1)), sn = [
@@ -1587,7 +1587,7 @@ const pt = (e) => (_e("data-v-5abddd16"), e = e(), ke(), e), Za = { class: "inpu
   props: {
     modelValue: {
       type: [String, Number],
-      default: ""
+      default: null
     },
     name: {
       type: String,
@@ -1720,7 +1720,7 @@ const pt = (e) => (_e("data-v-5abddd16"), e = e(), ke(), e), Za = { class: "inpu
       e.errorMessage.length > 0 ? (r(), d("div", cn, w(e.errorMessage), 1)) : A("", !0)
     ], 2));
   }
-}, $s = /* @__PURE__ */ Z(fn, [["__scopeId", "data-v-5abddd16"]]);
+}, $s = /* @__PURE__ */ Z(fn, [["__scopeId", "data-v-8417e3bf"]]);
 const vn = { class: "progress-bar" }, pn = {
   __name: "TProgressBar",
   props: {
