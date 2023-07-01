@@ -10,7 +10,7 @@ function isEmpty(val) {
 const props = defineProps({
   modelValue: {
     type: [String, Number],
-    default: ''
+    default: null
   },
   name: {
     type: String,

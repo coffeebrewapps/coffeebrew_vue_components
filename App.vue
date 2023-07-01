@@ -266,13 +266,13 @@ const tTextareaModel = ref({
 })
 
 const tSelectModel = ref({
-  country1: '',
+  country1: null,
   country2: 'my',
-  country3: '',
+  country3: null,
   country4: 'sg',
-  country5: '',
-  timezone1: '',
-  timezone2: '',
+  country5: null,
+  timezone1: null,
+  timezone2: null,
 })
 
 const tSelectTableModel = ref({
