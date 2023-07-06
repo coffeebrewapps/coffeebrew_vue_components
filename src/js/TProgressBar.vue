@@ -1,107 +1,112 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue';
 
-const direction = ref('forward')
-const forwardBar = ref('forwardBar')
-const reverseBar = ref('reverseBar')
-const intervalId = ref()
+const direction = ref('forward');
+const forwardBar = ref('forwardBar');
+const reverseBar = ref('reverseBar');
+const intervalId = ref();
 
 const props = defineProps({
   step: {
     type: Number,
-    default: 10
+    default: 10,
   },
   speed: {
     type: Number,
-    default: 100
+    default: 100,
   },
   bidirection: {
     type: Boolean,
-    default: true
+    default: true,
   },
   indefinite: {
     type: Boolean,
-    default: true
-  }
-})
+    default: true,
+  },
+});
 
 const computedForwardBarClass = computed(() => {
-  return `bar forward-bar ${direction.value}`
-})
+  return `bar forward-bar ${direction.value}`;
+});
 
 const computedReverseBarClass = computed(() => {
   if (props.bidirection) {
-    return `bar reverse-bar ${direction.value}`
+    return `bar reverse-bar ${direction.value}`;
   } else {
-    return `bar reverse-bar hide`
+    return `bar reverse-bar hide`;
   }
-})
+});
 
 onMounted(() => {
-  intervalId.value = setInterval(animate, props.speed)
-})
+  intervalId.value = setInterval(animate, props.speed);
+});
 
 function currentWidth(bar) {
   if (bar) {
-    return parseInt(bar.style.width.split('%')[0])
+    return parseInt(bar.style.width.split('%')[0]);
   } else {
-    return 0
+    return 0;
   }
 }
 
 function animate() {
   if (props.bidirection) {
-    biDirection()
+    biDirection();
   } else {
-    uniDirection()
+    uniDirection();
   }
 }
 
 function uniDirection() {
-  const forwardWidth = currentWidth(forwardBar.value)
+  const forwardWidth = currentWidth(forwardBar.value);
 
   if (forwardWidth === 100) {
     if (props.indefinite) {
-      resetWidth(forwardBar.value)
+      resetWidth(forwardBar.value);
     } else {
-      clearInterval(intervalId.value)
+      clearInterval(intervalId.value);
     }
   } else {
-    step(forwardBar.value, 'forward', forwardWidth)
+    stepBar(forwardBar.value, 'forward', forwardWidth);
   }
 }
 
 function biDirection() {
-  const forwardWidth = currentWidth(forwardBar.value)
-  const reverseWidth = currentWidth(reverseBar.value)
+  const forwardWidth = currentWidth(forwardBar.value);
+  const reverseWidth = currentWidth(reverseBar.value);
+
+  if (forwardWidth === 100 && !props.indefinite) {
+    clearInterval(intervalId.value);
+    return;
+  }
 
   if (direction.value === 'forward' && forwardWidth === 100) {
-    direction.value = 'reverse'
-    step(forwardBar.value, 'reverse', forwardWidth)
-    step(reverseBar.value, 'forward', reverseWidth)
+    direction.value = 'reverse';
+    stepBar(forwardBar.value, 'reverse', forwardWidth);
+    stepBar(reverseBar.value, 'forward', reverseWidth);
   } else if (direction.value === 'reverse' && reverseWidth === 100) {
-    direction.value = 'forward'
-    step(forwardBar.value, 'forward', forwardWidth)
-    step(reverseBar.value, 'reverse', reverseWidth)
+    direction.value = 'forward';
+    stepBar(forwardBar.value, 'forward', forwardWidth);
+    stepBar(reverseBar.value, 'reverse', reverseWidth);
   } else if (direction.value === 'forward') {
-    step(forwardBar.value, 'forward', forwardWidth)
-    step(reverseBar.value, 'reverse', reverseWidth)
+    stepBar(forwardBar.value, 'forward', forwardWidth);
+    stepBar(reverseBar.value, 'reverse', reverseWidth);
   } else if (direction.value === 'reverse') {
-    step(forwardBar.value, 'reverse', forwardWidth)
-    step(reverseBar.value, 'forward', reverseWidth)
+    stepBar(forwardBar.value, 'reverse', forwardWidth);
+    stepBar(reverseBar.value, 'forward', reverseWidth);
   }
 }
 
 function resetWidth(bar) {
-  bar.style.width = '0%'
+  bar.style.width = '0%';
 }
 
-function step(bar, direction, current) {
-  if (!bar) { return }
+function stepBar(bar, direction, current) {
+  if (!bar) { return; }
   if (direction === 'forward') {
-    bar.style.width = [(current + props.step).toString(), '%'].join('')
+    bar.style.width = [(current + props.step).toString(), '%'].join('');
   } else {
-    bar.style.width = [(current - props.step).toString(), '%'].join('')
+    bar.style.width = [(current - props.step).toString(), '%'].join('');
   }
 }
 </script>
@@ -111,18 +116,16 @@ function step(bar, direction, current) {
     class="progress-bar"
   >
     <div
+      ref="forwardBar"
       :class="computedForwardBarClass"
       style="width: 0%;"
-      ref="forwardBar"
-    >
-    </div>
+    />
 
     <div
+      ref="reverseBar"
       :class="computedReverseBarClass"
       style="width: 100%;"
-      ref="reverseBar"
-    >
-    </div>
+    />
   </div>
 </template>
 
