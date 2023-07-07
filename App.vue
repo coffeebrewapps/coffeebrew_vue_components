@@ -697,6 +697,37 @@ onMounted(() => {
       <div class="form-container">
         <div class="form">
 
+          <div class="fields-container">
+            <h3>All Inputs</h3>
+
+            <div class="fields">
+              <TInput type="text" label="Username" error-message="Field is required"/>
+              <TFilePicker size="md" label="File 1" error-message="Field is required"/>
+              <TSelect label="Country" :options="countryOptions" error-message="Field is required"/>
+              <TSelectTable label="Tags" :options="tagOptions" error-message="Field is required"/>
+              <TDatePicker label="Start Date" align-pickers="bottom" error-message="Field is required"/>
+            </div>
+
+            <div class="fields">
+              <TTextarea :rows="4" :cols="30" label="Paragraph" error-message="Field is required"/>
+            </div>
+
+            <div class="fields">
+              <TDatePicker label="Start Date" align-pickers="bottom" error-message="Field is required"/>
+              <TDateTimePicker label="Start Time" align-pickers="bottom" error-message="Field is required"/>
+            </div>
+
+            <div class="fields">
+              <TDatePicker label="End Date" align-pickers="bottom" error-message="Field is required"/>
+              <TDateRange label="Date Range" align-pickers="bottom" error-message="Field is required"/>
+            </div>
+
+            <div class="fields">
+              <TDateTimePicker label="Start Time" align-pickers="bottom" error-message="Field is required"/>
+              <TDateTimeRange label="Time Range" align-pickers="bottom" error-message="Field is required"/>
+            </div>
+          </div>
+
           <div class="fields-container-single">
             <h3>TProgressBar</h3>
 
