@@ -1,60 +1,58 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: ''
+    default: '',
   },
   rows: {
     type: Number,
-    default: 10
+    default: 10,
   },
   cols: {
     type: Number,
-    default: 100
+    default: 100,
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
-  }
-})
+    default: '',
+  },
+});
 
-const cleanToggle = ref('cleanToggle')
+const cleanToggle = ref('cleanToggle');
 
 const computedControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedSize = computed(() => {
   return {
     rows: props.rows || 10,
-    cols: props.cols || 100
-  }
-})
+    cols: props.cols || 100,
+  };
+});
 
-function resetField(event) {
-  if (event instanceof KeyboardEvent && event.target !== cleanToggle.value) { return }
-
-  emit('update:modelValue', null)
+function resetField() {
+  emit('update:modelValue', null);
 }
 </script>
 
@@ -78,17 +76,16 @@ function resetField(event) {
           :value="modelValue"
           :disabled="disabled"
           @input="$emit('update:modelValue', $event.target.value)"
-        >
-        </textarea>
+        />
 
         <div
+          ref="cleanToggle"
           tabindex="0"
           class="clean-toggle"
-          ref="cleanToggle"
-          @click="resetField($event)"
-          @keydown.enter="resetField($event)"
+          @click="resetField"
+          @keydown.enter="resetField"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
       </div> <!-- wrapper -->
     </div>
@@ -119,7 +116,7 @@ function resetField(event) {
   display: grid;
   grid-template-columns: auto 26px;
   align-items: center;
-  margin: 2px 0 0 0;
+  margin: 2px 8px 8px 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
