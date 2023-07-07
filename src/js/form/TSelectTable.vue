@@ -214,7 +214,7 @@ function updateOffsetAndReload(offset) {
                 <span>{{ selected }}</span>
                 <i
                   class="fa-solid fa-xmark"
-                  @click="removeSelected(i)"
+                  @click="removeSelected(i, $event)"
                 />
               </div>
             </div>
