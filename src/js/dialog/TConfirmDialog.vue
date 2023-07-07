@@ -1,60 +1,60 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
-import TDialog from './TDialog.vue'
-import TButton from '../form/TButton.vue'
+import TDialog from './TDialog.vue';
+import TButton from '../form/TButton.vue';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   width: {
     type: Number,
-    default: 800
+    default: 800,
   },
   height: {
     type: Number,
-    default: 600
+    default: 600,
   },
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   primaryText: {
     type: String,
-    default: ''
+    default: '',
   },
   secondaryText: {
     type: String,
-    default: ''
+    default: '',
   },
   fullscreen: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
+const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
 
-const dialog = ref('dialog')
+const dialog = ref('dialog');
 const dialogShow = computed({
   get: () => {
-    return props.modelValue
+    return props.modelValue;
   },
   set: (val) => {
-    emit('update:modelValue', val)
-  }
-})
+    emit('update:modelValue', val);
+  },
+});
 
 function confirm() {
-  emit('update:modelValue', false)
-  emit('confirm')
+  emit('update:modelValue', false);
+  emit('confirm');
 }
 
 function cancel() {
-  emit('update:modelValue', false)
-  emit('cancel')
+  emit('update:modelValue', false);
+  emit('cancel');
 }
 </script>
 
