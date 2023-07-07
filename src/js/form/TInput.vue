@@ -150,7 +150,7 @@ function resetField() {
 .input-control {
   display: flex;
   flex-direction: column;
-  margin: 2px 8px 8px 0;
+  margin: 2px 0 8px 0;
 }
 
 .input-label {

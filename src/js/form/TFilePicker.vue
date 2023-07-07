@@ -353,7 +353,7 @@ function resetField() {
 
 <style scoped>
 .input-control {
-  margin: 2px 8px 8px 0;
+  margin: 2px 0 0 0;
 }
 
 .input-control.sm {
@@ -377,7 +377,7 @@ function resetField() {
   display: grid;
   grid-template-columns: auto 26px;
   align-items: center;
-  margin: 2px 0 0 0;
+  margin: 2px 0 8px 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
