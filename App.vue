@@ -856,7 +856,7 @@ onMounted(() => {
 
             <div class="fields">
               <TSelect v-model="tSelectModel.timezone1" size="lg" label="Timezone (long list)" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
-              <TSelect v-model="tSelectModel.timezone1" size="lg" label="" name="timezone" id="timezone-1" :options="timezoneOptions" :searchable="true"/>
+              <TSelect v-model="tSelectModel.timezone2" size="lg" label="" name="timezone" id="timezone-2" :options="timezoneOptions" :searchable="true"/>
             </div>
           </div>
 

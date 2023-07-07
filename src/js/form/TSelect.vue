@@ -1,153 +1,153 @@
 <script setup>
-import { onMounted, computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue';
 
-import TOption from './TOption.vue'
-
-function isEmpty(val) {
-  return Object.is(val, undefined) || Object.is(val, null)
-}
+import TOption from './TOption.vue';
 
 const props = defineProps({
   modelValue: {
     type: [String, Number],
-    default: null
+    default: null,
   },
   name: {
     type: String,
-    default: ''
+    default: '',
   },
   size: {
     type: String,
-    default: 'md'
+    default: 'md',
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   options: {
     type: Array,
-    default: []
+    default() {
+      return [];
+    },
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: '',
   },
   searchable: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const toggleState = ref('collapsed')
-const inputField = ref('inputField')
-const selectField = ref('selectField')
-const cleanToggle = ref('cleanToggle')
-const searchInput = ref('searchInput')
-const searchString = ref('')
+const toggleState = ref('collapsed');
+const inputField = ref('inputField');
+const selectField = ref('selectField');
+const cleanToggle = ref('cleanToggle');
+const searchInput = ref('searchInput');
+const searchString = ref('');
 
 const selectedOption = computed(() => {
-  return props.modelValue
-})
+  return props.modelValue;
+});
 
 const computedControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
   if (props.size) {
-    className.push(props.size)
+    className.push(props.size);
   }
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  className.push(toggleState.value)
+  className.push(toggleState.value);
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedFieldClass = computed(() => {
-  return `input-field ${toggleState.value}`.trim()
-})
+  return `input-field ${toggleState.value}`.trim();
+});
 
 const computedOptions = computed(() => {
   if (searchString.value.length > 0) {
-    const regex = new RegExp(searchString.value, 'i')
+    const regex = new RegExp(searchString.value, 'i');
     return props.options.filter((option) => {
-      return option.value.match(regex) || option.label.match(regex)
-    })
+      return option.value.match(regex) || option.label.match(regex);
+    });
   } else {
-    return props.options
+    return props.options;
   }
-})
+});
 
 const computedSelectedOption = computed(() => {
-  const found = props.options.find(o => o.value === selectedOption.value)
-  if (found) { return found.label }
-  return ''
-})
+  const found = props.options.find(o => o.value === selectedOption.value);
+  if (found) { return found.label; }
+  return '';
+});
 
 function toggleSelect(event) {
-  event.preventDefault()
-
-  if (event instanceof KeyboardEvent && event.target !== inputField.value && event.target !== selectField.value) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
   if (props.disabled) { return; }
 
   if (toggleState.value === 'collapsed') {
-    toggleState.value = 'expanded'
+    toggleState.value = 'expanded';
   } else {
-    toggleState.value = 'collapsed'
+    toggleState.value = 'collapsed';
   }
 }
 
 function closeSelect(event) {
-  event.preventDefault()
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
-
-  toggleState.value = 'collapsed'
+  toggleState.value = 'collapsed';
 }
 
 function clearSearchString(event) {
-  event.preventDefault()
+  if (searchString.value === '') {
+    closeSelect(event);
+    return;
+  }
 
-  if (event instanceof KeyboardEvent && event.target !== searchInput.value) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  clearSearch()
+  clearSearch();
 }
 
 function clearSearch() {
-  searchString.value = ''
+  searchString.value = '';
 }
 
 function setOptionSelectedState(val) {
-  return val === selectedOption.value
+  return val === selectedOption.value;
 }
 
 function selectOption(val, event) {
-  if (event) { event.preventDefault() }
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 
-  toggleState.value = 'collapsed'
-  emit('update:modelValue', val)
+  toggleState.value = 'collapsed';
+  emit('update:modelValue', val);
 }
 
 function resetField(event) {
-  if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  emit('update:modelValue', null) 
+  emit('update:modelValue', null);
 }
-
-onMounted(() => {
-  selectOption(props.modelValue)
-})
 </script>
 
 <template>
@@ -161,77 +161,80 @@ onMounted(() => {
     </div>
 
     <div
+      ref="inputField"
       tabindex="0"
       :class="computedFieldClass"
-      ref="inputField"
+      @click="toggleSelect($event)"
       @keydown.enter="toggleSelect($event)"
       @keydown.esc="closeSelect($event)"
       @keydown.backspace="resetField($event)"
     >
       <div class="wrapper">
         <div
+          ref="selectField"
           class="select"
           :name="name"
-          ref="selectField"
-          @click="toggleSelect($event)"
         >
-          <div class="selected">{{ computedSelectedOption }}</div>
+          <div class="selected">
+            {{ computedSelectedOption }}
+          </div>
 
           <div class="toggle">
-            <i class="fa-solid fa-caret-down"></i>
-            <i class="fa-solid fa-caret-up"></i>
+            <i class="fa-solid fa-caret-down" />
+            <i class="fa-solid fa-caret-up" />
           </div>
         </div>
 
         <div
-          class="clean-toggle"
           ref="cleanToggle"
+          tabindex="0"
+          class="clean-toggle"
           @click="resetField($event)"
+          @keydown.enter="resetField($event)"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
-      </div>
-    </div> <!-- wrapper -->
+      </div> <!-- wrapper -->
+    </div> <!-- input-field -->
 
     <div
       v-if="searchable"
       class="search"
     >
-      <i class="fa-solid fa-magnifying-glass"></i>
+      <i class="fa-solid fa-magnifying-glass" />
       <input
-        v-model="searchString"
         ref="searchInput"
+        v-model="searchString"
         @keydown.esc="clearSearchString"
-      />
+      >
       <i
         class="fa-solid fa-xmark"
         @click="clearSearch"
-      ></i>
-    </div>
+      />
+    </div> <!-- search -->
 
     <div
       class="options"
     >
       <TOption
-        tabindex="0"
         v-for="(option, i) in computedOptions"
         :key="i"
+        tabindex="0"
         :value="option.value"
         :label="option.label"
-        :size="size"
         :selected="setOptionSelectedState(option.value)"
         @select="selectOption(option.value)"
         @keydown.enter="selectOption(option.value, $event)"
       />
-    </div>
+    </div> <!-- options -->
 
     <div
       v-if="errorMessage.length > 0"
       class="input-error"
     >
       {{ errorMessage }}
-    </div>
-  </div>
+    </div> <!-- input-error -->
+  </div> <!-- input-control -->
 </template>
 
 <style scoped>
@@ -413,8 +416,12 @@ onMounted(() => {
   display: none;
 }
 
+.input-control .clean-toggle:focus {
+  outline: 3px solid var(--color-border-hover);
+}
+
 .input-error {
-  margin-bottom: 8px;
+  margin: 8px 0 8px 0;
   font-size: 0.8rem;
   color: var(--color-error);
 }
