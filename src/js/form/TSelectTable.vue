@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import TDialog from '../dialog/TDialog.vue';
 import TTable from '../table/TTable.vue';
@@ -106,19 +106,11 @@ function checkboxClass(row) {
 }
 
 const selectedValues = computed(() => {
-  if (props.modelValue) {
-    return props.modelValue.map(v => v.value);
-  } else {
-    return [];
-  }
+  return (props.modelValue ?? []).map(v => v.value);
 });
 
 const selectedOptionsForDisplay = computed(() => {
-  if (props.modelValue) {
-    return props.modelValue.map(v => v.label);
-  } else {
-    return [];
-  }
+  return (props.modelValue ?? []).map(v => v.label);
 });
 
 function toggleSelect(event) {
@@ -130,11 +122,21 @@ function toggleSelect(event) {
   tableDialog.value = !tableDialog.value;
 }
 
-function closeSelect() {
+function closeSelect(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
   tableDialog.value = false;
 }
 
-function removeSelected(index) {
+function removeSelected(index, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
   const row = props.modelValue[index];
   updateSelected(row);
 }
@@ -155,7 +157,7 @@ function updateSelected(row) {
 }
 
 function updateMultipleSelected(row) {
-  const dup = Array.from(props.modelValue || []);
+  const dup = Array.from(props.modelValue);
   const found = selectedValues.value.findIndex(v => v === row.value);
   if (found < 0) { // not exists
     dup.push({ value: row.value, label: row.label });
@@ -166,20 +168,12 @@ function updateMultipleSelected(row) {
 }
 
 function updateSingleSelected(row) {
-  const found = selectedValues.value.findIndex(v => v === row.value);
-  if (found < 0) { // not exists
-    return [{ value: row.value, label: row.label }];
-  } else {
-    return [];
-  }
+  return [{ value: row.value, label: row.label }];
 }
 
 function updateOffsetAndReload(offset) {
   emit('offsetChange', offset);
 }
-
-onMounted(() => {
-});
 </script>
 
 <template>
@@ -196,15 +190,15 @@ onMounted(() => {
       ref="inputField"
       tabindex="0"
       class="input-field"
-      @keydown.enter="toggleSelect($event)"
-      @keydown.esc="closeSelect()"
-      @keydown.backspace="resetField($event)"
+      @click="toggleSelect"
+      @keydown.enter="toggleSelect"
+      @keydown.esc="closeSelect"
+      @keydown.backspace="resetField"
     >
       <div class="wrapper">
         <div
           ref="selectField"
           class="select"
-          @click="toggleSelect"
         >
           <div class="selected-list">
             <div
@@ -215,7 +209,7 @@ onMounted(() => {
               <div
                 tabindex="0"
                 class="closeable-tag"
-                @keydown.backspace="removeSelected(i)"
+                @keydown.backspace="removeSelected(i, $event)"
               >
                 <span>{{ selected }}</span>
                 <i
@@ -235,8 +229,8 @@ onMounted(() => {
           ref="cleanToggle"
           tabindex="0"
           class="clean-toggle"
-          @click="resetField($event)"
-          @keydown.enter="resetField($event)"
+          @click="resetField"
+          @keydown.enter="resetField"
         >
           <i class="fa-solid fa-circle-xmark" />
         </div>
@@ -258,7 +252,7 @@ onMounted(() => {
         :width="800"
         :height="600"
         class="options-dialog"
-        @keydown.esc="closeSelect()"
+        @keydown.esc="closeSelect"
       >
         <template #body>
           <TTable
@@ -285,8 +279,8 @@ onMounted(() => {
             button-type="text"
             value="Done"
             icon="fa-solid fa-check"
-            @click="closeSelect()"
-            @keydown.enter="closeSelect()"
+            @click="closeSelect"
+            @keydown.enter="closeSelect"
           />
         </template>
       </TDialog>
