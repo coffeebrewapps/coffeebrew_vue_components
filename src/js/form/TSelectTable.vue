@@ -132,10 +132,8 @@ function closeSelect(event) {
 }
 
 function removeSelected(index, event) {
-  if (event) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
   const row = props.modelValue[index];
   updateSelected(row);
