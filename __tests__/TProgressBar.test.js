@@ -167,14 +167,9 @@ describe('TProgressBar.vue', () => {
 
     expect(forwardBar.attributes('style')).toBe('width: 100%;');
     expect(reverseBar.attributes('style')).toBe('width: 0%;');
-
-    vi.advanceTimersByTime(10);
-
-    expect(forwardBar.attributes('style')).toBe('width: 100%;');
-    expect(reverseBar.attributes('style')).toBe('width: 0%;');
   });
 
-  test('when bidirection and indefinite should increase swing bars width back and forth', async() => {
+  test('when bidirection and indefinite should swing bars width back and forth', async() => {
     const wrapper = mount(TProgressBar, {
       props: {
         step: 10,
@@ -226,5 +221,59 @@ describe('TProgressBar.vue', () => {
 
     expect(forwardBar.attributes('style')).toBe('width: 30%;');
     expect(reverseBar.attributes('style')).toBe('width: 70%;');
+
+    vi.advanceTimersByTime(70);
+
+    expect(forwardBar.attributes('style')).toBe('width: 100%;');
+    expect(reverseBar.attributes('style')).toBe('width: 0%;');
+
+    vi.advanceTimersByTime(10);
+
+    expect(forwardBar.attributes('style')).toBe('width: 90%;');
+    expect(reverseBar.attributes('style')).toBe('width: 10%;');
+  });
+
+  test('when bidirection and not indefinite should swing bars width back and forth once', async() => {
+    const wrapper = mount(TProgressBar, {
+      props: {
+        step: 10,
+        speed: 10,
+        bidirection: true,
+        indefinite: false,
+      },
+    });
+
+    await flushPromises();
+
+    const progressBar = wrapper.get('.progress-bar');
+    const forwardBar = progressBar.get('.forward-bar');
+    expect(forwardBar.exists()).toBeTruthy();
+    expect(forwardBar.classes('forward')).toBeTruthy();
+    expect(forwardBar.attributes('style')).toBe('width: 0%;');
+
+    const reverseBar = progressBar.get('.reverse-bar');
+    expect(reverseBar.exists()).toBeTruthy();
+    expect(reverseBar.classes('forward')).toBeTruthy();
+    expect(reverseBar.attributes('style')).toBe('width: 100%;');
+
+    vi.advanceTimersByTime(10);
+
+    expect(forwardBar.attributes('style')).toBe('width: 10%;');
+    expect(reverseBar.attributes('style')).toBe('width: 90%;');
+
+    vi.advanceTimersByTime(40);
+
+    expect(forwardBar.attributes('style')).toBe('width: 50%;');
+    expect(reverseBar.attributes('style')).toBe('width: 50%;');
+
+    vi.advanceTimersByTime(50);
+
+    expect(forwardBar.attributes('style')).toBe('width: 100%;');
+    expect(reverseBar.attributes('style')).toBe('width: 0%;');
+
+    vi.advanceTimersByTime(20);
+
+    expect(forwardBar.attributes('style')).toBe('width: 100%;');
+    expect(reverseBar.attributes('style')).toBe('width: 0%;');
   });
 });
