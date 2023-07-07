@@ -1,83 +1,80 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: '',
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const checked = ref(props.modelValue)
-const checkbox = ref('checkbox')
+const checked = ref(props.modelValue);
+const checkbox = ref('checkbox');
 
 const computedControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
   if (props.label.length <= 10) {
-    className.push(`sm`)
+    className.push(`sm`);
   } else if (props.label.length > 10 && props.label.length <= 30) {
-    className.push(`md`)
+    className.push(`md`);
   } else {
-    className.push(`lg`)
+    className.push(`lg`);
   }
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedCheckboxClass = computed(() => {
   if (checked.value) {
-    return `checkbox checked`
+    return `checkbox checked`;
   } else {
-    return `checkbox`
+    return `checkbox`;
   }
-})
+});
 
 function toggleChecked(event) {
-  if (event instanceof KeyboardEvent && event.target !== checkbox.value) { return }
-
   if (props.disabled) { return; }
 
-  checked.value = !checked.value
-  emit('update:modelValue', checked.value)
+  checked.value = !checked.value;
+  emit('update:modelValue', checked.value);
 }
 </script>
 
 <template>
   <div
     :class="computedControlClass"
-    @click="toggleChecked($event)"
+    @click="toggleChecked"
   >
     <div
       class="input-field"
     >
       <div
-        tabindex="0"
         ref="checkbox"
+        tabindex="0"
         :class="computedCheckboxClass"
-        @keydown.enter="toggleChecked($event)"
-      >
-      </div>
+        @keydown.enter="toggleChecked"
+      />
 
       <div
         class="input-label"
