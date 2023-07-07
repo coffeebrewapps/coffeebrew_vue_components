@@ -1,46 +1,46 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
-import TDialog from './TDialog.vue'
+import TDialog from './TDialog.vue';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   width: {
     type: Number,
-    default: 400
+    default: 400,
   },
   height: {
     type: Number,
-    default: 200
+    default: 200,
   },
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   content: {
     type: String,
-    default: ''
+    default: '',
   },
   fullscreen: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const dialog = ref('dialog')
+const dialog = ref('dialog');
 const dialogShow = computed({
   get: () => {
-    return props.modelValue
+    return props.modelValue;
   },
   set: (val) => {
-    emit('update:modelValue', val)
-  }
-})
+    emit('update:modelValue', val);
+  },
+});
 </script>
 
 <template>
