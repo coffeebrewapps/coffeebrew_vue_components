@@ -8,6 +8,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "main": "./dist/coffeebrew-vue-components.umd.cjs",
   "module": "./dist/coffeebrew-vue-components.js",
   "exports": {
