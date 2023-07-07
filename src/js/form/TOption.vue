@@ -1,48 +1,44 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
-  size: {
-    type: String,
-    default: 'md'
-  },
   value: {
     type: [String, Number],
-    default: ''
+    default: '',
   },
   label: {
     type: [String, Number],
-    default: 'Select'
+    default: 'Select',
   },
   selected: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['select'])
+const emit = defineEmits(['select']);
 
 const computedOptionClass = computed(() => {
-  const classNames = []
-  classNames.push(`option`)
+  const classNames = [];
+  classNames.push(`option`);
 
   if (props.selected) {
-    classNames.push(`selected`)
+    classNames.push(`selected`);
   }
 
-  if (props.size) {
-    classNames.push(props.size)
-  }
+  return classNames.join(' ');
+});
 
-  return classNames.join(' ')
-})
+function handleClick() {
+  emit('select', props.value);
+}
 </script>
 
 <template>
   <div
     :class="computedOptionClass"
     :value="value"
-    @click="$emit('select', value)"
+    @click="handleClick"
   >
     {{ label }}
   </div>
