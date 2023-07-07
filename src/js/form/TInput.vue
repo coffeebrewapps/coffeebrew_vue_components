@@ -1,98 +1,90 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const props = defineProps({
   modelValue: {
     type: [String, Number],
-    default: null
+    default: null,
   },
   type: {
     type: String,
-    default: 'text'
+    default: 'text',
   },
   step: {
     type: Number,
-    default: 1
+    default: 1,
   },
   size: {
     type: String,
-    default: 'md'
+    default: 'md',
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
-  }
-})
+    default: '',
+  },
+});
 
-const input = ref('input')
-const cleanToggle = ref('cleanToggle')
+const input = ref('input');
+const cleanToggle = ref('cleanToggle');
+
+const inputValue = computed(() => {
+  return props.modelValue;
+});
 
 const computedControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  className.push(props.size)
+  className.push(props.size);
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedInputFieldClass = computed(() => {
-  return `input-field ${props.type}`
-})
+  return `input-field ${props.type}`;
+});
 
 function incrementNumber() {
-  if (props.type !== 'number') { return }
-
-  const step = input.value.step
-  if (!isNaN(parseFloat(step))) {
-    emit('update:modelValue', parseFloat(props.modelValue) + parseFloat(step));
-  } else {
-    emit('update:modelValue', parseFloat(props.modelValue) + 1);
+  if (!isNaN(+props.modelValue)) {
+    emit('update:modelValue', parseFloat(+props.modelValue) + parseFloat(props.step));
   }
 }
 
 function decrementNumber() {
-  if (props.type !== 'number') { return }
-
-  const step = input.value.step
-  if (!isNaN(parseFloat(step))) {
-    emit('update:modelValue', parseFloat(props.modelValue) - parseFloat(step));
-  } else {
-    emit('update:modelValue', parseFloat(props.modelValue) - 1);
+  if (!isNaN(+props.modelValue)) {
+    emit('update:modelValue', parseFloat(+props.modelValue) - parseFloat(props.step));
   }
 }
 
 function updateInput(value) {
   if (props.type === 'number') {
-    if (isNaN(+value)) {
-      emit('update:modelValue', null)
+    if (isNaN(+value) || value === '') {
+      emit('update:modelValue', null);
     } else {
-      emit('update:modelValue', value)
+      emit('update:modelValue', +value);
     }
   } else {
-    emit('update:modelValue', value)
+    emit('update:modelValue', value);
   }
 }
 
-function resetField(event) {
-  if (event instanceof KeyboardEvent && event.target !== cleanToggle.value) { return }
-
-  emit('update:modelValue', null)
+function resetField() {
+  emit('update:modelValue', null);
 }
 </script>
 
@@ -114,7 +106,7 @@ function resetField(event) {
           ref="input"
           :type="type"
           :step="step"
-          :value="modelValue"
+          :value="inputValue"
           :disabled="disabled"
           @input="updateInput($event.target.value)"
         >
@@ -126,21 +118,21 @@ function resetField(event) {
           <i
             class="fa-solid fa-caret-up fa-sm"
             @click="incrementNumber"
-          ></i>
+          />
           <i
             class="fa-solid fa-caret-down fa-sm"
             @click="decrementNumber"
-          ></i>
+          />
         </div>
 
         <div
+          ref="cleanToggle"
           tabindex="0"
           class="clean-toggle"
-          ref="cleanToggle"
-          @click="resetField($event)"
-          @keydown.enter="resetField($event)"
+          @click="resetField"
+          @keydown.enter="resetField"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
       </div>
     </div>
