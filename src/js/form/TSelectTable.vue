@@ -1,48 +1,46 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref } from 'vue';
 
-import TDialog from '../dialog/TDialog.vue'
-import TInput from './TInput.vue'
-import TCheckbox from './TCheckbox.vue'
-import TTable from '../table/TTable.vue'
-import TButton from './TButton.vue'
+import TDialog from '../dialog/TDialog.vue';
+import TTable from '../table/TTable.vue';
+import TButton from './TButton.vue';
 
 const props = defineProps({
   modelValue: {
     type: Array,
     default() {
-      return []
-    }
+      return [];
+    },
   },
   multiple: {
     type: Boolean,
-    default: true
+    default: true,
   },
   name: {
     type: String,
-    default: ''
+    default: '',
   },
   size: {
     type: String,
-    default: 'md'
+    default: 'md',
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   optionsLoading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   options: {
     type: Array,
     default() {
-      return []
-    }
+      return [];
+    },
   },
   optionsLength: {
     type: Number,
-    default: 0
+    default: 0,
   },
   pagination: {
     type: Object,
@@ -50,94 +48,90 @@ const props = defineProps({
       return {
         offset: 0,
         limit: 5,
-        client: true
-      }
-    }
+        client: true,
+      };
+    },
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
-  }
-})
+    default: '',
+  },
+});
 
-const emit = defineEmits(['update:modelValue', 'offsetChange'])
+const emit = defineEmits(['update:modelValue', 'offsetChange']);
 
-const inputField = ref('inputField')
-const selectField = ref('selectField')
-const cleanToggle = ref('cleanToggle')
-const tableDialog = ref(false)
+const inputField = ref('inputField');
+const selectField = ref('selectField');
+const cleanToggle = ref('cleanToggle');
+const tableDialog = ref(false);
 
 const tableHeaders = computed(() => {
   return [
     { key: 'value', type: 'text', label: 'Value' },
     { key: 'label', type: 'text', label: 'Label' },
-    { key: 'selected', type: 'text', label: '' }
-  ]
-})
+    { key: 'selected', type: 'text', label: '' },
+  ];
+});
 
 const actions = ref([
-])
+]);
 
 const computedInputControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
   if (props.size) {
-    className.push(props.size)
+    className.push(props.size);
   }
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 function checkboxClass(row) {
-  const found = selectedValues.value.find(v => v === row.value)
+  const found = selectedValues.value.find(v => v === row.value);
   if (found) {
-    return `checkbox checked`
+    return `checkbox checked`;
   } else {
-    return `checkbox`
+    return `checkbox`;
   }
 }
 
 const selectedValues = computed(() => {
   if (props.modelValue) {
-    return props.modelValue.map(v => v.value)
+    return props.modelValue.map(v => v.value);
   } else {
-    return []
+    return [];
   }
-})
-
-const cachedOptionLabel = ref({})
+});
 
 const selectedOptionsForDisplay = computed(() => {
   if (props.modelValue) {
-    return props.modelValue.map(v => v.label)
+    return props.modelValue.map(v => v.label);
   } else {
-    return []
+    return [];
   }
-})
+});
 
 function toggleSelect(event) {
   if (props.disabled) { return; }
 
-  event.preventDefault()
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  if (event instanceof MouseEvent && event.target !== selectField.value && event.target !== inputField.value) { return }
-  if (event instanceof KeyboardEvent && event.target !== inputField.value) { return }
-
-  tableDialog.value = !tableDialog.value
+  tableDialog.value = !tableDialog.value;
 }
 
 function closeSelect() {
-  tableDialog.value = false
+  tableDialog.value = false;
 }
 
 function removeSelected(index) {
@@ -146,46 +140,46 @@ function removeSelected(index) {
 }
 
 function resetField(event) {
-  if (event instanceof KeyboardEvent && event.target !== cleanToggle.value) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  emit('update:modelValue', [])
+  emit('update:modelValue', []);
 }
 
 function updateSelected(row) {
   if (props.multiple) {
-    emit('update:modelValue', updateMultipleSelected(row))
+    emit('update:modelValue', updateMultipleSelected(row));
   } else {
-    emit('update:modelValue', updateSingleSelected(row))
+    emit('update:modelValue', updateSingleSelected(row));
   }
 }
 
 function updateMultipleSelected(row) {
-  const dup = Array.from(props.modelValue || [])
-  const found = selectedValues.value.findIndex(v => v === row.value)
+  const dup = Array.from(props.modelValue || []);
+  const found = selectedValues.value.findIndex(v => v === row.value);
   if (found < 0) { // not exists
-    dup.push({ value: row.value, label: row.label })
+    dup.push({ value: row.value, label: row.label });
   } else {
-    dup.splice(found, 1)
+    dup.splice(found, 1);
   }
-  return dup
+  return dup;
 }
 
 function updateSingleSelected(row) {
-  const dup = Array.from(props.modelValue || [])
-  const found = selectedValues.value.findIndex(v => v === row.value)
+  const found = selectedValues.value.findIndex(v => v === row.value);
   if (found < 0) { // not exists
-    return [{ value: row.value, label: row.label }]
+    return [{ value: row.value, label: row.label }];
   } else {
-    return []
+    return [];
   }
 }
 
 function updateOffsetAndReload(offset) {
-  emit('offsetChange', offset)
+  emit('offsetChange', offset);
 }
 
 onMounted(() => {
-})
+});
 </script>
 
 <template>
@@ -199,24 +193,24 @@ onMounted(() => {
     </div>
 
     <div
+      ref="inputField"
       tabindex="0"
       class="input-field"
-      ref="inputField"
       @keydown.enter="toggleSelect($event)"
       @keydown.esc="closeSelect()"
       @keydown.backspace="resetField($event)"
     >
       <div class="wrapper">
         <div
-          class="select"
           ref="selectField"
+          class="select"
           @click="toggleSelect"
         >
           <div class="selected-list">
             <div
-              class="selected"
               v-for="(selected, i) in selectedOptionsForDisplay"
               :key="i"
+              class="selected"
             >
               <div
                 tabindex="0"
@@ -227,24 +221,24 @@ onMounted(() => {
                 <i
                   class="fa-solid fa-xmark"
                   @click="removeSelected(i)"
-                ></i>
+                />
               </div>
             </div>
           </div>
 
           <div class="toggle">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass" />
           </div>
         </div>
 
         <div
+          ref="cleanToggle"
           tabindex="0"
           class="clean-toggle"
-          ref="cleanToggle"
           @click="resetField($event)"
           @keydown.enter="resetField($event)"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
       </div> <!-- wrapper -->
     </div>
@@ -278,12 +272,10 @@ onMounted(() => {
             :pagination="pagination"
             @offset-change="updateOffsetAndReload"
           >
-
-            <template #[`data-col.selected`]="{ header, row, i }">
+            <template #[`data-col.selected`]="{ row }">
               <div
                 :class="checkboxClass(row)"
-              >
-              </div>
+              />
             </template>
           </TTable>
         </template>
@@ -304,7 +296,7 @@ onMounted(() => {
 
 <style scoped>
 .input-control {
-  margin: 2px 8px 8px 0;
+  margin: 2px 0 0 0;
 }
 
 .input-control.sm {
@@ -332,7 +324,7 @@ onMounted(() => {
   display: grid;
   grid-template-columns: auto 26px;
   align-items: center;
-  margin: 2px 0 0 0;
+  margin: 2px 0 8px 0;
   border: 1px solid var(--color-border);
   border-radius: 4px;
 }
