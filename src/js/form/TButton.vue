@@ -1,55 +1,57 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   buttonType: {
     type: String,
-    default: 'text'
+    default: 'text',
   },
   size: {
     type: String,
-    default: 'md'
+    default: 'md',
   },
   value: {
     type: String,
-    default: 'Button'
+    default: 'Button',
   },
   icon: {
     type: String,
-    default: ''
+    default: '',
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits({
-  click: null
-})
+const emit = defineEmits(['click']);
 
 const computedBtnClass = computed(() => {
-  const className = []
-  className.push(`button`)
-  className.push(props.buttonType)
-  className.push(props.size)
+  const className = [];
+  className.push(`button`);
+  className.push(props.buttonType);
+  className.push(props.size);
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedIconClass = computed(() => {
-  return `${props.icon} fa-lg`.trim()
-})
+  return `${props.icon} fa-lg`.trim();
+});
+
+function handleClick() {
+  emit('click');
+}
 </script>
 
 <template>
   <div
     :class="computedBtnClass"
-    @click="$emit('click')"
+    @click="handleClick"
   >
     <span
       v-if="buttonType === 'text'"
@@ -57,7 +59,7 @@ const computedIconClass = computed(() => {
       {{ value }}
     </span>
 
-    <i :class="computedIconClass"></i>
+    <i :class="computedIconClass" />
   </div>
 </template>
 
