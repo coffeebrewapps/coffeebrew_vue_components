@@ -1,86 +1,92 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, onBeforeUnmount, computed, ref } from 'vue';
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
   width: {
     type: Number,
-    default: 800
+    default: 800,
   },
   height: {
     type: Number,
-    default: 600
+    default: 600,
   },
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   fullscreen: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const dialog = ref('dialog')
+const dialog = ref('dialog');
 
 const computedDialogClass = computed(() => {
   if (props.modelValue) {
-    return `dialog show`
+    return `dialog show`;
   } else {
-    return `dialog hide`
+    return `dialog hide`;
   }
-})
+});
 
 const showDialog = computed(() => {
-  return props.modelValue
-})
+  return props.modelValue;
+});
 
 function closeDialog() {
-  emit('update:modelValue', false)
+  emit('update:modelValue', false);
 }
 
 const computedStyles = computed(() => {
   if (dialog.value) {
     if (props.fullscreen) {
-      const width = `100vw`
-      const height = `100vh`
-      const top = `0`
-      const left  = `0`
+      const width = `100vw`;
+      const height = `100vh`;
+      const top = `0`;
+      const left = `0`;
 
-      return `width:${width}; height:${height}; top:${top}; left:${left};`
+      return `width:${width}; height:${height}; top:${top}; left:${left};`;
     } else {
-      const width = `${props.width}px`
-      const height = `${props.height}px`
-      const top = `calc((100vh - ${height}) / 2)`
-      const left  = `calc((100vw - ${width}) / 2)`
+      const width = `${props.width}px`;
+      const height = `${props.height}px`;
+      const top = `calc((100vh - ${height}) / 2)`;
+      const left = `calc((100vw - ${width}) / 2)`;
 
-      return `width:${width}; height:${height}; top:${top}; left:${left};`
+      return `width:${width}; height:${height}; top:${top}; left:${left};`;
     }
   } else {
-    return ``
+    return ``;
   }
-})
+});
+
+function handleEsc(event) {
+  if (event.key === 'Escape' && showDialog.value) {
+    closeDialog();
+  }
+}
 
 onMounted(() => {
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && showDialog.value) {
-      closeDialog()
-    }
-  })
-})
+  document.addEventListener('keydown', handleEsc);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleEsc);
+});
 </script>
 
 <template>
   <Transition name="dialog">
     <div
-      :class="computedDialogClass"
-      ref="dialog"
       v-if="showDialog"
+      ref="dialog"
+      :class="computedDialogClass"
     >
       <div
         class="window"
@@ -90,7 +96,7 @@ onMounted(() => {
           class="close-button"
           @click="closeDialog()"
         >
-          <i class="fa-solid fa-xmark"></i>
+          <i class="fa-solid fa-xmark" />
         </div>
 
         <div
@@ -107,15 +113,13 @@ onMounted(() => {
           <div
             class="body"
           >
-            <slot name="body">
-            </slot>
+            <slot name="body" />
           </div>
 
           <div
             class="actions"
           >
-            <slot name="actions">
-            </slot>
+            <slot name="actions" />
           </div>
         </div>
       </div> <!-- window -->
