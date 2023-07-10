@@ -1,66 +1,66 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
-import TDatePicker from './TDatePicker.vue'
+import TDatePicker from './TDatePicker.vue';
 
 const props = defineProps({
   startDate: {
     type: Date,
-    default: null
+    default: null,
   },
   endDate: {
     type: Date,
-    default: null
+    default: null,
   },
   startMin: {
     type: Date,
-    default: null
+    default: null,
   },
   startMax: {
     type: Date,
-    default: null
+    default: null,
   },
   endMin: {
     type: Date,
-    default: null
+    default: null,
   },
   endMax: {
     type: Date,
-    default: null
+    default: null,
   },
   label: {
     type: String,
-    default: 'Date'
+    default: 'Date',
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: '',
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:startDate', 'update:endDate'])
+const emit = defineEmits(['update:startDate', 'update:endDate']);
 
 const selectedStartDate = computed({
   get: () => {
-    return props.startDate
+    return props.startDate;
   },
   set: (val) => {
-    emit('update:startDate', val)
-  }
-})
+    emit('update:startDate', val);
+  },
+});
 
 const selectedEndDate = computed({
   get: () => {
-    return props.endDate
+    return props.endDate;
   },
   set: (val) => {
-    emit('update:endDate', val)
-  }
-})
+    emit('update:endDate', val);
+  },
+});
 </script>
 
 <template>
@@ -71,8 +71,8 @@ const selectedEndDate = computed({
 
     <div class="input-field">
       <TDatePicker
-        class="start-date"
         v-model="selectedStartDate"
+        class="start-date"
         label=""
         :disabled="disabled"
         :min="startMin"
@@ -80,11 +80,13 @@ const selectedEndDate = computed({
         align-pickers="top"
       />
 
-      <div class="to">to</div>
+      <div class="to">
+        to
+      </div>
 
       <TDatePicker
-        class="end-date"
         v-model="selectedEndDate"
+        class="end-date"
         label=""
         :disabled="disabled"
         :min="endMin"
