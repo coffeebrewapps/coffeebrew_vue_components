@@ -1,52 +1,49 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { computed } from 'vue';
 
-import TDateTimePicker from './TDateTimePicker.vue'
+import TDateTimePicker from './TDateTimePicker.vue';
 
 const props = defineProps({
   modelValue: {
     type: Date,
-    default: null
+    default: null,
   },
   min: {
     type: Date,
-    default: null
+    default: null,
   },
   max: {
     type: Date,
-    default: null
+    default: null,
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: '',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   alignPickers: {
     type: String,
-    default: 'center'
-  }
-})
+    default: 'center',
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const selectedDate = computed({
   get: () => {
-    return props.modelValue
+    return props.modelValue;
   },
   set: (val) => {
-    emit('update:modelValue', val)
-  }
-})
-
-onMounted(() => {
-})
+    emit('update:modelValue', val);
+  },
+});
 </script>
 
 <template>
