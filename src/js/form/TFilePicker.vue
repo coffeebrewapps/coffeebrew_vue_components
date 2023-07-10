@@ -1,220 +1,207 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
-import TDialog from '../dialog/TDialog.vue'
-import TButton from '../form/TButton.vue'
+import TDialog from '../dialog/TDialog.vue';
+import TButton from '../form/TButton.vue';
 
 const props = defineProps({
   modelValue: {
     type: [File, Array],
-    default: null
+    default: null,
   },
   multiple: {
     type: Boolean,
-    default: false
+    default: false,
   },
   accept: {
     type: String,
-    default: 'image/*,.pdf'
-  },
-  name: {
-    type: String,
-    default: ''
+    default: 'image/*,.pdf',
   },
   size: {
     type: String,
-    default: 'md'
+    default: 'md',
   },
   label: {
     type: String,
-    default: 'Input'
-  },
-  optionsLoading: {
-    type: Boolean,
-    default: false
-  },
-  options: {
-    type: Array,
-    default() {
-      return []
-    }
-  },
-  optionsLength: {
-    type: Number,
-    default: 0
-  },
-  pagination: {
-    type: Object,
-    default() {
-      return {
-        offset: 0,
-        limit: 5,
-        client: true
-      }
-    }
+    default: 'Input',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
-  }
-})
+    default: '',
+  },
+});
 
-const emit = defineEmits(['update:modelValue', 'offsetChange'])
+const emit = defineEmits(['update:modelValue', 'offsetChange']);
 
-const selectField = ref('selectField')
-const file = ref('file')
-const removeFileInput = ref('removeFileInput')
-const previewFileInput = ref('previewFileInput')
-const resetFieldInput = ref('resetFieldInput')
+const selectField = ref('selectField');
+const fileInput = ref('fileInput');
+const removeFileInput = ref('removeFileInput');
+const previewFileInput = ref('previewFileInput');
+const resetFieldInput = ref('resetFieldInput');
 
 const selectedFiles = computed(() => {
   if (props.multiple) {
-    return props.modelValue || []
+    return props.modelValue ?? [];
   } else {
-    return [props.modelValue || []].flat()
+    return [props.modelValue ?? []].flat();
   }
-})
+});
 
-const previewDialog = ref(false)
-const rawFileContent = ref([])
-const previewFileError = ref()
+const previewDialog = ref(false);
+const rawFileContent = ref([]);
+const previewFileError = ref();
 
 const previewDialogTitle = computed(() => {
   if (props.multiple) {
-    return `Preview Files`
+    return `Preview Files`;
   } else {
-    return `Preview File`
+    return `Preview File`;
   }
-})
+});
 
 const hasSelectedFiles = computed(() => {
-  return selectedFiles.value.length > 0
-})
+  return selectedFiles.value.length > 0;
+});
 
 const computedInputControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
   if (props.size) {
-    className.push(props.size)
+    className.push(props.size);
   }
 
   if (props.disabled) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedInputFieldClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-field`)
+  className.push(`input-field`);
 
   if (hasSelectedFiles.value) {
-    className.push(`previewable`)
+    className.push(`previewable`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 function toggleSelect(event) {
-  if (
-    event instanceof KeyboardEvent &&
-    (
-      event.target === removeFileInput.value ||
-      event.target === previewFileInput.value ||
-      event.target === resetFieldInput.value
-    )
-  ) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  if (props.disabled) { return }
+  if (props.disabled) { return; }
 
-  file.value.showPicker()
+  fileInput.value.showPicker();
 }
 
 function handleFileUpload(event) {
-  const length = event.target.files.length
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  const length = event.target.files.length;
   for (let i = 0; i < length; i++) {
-    selectedFiles.value.push(event.target.files[i])
+    selectedFiles.value.push(event.target.files[i]);
   }
 
-  if (props.multiple) {
-    emit('update:modelValue', selectedFiles.value)
-  } else {
-    const file = selectedFiles.value[0]
-    emit('update:modelValue', file)
-  }
+  emitFileChange();
 }
 
-function removeFile(index) {
+function removeFile(event, index) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
   selectedFiles.value.splice(index, 1);
+
+  emitFileChange();
 }
 
-function previewFile() {
-  previewDialog.value = false
-  rawFileContent.value = []
-  previewFileError.value = null
-
-  if (selectedFiles.value) {
-    const promises = selectedFiles.value.map((file) => {
-      const fileReader = new FileReader()
-      fileReader.readAsDataURL(file)
-      fileReader.onload = () => {
-        rawFileContent.value.push({ name: file.name, rawData: fileReader.result })
-      }
-      fileReader.onerror = (error) => {
-        previewFileError.value = JSON.stringify(error, false, 4)
-      }
-      return fileReader
-    })
-
-    Promise.all(promises)
-      .then((results) => {
-        previewDialog.value = true
-      })
+function emitFileChange() {
+  if (props.multiple) {
+    emit('update:modelValue', selectedFiles.value);
+  } else {
+    const file = selectedFiles.value[0];
+    emit('update:modelValue', file);
   }
 }
 
-const currentPreviewFile = ref(0)
+async function previewFile(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-function viewFile(index) {
-  currentPreviewFile.value = index
+  previewDialog.value = false;
+  rawFileContent.value = [];
+  previewFileError.value = null;
+
+  const promises = selectedFiles.value.map((file) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      rawFileContent.value.push({ name: file.name, rawData: fileReader.result });
+    };
+    fileReader.onerror = (error) => {
+      previewFileError.value = JSON.stringify(error, false, 4);
+    };
+    return fileReader;
+  });
+
+  Promise.all(promises)
+    .then((results) => {
+      previewDialog.value = true;
+    });
+}
+
+const currentPreviewFile = ref(0);
+
+function viewFile(event, index) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  currentPreviewFile.value = index;
 }
 
 function previewTabStyle(index) {
   if (currentPreviewFile.value === index) {
-    return `preview-tab selected`
+    return `preview-tab selected`;
   } else {
-    return `preview-tab`
+    return `preview-tab`;
   }
 }
 
 function rawFileContentStyle(index) {
   if (currentPreviewFile.value === index) {
-    return `preview-file selected`
+    return `preview-file selected`;
   } else {
-    return `preview-file`
+    return `preview-file`;
   }
 }
 
 function closeDialog() {
-  previewDialog.value = false
-  rawFileContent.value = []
-  previewFileError.value = null
-  currentPreviewFile.value = 0
+  previewDialog.value = false;
+  rawFileContent.value = [];
+  previewFileError.value = null;
+  currentPreviewFile.value = 0;
 }
 
-function resetField() {
+function resetField(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
+  if (props.disabled) { return; }
+
   if (props.multiple) {
-    emit('update:modelValue', [])
+    emit('update:modelValue', []);
   } else {
-    emit('update:modelValue', null)
+    emit('update:modelValue', null);
   }
 }
 </script>
@@ -237,59 +224,59 @@ function resetField() {
     >
       <div class="wrapper">
         <div
-          class="select"
           ref="selectField"
+          class="select"
           @click="toggleSelect"
         >
           <div class="selected-list">
             <div
-              tabindex="0"
-              class="closeable-tag"
               v-for="(selected, i) in selectedFiles"
               :key="i"
-              @keydown.backspace="removeFile(i)"
+              tabindex="0"
+              class="closeable-tag"
+              @keydown.backspace="removeFile($event, i)"
             >
               <div>{{ selected.name }}</div>
               <i
                 ref="removeFileInput"
                 class="fa-solid fa-xmark"
-                @click="removeFile(i)"
-              ></i>
+                @click="removeFile($event, i)"
+              />
             </div>
           </div>
 
           <div class="toggle">
-            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-solid fa-magnifying-glass" />
           </div>
 
           <input
+            ref="fileInput"
             type="file"
-            ref="file"
             :accept="accept"
             :multiple="multiple"
             @change="handleFileUpload"
-          />
+          >
         </div>
 
         <div
-          tabindex="0"
-          ref="previewFileInput"
           v-if="hasSelectedFiles"
+          ref="previewFileInput"
+          tabindex="0"
           class="preview-toggle"
           @click="previewFile"
           @keydown.enter="previewFile"
         >
-          <i class="fa-solid fa-circle-info"></i>
+          <i class="fa-solid fa-circle-info" />
         </div>
 
         <div
-          tabindex="0"
           ref="resetFieldInput"
+          tabindex="0"
           class="clean-toggle"
           @click="resetField"
           @keydown.enter="resetField"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
       </div> <!-- wrapper -->
     </div>
@@ -319,9 +306,11 @@ function resetField() {
               v-for="(rawFile, i) in rawFileContent"
               :key="i"
               :class="previewTabStyle(i)"
-              @click="viewFile(i)"
+              @click="viewFile($event, i)"
             >
-              <div class="filename">{{ rawFile.name }}</div>
+              <div class="filename">
+                {{ rawFile.name }}
+              </div>
             </div>
           </div>
 
@@ -344,7 +333,12 @@ function resetField() {
         </template>
 
         <template #actions>
-          <TButton button-type="text" value="Close" icon="fa-solid fa-check" @click="closeDialog()"/>
+          <TButton
+            button-type="text"
+            value="Close"
+            icon="fa-solid fa-check"
+            @click="closeDialog"
+          />
         </template>
       </TDialog>
     </Transition>
