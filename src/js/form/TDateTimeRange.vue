@@ -1,70 +1,70 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
-import TDateTimePicker from './TDateTimePicker.vue'
+import TDateTimePicker from './TDateTimePicker.vue';
 
 const props = defineProps({
   startTime: {
     type: Date,
-    default: null
+    default: null,
   },
   endTime: {
     type: Date,
-    default: null
+    default: null,
   },
   startMin: {
     type: Date,
-    default: null
+    default: null,
   },
   startMax: {
     type: Date,
-    default: null
+    default: null,
   },
   endMin: {
     type: Date,
-    default: null
+    default: null,
   },
   endMax: {
     type: Date,
-    default: null
+    default: null,
   },
   label: {
     type: String,
-    default: 'Date'
+    default: 'Date',
   },
   hour12: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: '',
   },
   disabled: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['update:startTime', 'update:endTime'])
+const emit = defineEmits(['update:startTime', 'update:endTime']);
 
 const selectedStartTime = computed({
   get: () => {
-    return props.startTime
+    return props.startTime;
   },
   set: (val) => {
-    emit('update:startTime', val)
-  }
-})
+    emit('update:startTime', val);
+  },
+});
 
 const selectedEndTime = computed({
   get: () => {
-    return props.endTime
+    return props.endTime;
   },
   set: (val) => {
-    emit('update:endTime', val)
-  }
-})
+    emit('update:endTime', val);
+  },
+});
 </script>
 
 <template>
@@ -75,8 +75,8 @@ const selectedEndTime = computed({
 
     <div class="input-field">
       <TDateTimePicker
-        class="start-time"
         v-model="selectedStartTime"
+        class="start-time"
         label=""
         :disabled="disabled"
         :hour12="hour12"
@@ -85,11 +85,13 @@ const selectedEndTime = computed({
         align-pickers="top"
       />
 
-      <div class="to">to</div>
+      <div class="to">
+        to
+      </div>
 
       <TDateTimePicker
-        class="end-time"
         v-model="selectedEndTime"
+        class="end-time"
         label=""
         :disabled="disabled"
         align-pickers="top"
