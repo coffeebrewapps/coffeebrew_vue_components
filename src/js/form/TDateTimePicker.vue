@@ -1,43 +1,43 @@
 <script setup>
-import { onMounted, computed, ref, watch } from 'vue'
+import { onMounted, onBeforeUnmount, computed, ref, watch } from 'vue';
 
-import TButton from './TButton.vue'
+import TButton from './TButton.vue';
 
 function notEmpty(val) {
-  return !isEmpty(val)
+  return !isEmpty(val);
 }
 
 function isEmpty(val) {
-  return Object.is(val, undefined) || Object.is(val, null)
+  return Object.is(val, undefined) || Object.is(val, null);
 }
 
-const today = new Date()
+const today = new Date();
 
 const initDate = computed(() => {
-  return props.modelValue
-})
+  return props.modelValue;
+});
 
 const minDate = computed(() => {
   if (notEmpty(props.min)) {
-    return props.min
+    return props.min;
   } else {
-    return new Date(today.getFullYear() - 100, 0, 1)
+    return new Date(today.getFullYear() - 100, 0, 1);
   }
-})
+});
 
 const maxDate = computed(() => {
   if (notEmpty(props.max)) {
-    return props.max
+    return props.max;
   } else {
-    return new Date(today.getFullYear() + 100, 11, 31)
+    return new Date(today.getFullYear() + 100, 11, 31);
   }
-})
+});
 
 const years = computed(() => {
   return [
-    ...Array(1 + maxDate.value.getFullYear() - minDate.value.getFullYear()).keys()
-  ].map(y => y + minDate.value.getFullYear())
-})
+    ...Array(1 + maxDate.value.getFullYear() - minDate.value.getFullYear()).keys(),
+  ].map(y => y + minDate.value.getFullYear());
+});
 
 const months = [
   'Jan',
@@ -51,30 +51,30 @@ const months = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
-]
+  'Dec',
+];
 
 function daysInMonth(year, month) {
-  const monthStart = new Date(year, month, 1)
-  const monthEnd = new Date(monthStart)
-  monthEnd.setMonth(monthEnd.getMonth() + 1)
-  monthEnd.setDate(monthEnd.getDate() - 1)
+  const monthStart = new Date(year, month, 1);
+  const monthEnd = new Date(monthStart);
+  monthEnd.setMonth(monthEnd.getMonth() + 1);
+  monthEnd.setDate(monthEnd.getDate() - 1);
 
-  const dayOfWeek = monthStart.getDay()
-  const daysPadding = []
+  const dayOfWeek = monthStart.getDay();
+  const daysPadding = [];
 
   if (props.mondayStart) {
     if (dayOfWeek === 0) {
-      daysPadding.push(Array.from(new Array(6)))
+      daysPadding.push(Array.from(new Array(6)));
     } else {
-      daysPadding.push(Array.from(new Array(dayOfWeek - 1)))
+      daysPadding.push(Array.from(new Array(dayOfWeek - 1)));
     }
   } else {
-    daysPadding.push(Array.from(new Array(dayOfWeek)))
+    daysPadding.push(Array.from(new Array(dayOfWeek)));
   }
 
-  const displayDays = Array.from(Array(monthEnd.getDate())).map((_, i) => (i + 1))
-  return daysPadding.concat(displayDays).flat()
+  const displayDays = Array.from(Array(monthEnd.getDate())).map((_, i) => (i + 1));
+  return daysPadding.concat(displayDays).flat();
 }
 
 const daysOfWeekSunStart = [
@@ -84,8 +84,8 @@ const daysOfWeekSunStart = [
   'W',
   'T',
   'F',
-  'S'
-]
+  'S',
+];
 
 const daysOfWeekMonStart = [
   'M',
@@ -94,8 +94,8 @@ const daysOfWeekMonStart = [
   'T',
   'F',
   'S',
-  'S'
-]
+  'S',
+];
 
 const daysOfWeek = computed(() => {
   if (props.mondayStart) {
@@ -103,232 +103,235 @@ const daysOfWeek = computed(() => {
   } else {
     return daysOfWeekSunStart;
   }
-})
+});
 
-const days = ref(Array.from(Array(31)).map((_v, i) => (i + 1)))
-const hours = Array.from(Array(24)).map((_v, i) => i)
-const minutes = Array.from(Array(60)).map((_v, i) => i)
-const seconds = Array.from(Array(60)).map((_v, i) => i)
+const days = ref(Array.from(Array(31)).map((_v, i) => (i + 1)));
+const hours = Array.from(Array(24)).map((_v, i) => i);
+const minutes = Array.from(Array(60)).map((_v, i) => i);
+const seconds = Array.from(Array(60)).map((_v, i) => i);
 
 const props = defineProps({
   modelValue: {
     type: Date,
-    default: null
+    default: null,
   },
   min: {
     type: Date,
-    default: null
+    default: null,
   },
   max: {
     type: Date,
-    default: null
+    default: null,
   },
   label: {
     type: String,
-    default: 'Input'
+    default: 'Input',
   },
   displayTime: {
     type: Boolean,
-    default: true
+    default: true,
   },
   hour12: {
     type: Boolean,
-    default: false
+    default: false,
   },
   errorMessage: {
     type: String,
-    default: ''
+    default: '',
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   alignPickers: {
     type: String,
-    default: 'center'
+    default: 'center',
   },
   mondayStart: {
     type: Boolean,
-    default: true
-  }
-})
+    default: true,
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const yearPicker = ref('yearPicker')
-const monthPicker = ref('monthPicker')
-const dayPicker = ref('dayPicker')
-const hourPicker = ref('hourPicker')
-const minutePicker = ref('minutePicker')
-const secondPicker = ref('secondPicker')
+const yearPicker = ref('yearPicker');
+const monthPicker = ref('monthPicker');
+const dayPicker = ref('dayPicker');
+const hourPicker = ref('hourPicker');
+const minutePicker = ref('minutePicker');
+const secondPicker = ref('secondPicker');
 
-const yearOptions = ref('yearOptions')
-const monthOptions = ref('monthOptions')
-const dayOptions = ref('dayOptions')
-const hourOptions = ref('hourOptions')
-const minuteOptions = ref('minuteOptions')
-const secondOptions = ref('secondOptions')
+const yearOptions = ref('yearOptions');
+const monthOptions = ref('monthOptions');
+const dayOptions = ref('dayOptions');
+const hourOptions = ref('hourOptions');
+const minuteOptions = ref('minuteOptions');
+const secondOptions = ref('secondOptions');
 
-const yearRefs = ref([])
-const monthRefs = ref([])
-const dayRefs = ref([])
-const hourRefs = ref([])
-const minuteRefs = ref([])
-const secondRefs = ref([])
+const yearRefs = ref([]);
+const monthRefs = ref([]);
+const dayRefs = ref([]);
+const hourRefs = ref([]);
+const minuteRefs = ref([]);
+const secondRefs = ref([]);
 
-const toggleState = ref('collapsed')
-const selectedYear = ref()
-const selectedMonth = ref()
-const selectedDay = ref()
-const selectedHour = ref()
-const selectedMinute = ref()
-const selectedSecond = ref()
-const selectedDate = ref()
+const toggleState = ref('collapsed');
+const selectedYear = ref();
+const selectedMonth = ref();
+const selectedDay = ref();
+const selectedHour = ref();
+const selectedMinute = ref();
+const selectedSecond = ref();
 
-const showDayPickers = ref(false)
-const showYearPicker = ref(false)
-const showMonthPicker = ref(false)
-const showDayPicker = ref(false)
+const showDayPickers = ref(false);
+const showYearPicker = ref(false);
+const showMonthPicker = ref(false);
+const showDayPicker = ref(false);
 
-const showTimePickers = ref(false)
-const showHourPicker = ref(false)
-const showMinutePicker = ref(false)
-const showSecondPicker = ref(false)
+const showTimePickers = ref(false);
+const showMinutePicker = ref(false);
+const showSecondPicker = ref(false);
 
-const inputField = ref('inputField')
-const selectField = ref('selectField')
+const inputField = ref('inputField');
+const selectField = ref('selectField');
 
 const computedControlClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-control`)
+  className.push(`input-control`);
 
-  if (Object.is(props.displayTime, true)) {
-    className.push(`display-time`)
+  if (props.displayTime) {
+    className.push(`display-time`);
 
-    if (Object.is(props.hour12, true)) {
-      className.push(`hour12`)
+    if (props.hour12) {
+      className.push(`hour12`);
     } else {
-      className.push(`hour24`)
+      className.push(`hour24`);
     }
   }
 
-  if (Object.is(props.disabled, true)) {
-    className.push(`disabled`)
+  if (props.disabled) {
+    className.push(`disabled`);
   }
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedFieldClass = computed(() => {
-  const className = []
+  const className = [];
 
-  className.push(`input-field`)
+  className.push(`input-field`);
 
   if (props.alignPickers === 'top') {
-    className.push(`top-align`)
+    className.push(`top-align`);
   } else if (props.alignPickers === 'bottom') {
-    className.push(`bottom-align`)
+    className.push(`bottom-align`);
   } else {
-    className.push(`center`)
+    className.push(`center`);
   }
 
-  className.push(toggleState.value)
+  className.push(toggleState.value);
 
-  return className.join(' ')
-})
+  return className.join(' ');
+});
 
 const computedYearPickerClass = computed(() => {
-  if (Object.is(showYearPicker.value, true)) {
-    return `year picker show`
+  if (showYearPicker.value) {
+    return `year picker show`;
   } else {
-    return `year picker hide`
+    return `year picker hide`;
   }
-})
+});
 
 const computedMonthPickerClass = computed(() => {
-  if (Object.is(showMonthPicker.value, true)) {
-    return `month picker show`
+  if (showMonthPicker.value) {
+    return `month picker show`;
   } else {
-    return `month picker hide`
+    return `month picker hide`;
   }
-})
+});
 
 const computedDayPickerClass = computed(() => {
-  if (Object.is(showDayPicker.value, true)) {
-    return `day picker show`
+  if (showDayPicker.value) {
+    return `day picker show`;
   } else {
-    return `day picker hide`
+    return `day picker hide`;
   }
-})
+});
 
 const computedHourPickerClass = computed(() => {
-  return `hour picker show`
-})
+  if (showTimePickers.value) {
+    return `hour picker show`;
+  } else {
+    return `hour picker hide`;
+  }
+});
 
 const computedMinutePickerClass = computed(() => {
-  return `minute picker show`
-})
+  if (showTimePickers.value) {
+    return `minute picker show`;
+  } else {
+    return `minute picker hide`;
+  }
+});
 
 const computedSecondPickerClass = computed(() => {
-  return `second picker show`
-})
+  if (showTimePickers.value) {
+    return `second picker show`;
+  } else {
+    return `second picker hide`;
+  }
+});
 
 const computedSelectedDate = computed(() => {
-  const year = selectedYear.value
-  const month = selectedMonth.value
-  const day = selectedDay.value
+  const year = selectedYear.value;
+  const month = selectedMonth.value;
+  const day = selectedDay.value;
 
-  if (isEmpty(year)) { return null }
-  if (isEmpty(month)) { return null }
-  if (isEmpty(day)) { return null }
+  if (isEmpty(year)) { return null; }
+  if (isEmpty(month)) { return null; }
+  if (isEmpty(day)) { return null; }
 
-  if (Object.is(props.displayTime, false)) {
-    return new Date(year, month, day)
+  if (!props.displayTime) {
+    return new Date(year, month, day);
   }
 
-  const hour = selectedHour.value
-  const minute = selectedMinute.value
-  const second = selectedSecond.value
+  const hour = selectedHour.value;
+  const minute = selectedMinute.value;
+  const second = selectedSecond.value;
 
-  if (Object.is(props.displayTime, true) && isEmpty(hour)) { return null }
-  if (Object.is(props.displayTime, true) && isEmpty(minute)) { return null }
-  if (Object.is(props.displayTime, true) && isEmpty(second)) { return null }
+  if (props.displayTime && isEmpty(hour)) { return null; }
+  if (props.displayTime && isEmpty(minute)) { return null; }
+  if (props.displayTime && isEmpty(second)) { return null; }
 
-  return new Date(year, month, day, hour, minute, second)
-})
+  return new Date(year, month, day, hour, minute, second);
+});
 
 const displayDate = computed(() => {
-  if (isEmpty(props.modelValue)) { return { date: {}, time: {} } }
+  if (isEmpty(props.modelValue)) { return { date: {}, time: {} }; }
 
-  return formatDate(props.modelValue)
-})
+  return formatDate(props.modelValue);
+});
 
 const titleDate = computed(() => {
-  const parts = []
+  const parts = [];
 
   if (notEmpty(selectedYear.value)) {
-    parts.unshift(selectedYear.value)
+    parts.unshift(selectedYear.value);
   }
 
   if (showDayPickers.value) {
     if (showDayPicker.value) {
-      if (notEmpty(selectedMonth.value)) {
-        parts.unshift(months[selectedMonth.value])
-      }
+      parts.unshift(months[selectedMonth.value]);
     }
   } else if (showTimePickers.value) {
-    if (notEmpty(selectedMonth.value)) {
-      parts.unshift(months[selectedMonth.value])
-    }
-
-    if (notEmpty(selectedDay.value)) {
-      parts.unshift(selectedDay.value)
-    }
+    parts.unshift(months[selectedMonth.value]);
+    parts.unshift(selectedDay.value);
   }
 
-  return parts.join(' ')
-})
+  return parts.join(' ');
+});
 
 function formatDate(date) {
   return formatDateParts(
@@ -338,93 +341,95 @@ function formatDate(date) {
     date.getHours(),
     date.getMinutes(),
     date.getSeconds()
-  )
+  );
 }
 
 function formatDateParts(year, month, day, hour, minute, second) {
-  const date = new Date(year, month, day, hour, minute, second)
-  year = date.toLocaleString('default', { year: 'numeric' })
-  month = date.toLocaleString('default', { month: '2-digit' })
-  day = date.toLocaleString('default', { day: '2-digit' })
+  const date = new Date(year, month, day, hour, minute, second);
+  year = date.toLocaleString('default', { year: 'numeric' });
+  month = date.toLocaleString('default', { month: '2-digit' });
+  day = date.toLocaleString('default', { day: '2-digit' });
 
-  const time = date.toLocaleTimeString('en-US', { hour12: props.hour12, hour: '2-digit', minute: '2-digit', second: '2-digit' })
-  const timeParts = time.split(' ')[0].split(':')
-  hour = timeParts[0]
-  minute = timeParts[1]
-  second = timeParts[2]
-  const amPm = time.split(' ')[1]
+  const time = date.toLocaleTimeString(
+    'en-US', { hour12: props.hour12, hour: '2-digit', minute: '2-digit', second: '2-digit' }
+  );
+  const timeParts = time.split(' ')[0].split(':');
+  hour = timeParts[0];
+  minute = timeParts[1];
+  second = timeParts[2];
+  const amPm = time.split(' ')[1];
 
   return {
     date: { year, month, day },
-    time: { hour, minute, second, amPm }
-  }
+    time: { hour, minute, second, amPm },
+  };
 }
 
 function toggleSelect(event) {
-  if (Object.is(props.disabled, true)) { return; }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  event.preventDefault()
-
-  if (event instanceof KeyboardEvent && event.target !== inputField.value && event.target !== selectField.value) {
-    return
-  }
+  if (props.disabled) { return; }
 
   if (toggleState.value === 'collapsed') {
-    toggleState.value = 'expanded'
+    toggleState.value = 'expanded';
 
-    if (isEmpty(selectedYear.value)) {
-      showDayPickers.value = true
-      showYearPicker.value = true
-    }
-    else if (isEmpty(selectedMonth.value)) {
-      showDayPickers.value = true
-      showMonthPicker.value = true
-    }
-    else if (!props.displayTime) {
-      showDayPickers.value = true
-      showDayPicker.value = true
+    if (props.displayTime) {
+      if (notEmpty(selectedHour.value)) {
+        showTimePickers.value = true;
+      } else {
+        showDayPickers.value = true;
+        showYearPicker.value = true;
+      }
     } else {
-      showTimePickers.value = true
+      if (notEmpty(selectedYear.value)) {
+        showDayPickers.value = true;
+        showDayPicker.value = true;
+      } else {
+        showDayPickers.value = true;
+        showYearPicker.value = true;
+      }
     }
   } else {
-    toggleState.value = 'collapsed'
-    showYearPicker.value = false
-    showMonthPicker.value = false
-    showDayPicker.value = false
+    toggleState.value = 'collapsed';
+    showYearPicker.value = false;
+    showMonthPicker.value = false;
+    showDayPicker.value = false;
 
-    showDayPickers.value = false
-    showTimePickers.value = false
+    showDayPickers.value = false;
+    showTimePickers.value = false;
   }
 }
 
 function setYearClass(val) {
   if (val === selectedYear.value) {
-    return `option selected`
+    return `option selected`;
   } else {
-    return `option`
+    return `option`;
   }
 }
 
 function setMonthClass(val) {
   if (parseInt(val) === parseInt(selectedMonth.value)) {
-    return `option selected`
+    return `option selected`;
   } else {
-    return `option`
+    return `option`;
   }
 }
 
 function setDayClass(val) {
-  const now = new Date()
+  const now = new Date();
 
-  const className = []
-  className.push(`option`)
+  const className = [];
+  className.push(`option`);
+  className.push(`value`);
 
   if (val === selectedDay.value) {
-    className.push(`selected`)
+    className.push(`selected`);
   }
 
   if (isEmpty(val)) {
-    className.push(`disabled`)
+    className.push(`disabled`);
   }
 
   if (
@@ -433,386 +438,450 @@ function setDayClass(val) {
     selectedMonth.value === now.getMonth() &&
     val === now.getDate()
   ) {
-    className.push(`today`)
+    className.push(`today`);
   }
 
-  return className.join(' ')
+  return className.join(' ');
 }
 
 function setHourClass(val) {
   if (val === selectedHour.value) {
-    return `option selected`
+    return `option selected`;
   } else {
-    return `option`
+    return `option`;
   }
 }
 
 function setMinuteClass(val) {
   if (val === selectedMinute.value) {
-    return `option selected`
+    return `option selected`;
   } else {
-    return `option`
+    return `option`;
   }
 }
 
 function setSecondClass(val) {
   if (val === selectedSecond.value) {
-    return `option selected`
+    return `option selected`;
   } else {
-    return `option`
+    return `option`;
   }
 }
 
 function scrollOptionsIntoView() {
-  scrollYearOptionsIntoView()
+  scrollYearOptionsIntoView();
 
-  if (Object.is(props.displayTime, false)) { return }
+  if (!props.displayTime) { return; }
 
-  scrollHourOptionsIntoView()
-  scrollMinuteOptionsIntoView()
-  scrollSecondOptionsIntoView()
+  scrollHourOptionsIntoView();
+  scrollMinuteOptionsIntoView();
+  scrollSecondOptionsIntoView();
 }
 
 function scrollYearOptionsIntoView() {
-  let yearRef = null
+  let yearRef = null;
   if (notEmpty(selectedYear.value)) {
-    yearRef = yearRefs.value[years.value.indexOf(selectedYear.value)]
+    yearRef = yearRefs.value[years.value.indexOf(selectedYear.value)];
   } else if (today < maxDate.value) {
-    yearRef = yearRefs.value[years.value.indexOf(today.getFullYear())]
+    yearRef = yearRefs.value[years.value.indexOf(today.getFullYear())];
   } else {
-    yearRef = yearRefs.value[years.value.indexOf(minDate.value.getFullYear())]
+    yearRef = yearRefs.value[years.value.indexOf(minDate.value.getFullYear())];
   }
   yearOptions.value.scrollTop = yearRef.offsetTop - 96;
 }
 
 function scrollHourOptionsIntoView() {
-  if (Object.is(props.displayTime, false)) { return }
+  if (!props.displayTime) { return; }
 
-  let hourRef = null
+  let hourRef = null;
   if (notEmpty(selectedHour.value)) {
-    hourRef = hourRefs.value[hours.indexOf(selectedHour.value)]
+    hourRef = hourRefs.value[hours.indexOf(selectedHour.value)];
   } else {
-    hourRef = hourRefs.value[0]
+    hourRef = hourRefs.value[0];
   }
-  hourOptions.value.scrollTop = hourRef.offsetTop
+  hourOptions.value.scrollTop = hourRef.offsetTop;
 }
 
 function scrollMinuteOptionsIntoView() {
-  if (Object.is(props.displayTime, false)) { return }
+  if (!props.displayTime) { return; }
 
-  let minuteRef = null
+  let minuteRef = null;
   if (notEmpty(selectedMinute.value)) {
-    minuteRef = minuteRefs.value[minutes.indexOf(selectedMinute.value)]
+    minuteRef = minuteRefs.value[minutes.indexOf(selectedMinute.value)];
   } else {
-    minuteRef = minuteRefs.value[0]
+    minuteRef = minuteRefs.value[0];
   }
-  minuteOptions.value.scrollTop = minuteRef.offsetTop
+  minuteOptions.value.scrollTop = minuteRef.offsetTop;
 }
 
 function scrollSecondOptionsIntoView() {
-  if (Object.is(props.displayTime, false)) { return }
+  if (!props.displayTime) { return; }
 
-  let secondRef = null
+  let secondRef = null;
   if (notEmpty(selectedSecond.value)) {
-    secondRef = secondRefs.value[seconds.indexOf(selectedSecond.value)]
+    secondRef = secondRefs.value[seconds.indexOf(selectedSecond.value)];
   } else {
-    secondRef = secondRefs.value[0]
+    secondRef = secondRefs.value[0];
   }
-  secondOptions.value.scrollTop = secondRef.offsetTop
+  secondOptions.value.scrollTop = secondRef.offsetTop;
 }
 
 watch(selectedYear, () => {
-  scrollYearOptionsIntoView()
-})
+  scrollYearOptionsIntoView();
+});
 
 watch(selectedHour, () => {
-  scrollHourOptionsIntoView()
-})
+  scrollHourOptionsIntoView();
+});
 
 watch(selectedMinute, () => {
-  scrollMinuteOptionsIntoView()
-})
+  scrollMinuteOptionsIntoView();
+});
 
 watch(selectedSecond, () => {
-  scrollSecondOptionsIntoView()
-})
+  scrollSecondOptionsIntoView();
+});
 
 const allowShortcut = computed(() => {
-  return showMonthPicker.value || showDayPicker.value
-})
+  return showMonthPicker.value || showDayPicker.value;
+});
 
-function shortcutToday() {
-  const now = new Date()
-  if (now < minDate.value || now > maxDate.value) { return }
+function shortcutToday(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  selectYear(now.getFullYear())
-  selectMonth(now.getMonth())
-  selectDay(now.getDate())
+  const now = new Date();
+
+  selectYear(now.getFullYear());
+  selectMonth(now.getMonth());
+  selectDay(now.getDate());
 
   if (props.displayTime) {
-    selectHour(now.getHours())
-    selectMinute(now.getMinutes())
-    selectSecond(now.getSeconds())
+    selectHour(now.getHours());
+    selectMinute(now.getMinutes());
+    selectSecond(now.getSeconds());
   }
 }
 
-function shortcutLeft() {
-  if (showMonthPicker.value) {
-    if (selectedYear.value === minDate.value.getFullYear()) { return }
+function shortcutLeft(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-    selectedYear.value = selectedYear.value - 1
-  } else if (showDayPicker.value) {
-    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
-    current.setMonth(current.getMonth() - 1)
-    selectedYear.value = current.getFullYear()
-    selectedMonth.value = current.getMonth()
-    days.value = daysInMonth(selectedYear.value, selectedMonth.value)
+  if (showMonthPicker.value) {
+    selectedYear.value = selectedYear.value - 1;
+  } else {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1);
+    current.setMonth(current.getMonth() - 1);
+    selectedYear.value = current.getFullYear();
+    selectedMonth.value = current.getMonth();
+    days.value = daysInMonth(selectedYear.value, selectedMonth.value);
   }
 }
 
-function shortcutRight() {
-  if (showMonthPicker.value) {
-    if (selectedYear.value === maxDate.value.getFullYear()) { return }
+function shortcutRight(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-    selectedYear.value = selectedYear.value + 1
-  } else if (showDayPicker.value) {
-    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
-    current.setMonth(current.getMonth() + 1)
-    selectedYear.value = current.getFullYear()
-    selectedMonth.value = current.getMonth()
-    days.value = daysInMonth(selectedYear.value, selectedMonth.value)
+  if (showMonthPicker.value) {
+    selectedYear.value = selectedYear.value + 1;
+  } else {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1);
+    current.setMonth(current.getMonth() + 1);
+    selectedYear.value = current.getFullYear();
+    selectedMonth.value = current.getMonth();
+    days.value = daysInMonth(selectedYear.value, selectedMonth.value);
   }
 }
 
 const shortcutTodayStyle = computed(() => {
-  const now = new Date()
+  const now = new Date();
   if (now < minDate.value || now > maxDate.value) {
-    return `shortcut-toggle hide`
+    return `shortcut-toggle hide`;
   } else {
-    return `shortcut-toggle show`
+    return `shortcut-toggle show`;
   }
-})
+});
 
 const shortcutLeftStyle = computed(() => {
   if (showMonthPicker.value) {
     if (selectedYear.value > minDate.value.getFullYear()) {
-      return `shortcut-toggle show`
+      return `shortcut-toggle show`;
     } else {
-      return `shortcut-toggle hide`
-    }
-  } else if (showDayPicker.value) {
-    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
-    current.setMonth(current.getMonth() - 1)
-    if (current >= minDate.value) {
-      return `shortcut-toggle show`
-    } else {
-      return `shortcut-toggle hide`
+      return `shortcut-toggle hide`;
     }
   } else {
-    return `shortcut-toggle hide`
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1);
+    current.setMonth(current.getMonth() - 1);
+    if (current >= minDate.value) {
+      return `shortcut-toggle show`;
+    } else {
+      return `shortcut-toggle hide`;
+    }
   }
-})
+});
 
 const shortcutRightStyle = computed(() => {
   if (showMonthPicker.value) {
     if (selectedYear.value < maxDate.value.getFullYear()) {
-      return `shortcut-toggle show`
+      return `shortcut-toggle show`;
     } else {
-      return `shortcut-toggle hide`
+      return `shortcut-toggle hide`;
     }
-  } else if (showDayPicker.value) {
-    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1)
-    current.setMonth(current.getMonth() + 1)
+  } else {
+    const current = new Date(selectedYear.value, selectedMonth.value, selectedDay.value || 1);
+    current.setMonth(current.getMonth() + 1);
     if (current < maxDate.value) {
-      return `shortcut-toggle show`
+      return `shortcut-toggle show`;
     } else {
-      return `shortcut-toggle hide`
+      return `shortcut-toggle hide`;
     }
-  } else {
-    return `shortcut-toggle hide`
   }
-})
+});
 
-function selectYear(val) {
-  selectedYear.value = val
-  showYearPicker.value = false
-  showMonthPicker.value = true
+function selectYear(val, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  selectedYear.value = val;
+  showYearPicker.value = false;
+  showMonthPicker.value = true;
 }
 
-function selectMonth(val) {
-  selectedMonth.value = val
-  days.value = daysInMonth(selectedYear.value, selectedMonth.value)
-  showMonthPicker.value = false
-  showDayPicker.value = true
+function selectMonth(val, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  selectedMonth.value = val;
+  days.value = daysInMonth(selectedYear.value, selectedMonth.value);
+  showMonthPicker.value = false;
+  showDayPicker.value = true;
 }
 
-function selectDay(val) {
-  if (isEmpty(val)) { return }
+function selectDay(val, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
 
-  selectedDay.value = val
+  if (isEmpty(val)) { return; }
 
-  if (Object.is(props.displayTime, true)) {
-    showDayPickers.value = false
-    showTimePickers.value = true
+  selectedDay.value = val;
+
+  if (props.displayTime) {
+    showDayPicker.value = false;
+    showDayPickers.value = false;
+    showTimePickers.value = true;
   } else {
-    confirmDate()
+    confirmDate();
   }
 }
 
-function goToPrevPart(currentPart) {
+function goToPrevPart(event, currentPart) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
   if (currentPart === 'month') {
-    showMonthPicker.value = false
-    showYearPicker.value = true
+    showMonthPicker.value = false;
+    showYearPicker.value = true;
   } else if (currentPart === 'day') {
-    showDayPicker.value = false
-    showMonthPicker.value = true
-  } else if (currentPart === 'time') {
-    showTimePickers.value = false
-    showDayPickers.value = true
-    showDayPicker.value = true
+    showDayPicker.value = false;
+    showMonthPicker.value = true;
+  } else {
+    showTimePickers.value = false;
+    showDayPickers.value = true;
+    showDayPicker.value = true;
   }
 }
 
-function resetField() {
-  selectedYear.value = null
-  selectedMonth.value = null
-  selectedDay.value = null
+function resetField(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  showYearPicker.value = false
-  showMonthPicker.value = false
-  showDayPicker.value = false
+  selectedYear.value = null;
+  selectedMonth.value = null;
+  selectedDay.value = null;
 
-  if (Object.is(props.displayTime, true)) {
-    selectedHour.value = null
-    selectedMinute.value = null
-    selectedSecond.value = null
+  showYearPicker.value = false;
+  showMonthPicker.value = false;
+  showDayPicker.value = false;
 
-    showTimePickers.value = false
+  if (props.displayTime) {
+    selectedHour.value = null;
+    selectedMinute.value = null;
+    selectedSecond.value = null;
+
+    showTimePickers.value = false;
   }
 
-  emit('update:modelValue', computedSelectedDate.value)
+  emit('update:modelValue', computedSelectedDate.value);
 }
 
-function closeSelect() {
-  toggleState.value = 'collapsed'
-  showYearPicker.value = false
-  showMonthPicker.value = false
-  showDayPicker.value = false
+function closeSelect(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  showTimePickers.value = false
+  toggleState.value = 'collapsed';
+  showYearPicker.value = false;
+  showMonthPicker.value = false;
+  showDayPicker.value = false;
 
-  initDateFromModelValue()
+  showTimePickers.value = false;
+
+  initDateFromModelValue();
 }
 
 const confirmReady = computed(() => {
-  return (Object.is(props.displayTime, true) && notEmpty(computedSelectedDate.value)) ||
-            notEmpty(computedSelectedDate.value)
-})
+  return (props.displayTime && notEmpty(computedSelectedDate.value)) ||
+            notEmpty(computedSelectedDate.value);
+});
 
-function confirmDate() {
-  if (!confirmReady.value) { return }
-
-  toggleState.value = 'collapsed'
-  showDayPickers.value = false
-  showTimePickers.value = false
-
-  if (notEmpty(computedSelectedDate.value)) {
-    emit('update:modelValue', computedSelectedDate.value)
-  } else {
-    props.errorMessage = `Cannot submit without selecting all date/time parts!`
+function confirmDate(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
   }
+
+  if (!confirmReady.value) { return; }
+
+  toggleState.value = 'collapsed';
+  showDayPickers.value = false;
+  showTimePickers.value = false;
+
+  emit('update:modelValue', computedSelectedDate.value);
 }
 
-function selectHour(val) {
-  selectedHour.value = val
-  showMinutePicker.value = true
+function selectHour(val, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  selectedHour.value = val;
+  showMinutePicker.value = true;
 }
 
-function selectMinute(val) {
-  selectedMinute.value = val
-  showSecondPicker.value = true
+function selectMinute(val, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  selectedMinute.value = val;
+  showSecondPicker.value = true;
 }
 
-function selectSecond(val) {
-  selectedSecond.value = val
+function selectSecond(val, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
+  selectedSecond.value = val;
 }
 
-function focusHour() {
+function focusHour(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
   if (notEmpty(selectedHour.value)) {
-    hourRefs.value[hours.indexOf(selectedHour.value)].focus()
+    hourRefs.value[hours.indexOf(selectedHour.value)].focus();
   } else {
-    hourRefs.value[0].focus()
+    hourRefs.value[0].focus();
   }
 }
 
-function focusMinute() {
+function focusMinute(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
   if (notEmpty(selectedMinute.value)) {
-    minuteRefs.value[minutes.indexOf(selectedMinute.value)].focus()
+    minuteRefs.value[minutes.indexOf(selectedMinute.value)].focus();
   } else {
-    minuteRefs.value[0].focus()
+    minuteRefs.value[0].focus();
   }
 }
 
-function focusSecond() {
+function focusSecond(event) {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+
   if (notEmpty(selectedSecond.value)) {
-    secondRefs.value[seconds.indexOf(selectedSecond.value)].focus()
+    secondRefs.value[seconds.indexOf(selectedSecond.value)].focus();
   } else {
-    secondRefs.value[0].focus()
+    secondRefs.value[0].focus();
   }
 }
 
 function initDateFromModelValue() {
   if (isEmpty(initDate.value)) {
-    selectedYear.value = null
-    selectedMonth.value = null
-    selectedDay.value = null
+    selectedYear.value = null;
+    selectedMonth.value = null;
+    selectedDay.value = null;
 
-    if (!props.displayTime) { return }
+    if (!props.displayTime) { return; }
 
-    selectedHour.value = null
-    selectedMinute.value = null
-    selectedSecond.value = null
+    selectedHour.value = null;
+    selectedMinute.value = null;
+    selectedSecond.value = null;
 
-    return
+    return;
   }
 
-  selectYear(initDate.value.getFullYear())
-  selectMonth(initDate.value.getMonth())
-  selectDay(initDate.value.getDate())
+  selectYear(initDate.value.getFullYear());
+  selectMonth(initDate.value.getMonth());
+  selectDay(initDate.value.getDate());
 
   if (props.displayTime) {
-    selectHour(initDate.value.getHours())
-    selectMinute(initDate.value.getMinutes())
-    selectSecond(initDate.value.getSeconds())
+    selectHour(initDate.value.getHours());
+    selectMinute(initDate.value.getMinutes());
+    selectSecond(initDate.value.getSeconds());
   }
 }
 
 // Reference: https://usefulangle.com/post/118/javascript-intersection-observer
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
-    if(entry.isIntersecting === true) {
-      scrollOptionsIntoView()
+    if (entry.isIntersecting === true) {
+      scrollOptionsIntoView();
     }
-  })
-}, { threshold: [0] })
+  });
+}, { threshold: [0] });
 
 watch(initDate, (newVal, oldVal) => {
-  initDateFromModelValue()
-})
+  initDateFromModelValue();
+});
 
 onMounted(() => {
-  observer.observe(yearPicker.value)
-  observer.observe(monthPicker.value)
-  observer.observe(dayPicker.value)
+  observer.observe(yearPicker.value);
+  observer.observe(monthPicker.value);
+  observer.observe(dayPicker.value);
 
-  if (Object.is(props.displayTime, true)) {
-    observer.observe(hourPicker.value)
-    observer.observe(minutePicker.value)
-    observer.observe(secondPicker.value)
+  if (props.displayTime) {
+    observer.observe(hourPicker.value);
+    observer.observe(minutePicker.value);
+    observer.observe(secondPicker.value);
   }
 
-  initDateFromModelValue()
-})
+  initDateFromModelValue();
+});
+
+onBeforeUnmount(() => {
+  observer.unobserve(yearPicker.value.element);
+  observer.unobserve(monthPicker.value.element);
+  observer.unobserve(dayPicker.value.element);
+
+  if (props.displayTime) {
+    observer.unobserve(hourPicker.value.element);
+    observer.unobserve(minutePicker.value.element);
+    observer.unobserve(secondPicker.value.element);
+  }
+
+  initDateFromModelValue();
+});
 </script>
 
 <template>
@@ -826,30 +895,55 @@ onMounted(() => {
     </div>
 
     <div
+      ref="inputField"
       tabindex="0"
       :class="computedFieldClass"
-      ref="inputField"
       @keydown.enter="toggleSelect"
       @keydown.esc="closeSelect"
     >
       <div class="wrapper">
         <div
-          class="select"
           ref="selectField"
+          class="select"
           @click="toggleSelect"
         >
           <div class="selected">
-            <input disabled :value="displayDate.date.year">
-            <input disabled :value="displayDate.date.month">
-            <input disabled :value="displayDate.date.day">
-            <input v-if="displayTime" disabled :value="displayDate.time.hour">
-            <input v-if="displayTime" disabled :value="displayDate.time.minute">
-            <input v-if="displayTime" disabled :value="displayDate.time.second">
-            <input v-if="displayTime && hour12" disabled :value="displayDate.time.amPm">
+            <input
+              disabled
+              :value="displayDate.date.year"
+            >
+            <input
+              disabled
+              :value="displayDate.date.month"
+            >
+            <input
+              disabled
+              :value="displayDate.date.day"
+            >
+            <input
+              v-if="displayTime"
+              disabled
+              :value="displayDate.time.hour"
+            >
+            <input
+              v-if="displayTime"
+              disabled
+              :value="displayDate.time.minute"
+            >
+            <input
+              v-if="displayTime"
+              disabled
+              :value="displayDate.time.second"
+            >
+            <input
+              v-if="displayTime && hour12"
+              disabled
+              :value="displayDate.time.amPm"
+            >
           </div>
 
           <div class="toggle">
-            <i class="fa-solid fa-calendar-days"></i>
+            <i class="fa-solid fa-calendar-days" />
           </div>
         </div>
 
@@ -859,7 +953,7 @@ onMounted(() => {
           @click="resetField"
           @keydown.enter="resetField"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
       </div> <!-- wrapper -->
 
@@ -874,84 +968,90 @@ onMounted(() => {
           @click="closeSelect"
           @keydown.enter="closeSelect"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
 
         <div
-          :class="computedYearPickerClass"
           ref="yearPicker"
+          :class="computedYearPickerClass"
         >
-          <div class="title"></div>
+          <div class="title" />
 
           <div
-            class="options"
             ref="yearOptions"
+            class="options"
           >
             <div
-              v-for="year in years"
+              v-for="(year, i) in years"
+              :key="i"
+              ref="yearRefs"
               :class="setYearClass(year)"
               :value="year"
-              ref="yearRefs"
-              @click="selectYear(year)"
+              @click="selectYear(year, $event)"
             >
               <div
                 tabindex="0"
                 class="value"
-                @keydown.enter="selectYear(year)"
-              >{{ year }}</div>
+                @keydown.enter="selectYear(year, $event)"
+              >
+                {{ year }}
+              </div>
             </div>
           </div>
         </div> <!-- yearPicker -->
 
         <div
-          :class="computedMonthPickerClass"
           ref="monthPicker"
+          :class="computedMonthPickerClass"
         >
           <div
             tabindex="0"
             class="title"
-            @click="goToPrevPart('month')"
-            @keydown.enter="goToPrevPart('month')"
+            @click="goToPrevPart($event, 'month')"
+            @keydown.enter="goToPrevPart($event, 'month')"
           >
             <span>{{ titleDate }}</span>
           </div>
 
           <div
-            class="options"
             ref="monthOptions"
+            class="options"
           >
             <div
-              v-for="month in Object.keys(months)"
+              v-for="(month, i) in Object.keys(months)"
+              :key="i"
+              ref="monthRefs"
               :class="setMonthClass(month)"
               :value="month"
-              ref="monthRefs"
-              @click="selectMonth(month)"
+              @click="selectMonth(month, $event)"
             >
               <div
                 tabindex="0"
                 class="value"
-                @keydown.enter="selectMonth(month)"
-              >{{ months[month] }}</div>
+                @keydown.enter="selectMonth(month, $event)"
+              >
+                {{ months[month] }}
+              </div>
             </div>
           </div>
         </div> <!-- monthPicker -->
 
         <div
-          :class="computedDayPickerClass"
           ref="dayPicker"
+          :class="computedDayPickerClass"
         >
           <div
             tabindex="0"
             class="title"
-            @click="goToPrevPart('day')"
-            @keydown.enter="goToPrevPart('day')"
+            @click="goToPrevPart($event, 'day')"
+            @keydown.enter="goToPrevPart($event, 'day')"
           >
             <span>{{ titleDate }}</span>
           </div>
 
           <div
-            class="options"
             ref="dayOptions"
+            class="options"
           >
             <div
               v-for="(d, i) in daysOfWeek"
@@ -964,22 +1064,26 @@ onMounted(() => {
             <div
               v-for="(day, i) in days"
               :key="i"
+              ref="dayRefs"
               :class="setDayClass(day)"
               :value="day"
-              ref="dayRefs"
-              @click="selectDay(day)"
+              @click="selectDay(day, $event)"
             >
               <div
-                tabindex="0"
                 v-if="day"
+                tabindex="0"
                 class="value"
-                @keydown.enter="selectDay(day)"
-              >{{ day }}</div>
+                @keydown.enter="selectDay(day, $event)"
+              >
+                {{ day }}
+              </div>
 
               <div
                 v-else
                 class="value"
-              >{{ day }}</div>
+              >
+                {{ day }}
+              </div>
             </div>
           </div>
         </div> <!-- dayPicker -->
@@ -994,16 +1098,18 @@ onMounted(() => {
             @click="shortcutLeft"
             @keydown.enter="shortcutLeft"
           >
-            <i class="fa-solid fa-caret-left"></i>
+            <i class="fa-solid fa-caret-left" />
           </div>
 
           <div
             tabindex="0"
             :class="shortcutTodayStyle"
-            @click="shortcutToday"
-            @keydown.enter="shortcutToday"
+            @click="shortcutToday($event)"
+            @keydown.enter="shortcutToday($event)"
           >
-            <div class="value">Today</div>
+            <div class="value">
+              Today
+            </div>
           </div>
 
           <div
@@ -1012,7 +1118,7 @@ onMounted(() => {
             @click="shortcutRight"
             @keydown.enter="shortcutRight"
           >
-            <i class="fa-solid fa-caret-right"></i>
+            <i class="fa-solid fa-caret-right" />
           </div>
         </div>
       </div> <!-- day.pickers -->
@@ -1028,94 +1134,106 @@ onMounted(() => {
           @click="closeSelect"
           @keydown.enter="closeSelect"
         >
-          <i class="fa-solid fa-circle-xmark"></i>
+          <i class="fa-solid fa-circle-xmark" />
         </div>
 
         <div
           tabindex="0"
           class="title"
-          @click="goToPrevPart('time')"
-          @keydown.enter="goToPrevPart('time')"
+          @click="goToPrevPart($event, 'time')"
+          @keydown.enter="goToPrevPart($event, 'time')"
         >
           <span>{{ titleDate }}</span>
         </div>
 
         <div class="wrapper">
           <div
-            :class="computedHourPickerClass"
             ref="hourPicker"
+            :class="computedHourPickerClass"
           >
-            <div class="title">Hour</div>
+            <div class="title">
+              Hour
+            </div>
 
             <div
-              class="options"
               ref="hourOptions"
+              class="options"
             >
               <div
-                tabindex="0"
                 v-for="(hour, i) in hours"
-                :class="setHourClass(hour)"
                 :key="i"
-                :value="hour"
                 ref="hourRefs"
-                @click="selectHour(hour)"
-                @keydown.enter="selectHour(hour)"
+                tabindex="0"
+                :class="setHourClass(hour)"
+                :value="hour"
+                @click="selectHour(hour, $event)"
+                @keydown.enter="selectHour(hour, $event)"
                 @keydown.right="focusMinute"
               >
-                <div class="value">{{ hour }}</div>
+                <div class="value">
+                  {{ hour }}
+                </div>
               </div>
             </div>
           </div> <!-- hourPicker -->
 
           <div
-            :class="computedMinutePickerClass"
             ref="minutePicker"
+            :class="computedMinutePickerClass"
           >
-            <div class="title">Minute</div>
+            <div class="title">
+              Minute
+            </div>
 
             <div
-              class="options"
               ref="minuteOptions"
+              class="options"
             >
               <div
-                tabindex="0"
                 v-for="(minute, i) in minutes"
-                :class="setMinuteClass(minute)"
                 :key="i"
-                :value="minute"
                 ref="minuteRefs"
-                @click="selectMinute(minute)"
-                @keydown.enter="selectMinute(minute)"
+                tabindex="0"
+                :class="setMinuteClass(minute)"
+                :value="minute"
+                @click="selectMinute(minute, $event)"
+                @keydown.enter="selectMinute(minute, $event)"
                 @keydown.left="focusHour"
                 @keydown.right="focusSecond"
               >
-                <div class="value">{{ minute }}</div>
+                <div class="value">
+                  {{ minute }}
+                </div>
               </div>
             </div>
           </div> <!-- minutePicker -->
 
           <div
-            :class="computedSecondPickerClass"
             ref="secondPicker"
+            :class="computedSecondPickerClass"
           >
-            <div class="title">Second</div>
+            <div class="title">
+              Second
+            </div>
 
             <div
-              class="options"
               ref="secondOptions"
+              class="options"
             >
               <div
-                tabindex="0"
                 v-for="(second, i) in seconds"
-                :class="setSecondClass(second)"
                 :key="i"
-                :value="second"
                 ref="secondRefs"
-                @click="selectSecond(second)"
-                @keydown.enter="selectSecond(second)"
+                tabindex="0"
+                :class="setSecondClass(second)"
+                :value="second"
+                @click="selectSecond(second, $event)"
+                @keydown.enter="selectSecond(second, $event)"
                 @keydown.left="focusMinute"
               >
-                <div class="value">{{ second }}</div>
+                <div class="value">
+                  {{ second }}
+                </div>
               </div>
             </div>
           </div> <!-- secondPicker -->
@@ -1130,8 +1248,8 @@ onMounted(() => {
             value="Confirm"
             icon="fa-solid fa-check"
             :disabled="!confirmReady"
-            @click="confirmDate"
-            @keydown.enter="confirmDate"
+            @click="confirmDate($event)"
+            @keydown.enter="confirmDate($event)"
           />
         </div>
       </div> <!-- time.pickers -->
