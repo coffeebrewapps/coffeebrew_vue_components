@@ -1,0 +1,45 @@
+{
+  "name": "coffeebrew_vue_components",
+  "version": "0.1.0",
+  "description": "Custom Vue Components",
+  "repository": "git@github.com-coffeebrewapps:coffeebrewapps/coffeebrew_vue_components.git",
+  "author": "Coffee Brew Apps <coffeebrewapps@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/coffeebrew-vue-components.umd.cjs",
+  "module": "./dist/coffeebrew-vue-components.js",
+  "exports": {
+    ".": {
+      "import": "./dist/coffeebrew-vue-components.js",
+      "require": "./dist/coffeebrew-vue-components.umd.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "vite --config demo.config.js",
+    "build": "vite build --config vite.config.js",
+    "build-demo": "vite build --config demo.config.js --base=\"/coffeebrew_vue_components/\"",
+    "test": "vitest __tests__ --config vitest.config.js",
+    "test-coverage": "vitest __tests__ --coverage --ui --api.port 51205 --config vitest.config.js"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitest/coverage-istanbul": "^0.32.4",
+    "@vitest/ui": "^0.32.4",
+    "@vue/test-utils": "^2.4.0",
+    "create-vue": "^3.6.1",
+    "eslint": "^8.44.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-vitest": "^0.2.6",
+    "eslint-plugin-vue": "^9.15.1",
+    "jsdom": "^22.1.0",
+    "vite": "^4.1.4",
+    "vitest": "^0.32.4",
+    "vue": "^3.2.47"
+  }
+}
