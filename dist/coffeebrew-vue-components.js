@@ -41,8 +41,8 @@ const te = (e, f) => {
         if (l.fullscreen)
           return "width:100vw; height:100vh; top:0; left:0;";
         {
-          const w = `${l.width}px`, M = `${l.height}px`, O = `calc((100vh - ${M}) / 2)`, K = `calc((100vw - ${w}) / 2)`;
-          return `width:${w}; height:${M}; top:${O}; left:${K};`;
+          const w = `${l.width}px`, F = `${l.height}px`, O = `calc((100vh - ${F}) / 2)`, K = `calc((100vw - ${w}) / 2)`;
+          return `width:${w}; height:${F}; top:${O}; left:${K};`;
         }
       } else
         return "";
@@ -54,7 +54,7 @@ const te = (e, f) => {
       document.addEventListener("keydown", h);
     }), vt(() => {
       document.removeEventListener("keydown", h);
-    }), (w, M) => (u(), Oe(pt, { name: "dialog" }, {
+    }), (w, F) => (u(), Oe(pt, { name: "dialog" }, {
       default: _e(() => [
         o(_) ? (u(), d("div", {
           key: 0,
@@ -68,7 +68,7 @@ const te = (e, f) => {
           }, [
             t("div", {
               class: "close-button",
-              onClick: M[0] || (M[0] = (O) => v())
+              onClick: F[0] || (F[0] = (O) => v())
             }, Wt),
             t("div", Ht, [
               t("div", Ut, [
@@ -326,7 +326,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
   kl
 ], xl = ["onKeydown"], $l = ["onKeydown"], Sl = /* @__PURE__ */ be(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-xmark" }, null, -1)), Cl = [
   Sl
-], Tl = /* @__PURE__ */ be(() => /* @__PURE__ */ t("div", { class: "title" }, null, -1)), Dl = ["value", "onClick"], Vl = ["onKeydown"], Il = ["value", "onClick"], Pl = ["onKeydown"], Ml = ["value", "onClick"], Fl = ["onKeydown"], Kl = {
+], Tl = /* @__PURE__ */ be(() => /* @__PURE__ */ t("div", { class: "title" }, null, -1)), Dl = ["value", "onClick"], Vl = ["onKeydown"], Il = ["value", "onClick"], Pl = ["onKeydown"], Fl = ["value", "onClick"], Ml = ["onKeydown"], Kl = {
   key: 1,
   class: "value"
 }, Ol = {
@@ -398,7 +398,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
     }
     const _ = /* @__PURE__ */ new Date(), v = n(() => l.modelValue), b = n(() => s(l.min) ? l.min : new Date(_.getFullYear() - 100, 0, 1)), h = n(() => s(l.max) ? l.max : new Date(_.getFullYear() + 100, 11, 31)), w = n(() => [
       ...Array(1 + h.value.getFullYear() - b.value.getFullYear()).keys()
-    ].map((a) => a + b.value.getFullYear())), M = [
+    ].map((a) => a + b.value.getFullYear())), F = [
       "Jan",
       "Feb",
       "Mar",
@@ -415,8 +415,8 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
     function O(a, r) {
       const p = new Date(a, r, 1), j = new Date(p);
       j.setMonth(j.getMonth() + 1), j.setDate(j.getDate() - 1);
-      const F = p.getDay(), ge = [];
-      l.mondayStart ? F === 0 ? ge.push(Array.from(new Array(6))) : ge.push(Array.from(new Array(F - 1))) : ge.push(Array.from(new Array(F)));
+      const M = p.getDay(), ge = [];
+      l.mondayStart ? M === 0 ? ge.push(Array.from(new Array(6))) : ge.push(Array.from(new Array(M - 1))) : ge.push(Array.from(new Array(M)));
       const Le = Array.from(Array(j.getDate())).map((dt, Re) => Re + 1);
       return ge.concat(Le).flat();
     }
@@ -436,7 +436,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
       "F",
       "S",
       "S"
-    ], D = n(() => l.mondayStart ? B : K), V = m(Array.from(Array(31)).map((a, r) => r + 1)), Y = Array.from(Array(24)).map((a, r) => r), P = Array.from(Array(60)).map((a, r) => r), le = Array.from(Array(60)).map((a, r) => r), E = m("yearPicker"), z = m("monthPicker"), i = m("dayPicker"), c = m("hourPicker"), g = m("minutePicker"), C = m("secondPicker"), N = m("yearOptions"), X = m("monthOptions"), S = m("dayOptions"), ee = m("hourOptions"), H = m("minuteOptions"), W = m("secondOptions"), ae = m([]), Ie = m([]), Pe = m([]), $e = m([]), Se = m([]), Me = m([]), Ce = m("collapsed"), A = m(), q = m(), de = m(), oe = m(), ce = m(), fe = m(), ve = m(!1), ne = m(!1), se = m(!1), pe = m(!1), ie = m(!1), et = m(!1), tt = m(!1), Te = m("inputField"), lt = m("selectField"), Be = n(() => {
+    ], D = n(() => l.mondayStart ? B : K), V = m(Array.from(Array(31)).map((a, r) => r + 1)), Y = Array.from(Array(24)).map((a, r) => r), P = Array.from(Array(60)).map((a, r) => r), le = Array.from(Array(60)).map((a, r) => r), E = m("yearPicker"), z = m("monthPicker"), i = m("dayPicker"), c = m("hourPicker"), g = m("minutePicker"), C = m("secondPicker"), N = m("yearOptions"), X = m("monthOptions"), S = m("dayOptions"), ee = m("hourOptions"), H = m("minuteOptions"), W = m("secondOptions"), ae = m([]), Ie = m([]), Pe = m([]), $e = m([]), Se = m([]), Fe = m([]), Ce = m("collapsed"), A = m(), q = m(), de = m(), oe = m(), ce = m(), fe = m(), ve = m(!1), ne = m(!1), se = m(!1), pe = m(!1), ie = m(!1), et = m(!1), tt = m(!1), Te = m("inputField"), lt = m("selectField"), Be = n(() => {
       const a = [];
       return a.push("input-control"), l.displayTime && (a.push("display-time"), l.hour12 ? a.push("hour12") : a.push("hour24")), l.disabled && a.push("disabled"), a.join(" ");
     }), at = n(() => {
@@ -448,11 +448,11 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
         return null;
       if (!l.displayTime)
         return new Date(a, r, p);
-      const j = oe.value, F = ce.value, ge = fe.value;
-      return l.displayTime && y(j) || l.displayTime && y(F) || l.displayTime && y(ge) ? null : new Date(a, r, p, j, F, ge);
+      const j = oe.value, M = ce.value, ge = fe.value;
+      return l.displayTime && y(j) || l.displayTime && y(M) || l.displayTime && y(ge) ? null : new Date(a, r, p, j, M, ge);
     }), Q = n(() => y(l.modelValue) ? { date: {}, time: {} } : De(l.modelValue)), ye = n(() => {
       const a = [];
-      return s(A.value) && a.unshift(A.value), ve.value ? pe.value && a.unshift(M[q.value]) : ie.value && (a.unshift(M[q.value]), a.unshift(de.value)), a.join(" ");
+      return s(A.value) && a.unshift(A.value), ve.value ? pe.value && a.unshift(F[q.value]) : ie.value && (a.unshift(F[q.value]), a.unshift(de.value)), a.join(" ");
     });
     function De(a) {
       return Ye(
@@ -464,18 +464,18 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
         a.getSeconds()
       );
     }
-    function Ye(a, r, p, j, F, ge) {
-      const Le = new Date(a, r, p, j, F, ge);
+    function Ye(a, r, p, j, M, ge) {
+      const Le = new Date(a, r, p, j, M, ge);
       a = Le.toLocaleString("default", { year: "numeric" }), r = Le.toLocaleString("default", { month: "2-digit" }), p = Le.toLocaleString("default", { day: "2-digit" });
       const dt = Le.toLocaleTimeString(
         "en-US",
         { hour12: l.hour12, hour: "2-digit", minute: "2-digit", second: "2-digit" }
       ), Re = dt.split(" ")[0].split(":");
-      j = Re[0], F = Re[1], ge = Re[2];
+      j = Re[0], M = Re[1], ge = Re[2];
       const zt = dt.split(" ")[1];
       return {
         date: { year: a, month: r, day: p },
-        time: { hour: j, minute: F, second: ge, amPm: zt }
+        time: { hour: j, minute: M, second: ge, amPm: zt }
       };
     }
     function Ee(a) {
@@ -494,10 +494,10 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
     function Pt(a) {
       return a === oe.value ? "option selected" : "option";
     }
-    function Mt(a) {
+    function Ft(a) {
       return a === ce.value ? "option selected" : "option";
     }
-    function Ft(a) {
+    function Mt(a) {
       return a === fe.value ? "option selected" : "option";
     }
     function Kt() {
@@ -523,7 +523,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
       if (!l.displayTime)
         return;
       let a = null;
-      s(fe.value) ? a = Me.value[le.indexOf(fe.value)] : a = Me.value[0], W.value.scrollTop = a.offsetTop;
+      s(fe.value) ? a = Fe.value[le.indexOf(fe.value)] : a = Fe.value[0], W.value.scrollTop = a.offsetTop;
     }
     Ve(A, () => {
       ht();
@@ -589,7 +589,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
     function $t(a) {
       a.preventDefault(), a.stopImmediatePropagation(), A.value = null, q.value = null, de.value = null, ne.value = !1, se.value = !1, pe.value = !1, l.displayTime && (oe.value = null, ce.value = null, fe.value = null, ie.value = !1), f("update:modelValue", G.value);
     }
-    function Fe(a) {
+    function Me(a) {
       a.preventDefault(), a.stopImmediatePropagation(), Ce.value = "collapsed", ne.value = !1, se.value = !1, pe.value = !1, ie.value = !1, Ge();
     }
     const St = n(() => l.displayTime && s(G.value) || s(G.value));
@@ -612,7 +612,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
       a.preventDefault(), a.stopImmediatePropagation(), s(ce.value) ? Se.value[P.indexOf(ce.value)].focus() : Se.value[0].focus();
     }
     function Nt(a) {
-      a.preventDefault(), a.stopImmediatePropagation(), s(fe.value) ? Me.value[le.indexOf(fe.value)].focus() : Me.value[0].focus();
+      a.preventDefault(), a.stopImmediatePropagation(), s(fe.value) ? Fe.value[le.indexOf(fe.value)].focus() : Fe.value[0].focus();
     }
     function Ge() {
       if (y(v.value)) {
@@ -645,7 +645,7 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
         class: T(o(at)),
         onKeydown: [
           $(Ee, ["enter"]),
-          $(Fe, ["esc"])
+          $(Me, ["esc"])
         ]
       }, [
         t("div", dl, [
@@ -700,13 +700,13 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
         ]),
         ct(t("div", {
           class: "day pickers",
-          onKeydown: $(Fe, ["esc"])
+          onKeydown: $(Me, ["esc"])
         }, [
           t("div", {
             tabindex: "0",
             class: "close-toggle",
-            onClick: Fe,
-            onKeydown: $(Fe, ["enter"])
+            onClick: Me,
+            onKeydown: $(Me, ["enter"])
           }, Cl, 40, $l),
           t("div", {
             ref_key: "yearPicker",
@@ -726,12 +726,12 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
                 ref: ae,
                 class: T(ot(p)),
                 value: p,
-                onClick: (F) => We(p, F)
+                onClick: (M) => We(p, M)
               }, [
                 t("div", {
                   tabindex: "0",
                   class: "value",
-                  onKeydown: $((F) => We(p, F), ["enter"])
+                  onKeydown: $((M) => We(p, M), ["enter"])
                 }, k(p), 41, Vl)
               ], 10, Dl))), 128))
             ], 512)
@@ -754,20 +754,20 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
               ref: X,
               class: "options"
             }, [
-              (u(!0), d(U, null, J(Object.keys(M), (p, j) => (u(), d("div", {
+              (u(!0), d(U, null, J(Object.keys(F), (p, j) => (u(), d("div", {
                 key: j,
                 ref_for: !0,
                 ref_key: "monthRefs",
                 ref: Ie,
                 class: T(it(p)),
                 value: p,
-                onClick: (F) => He(p, F)
+                onClick: (M) => He(p, M)
               }, [
                 t("div", {
                   tabindex: "0",
                   class: "value",
-                  onKeydown: $((F) => He(p, F), ["enter"])
-                }, k(M[p]), 41, Pl)
+                  onKeydown: $((M) => He(p, M), ["enter"])
+                }, k(F[p]), 41, Pl)
               ], 10, Il))), 128))
             ], 512)
           ], 2),
@@ -800,15 +800,15 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
                 ref: Pe,
                 class: T(ut(p)),
                 value: p,
-                onClick: (F) => Ue(p, F)
+                onClick: (M) => Ue(p, M)
               }, [
                 p ? (u(), d("div", {
                   key: 0,
                   tabindex: "0",
                   class: "value",
-                  onKeydown: $((F) => Ue(p, F), ["enter"])
-                }, k(p), 41, Fl)) : (u(), d("div", Kl, k(p), 1))
-              ], 10, Ml))), 128))
+                  onKeydown: $((M) => Ue(p, M), ["enter"])
+                }, k(p), 41, Ml)) : (u(), d("div", Kl, k(p), 1))
+              ], 10, Fl))), 128))
             ], 512)
           ], 2),
           o(Ot) ? (u(), d("div", Ol, [
@@ -836,13 +836,13 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
         ]),
         ct(t("div", {
           class: "time pickers",
-          onKeydown: $(Fe, ["esc"])
+          onKeydown: $(Me, ["esc"])
         }, [
           t("div", {
             tabindex: "0",
             class: "close-toggle",
-            onClick: Fe,
-            onKeydown: $(Fe, ["enter"])
+            onClick: Me,
+            onKeydown: $(Me, ["enter"])
           }, Ul, 40, Wl),
           t("div", {
             tabindex: "0",
@@ -872,9 +872,9 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
                   tabindex: "0",
                   class: T(Pt(p)),
                   value: p,
-                  onClick: (F) => Je(p, F),
+                  onClick: (M) => Je(p, M),
                   onKeydown: [
-                    $((F) => Je(p, F), ["enter"]),
+                    $((M) => Je(p, M), ["enter"]),
                     $(Ct, ["right"])
                   ]
                 }, [
@@ -899,11 +899,11 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
                   ref_key: "minuteRefs",
                   ref: Se,
                   tabindex: "0",
-                  class: T(Mt(p)),
+                  class: T(Ft(p)),
                   value: p,
-                  onClick: (F) => Xe(p, F),
+                  onClick: (M) => Xe(p, M),
                   onKeydown: [
-                    $((F) => Xe(p, F), ["enter"]),
+                    $((M) => Xe(p, M), ["enter"]),
                     $(Rt, ["left"]),
                     $(Nt, ["right"])
                   ]
@@ -927,13 +927,13 @@ const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "inpu
                   key: j,
                   ref_for: !0,
                   ref_key: "secondRefs",
-                  ref: Me,
+                  ref: Fe,
                   tabindex: "0",
-                  class: T(Ft(p)),
+                  class: T(Mt(p)),
                   value: p,
-                  onClick: (F) => qe(p, F),
+                  onClick: (M) => qe(p, M),
                   onKeydown: [
-                    $((F) => qe(p, F), ["enter"]),
+                    $((M) => qe(p, M), ["enter"]),
                     $(Ct, ["left"])
                   ]
                 }, [
@@ -1189,12 +1189,12 @@ const pa = (e) => (we("data-v-0563b5e9"), e = e(), xe(), e), ma = { class: "inpu
     ]));
   }
 }, Ts = /* @__PURE__ */ te(ba, [["__scopeId", "data-v-0563b5e9"]]);
-const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "input-label" }, wa = ["onKeydown"], xa = { class: "wrapper" }, $a = { class: "selected-list" }, Sa = ["onKeydown"], Ca = ["onClick"], Ta = /* @__PURE__ */ mt(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
+const mt = (e) => (we("data-v-51c0bd85"), e = e(), xe(), e), ka = { class: "input-label" }, wa = ["onKeydown"], xa = { class: "wrapper" }, $a = { class: "selected-list" }, Sa = ["onKeydown"], Ca = ["onClick"], Ta = /* @__PURE__ */ mt(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-magnifying-glass" })
 ], -1)), Da = ["accept", "multiple"], Va = ["onKeydown"], Ia = /* @__PURE__ */ mt(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-info" }, null, -1)), Pa = [
   Ia
-], Ma = ["onKeydown"], Fa = /* @__PURE__ */ mt(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-xmark" }, null, -1)), Ka = [
-  Fa
+], Fa = ["onKeydown"], Ma = /* @__PURE__ */ mt(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-xmark" }, null, -1)), Ka = [
+  Ma
 ], Oa = {
   key: 0,
   class: "input-error"
@@ -1225,7 +1225,7 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
     },
     label: {
       type: String,
-      default: "Input"
+      default: "File"
     },
     disabled: {
       type: Boolean,
@@ -1236,9 +1236,9 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
       default: ""
     }
   },
-  emits: ["update:modelValue", "offsetChange"],
+  emits: ["update:modelValue"],
   setup(e, { emit: f }) {
-    const l = e, s = m("selectField"), y = m("fileInput"), _ = m("removeFileInput"), v = m("previewFileInput"), b = m("resetFieldInput"), h = n(() => l.multiple ? l.modelValue ?? [] : [l.modelValue ?? []].flat()), w = m(!1), M = m([]), O = m(), K = n(() => l.multiple ? "Preview Files" : "Preview File"), B = n(() => h.value.length > 0), D = n(() => {
+    const l = e, s = m("selectField"), y = m("fileInput"), _ = m("removeFileInput"), v = m("previewFileInput"), b = m("resetFieldInput"), h = n(() => l.multiple ? l.modelValue ?? [] : [l.modelValue ?? []].flat()), w = m(!1), F = m([]), O = m(), K = n(() => l.multiple ? "Preview Files" : "Preview File"), B = n(() => h.value.length > 0), D = n(() => {
       const S = [];
       return S.push("input-control"), l.size && S.push(l.size), l.disabled && S.push("disabled"), S.join(" ");
     }), V = n(() => {
@@ -1267,11 +1267,11 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
       }
     }
     async function z(S) {
-      S.preventDefault(), S.stopImmediatePropagation(), w.value = !1, M.value = [], O.value = null;
+      S.preventDefault(), S.stopImmediatePropagation(), w.value = !1, F.value = [], O.value = null;
       const ee = h.value.map((H) => {
         const W = new FileReader();
         return W.readAsDataURL(H), W.onload = () => {
-          M.value.push({ name: H.name, rawData: W.result });
+          F.value.push({ name: H.name, rawData: W.result });
         }, W.onerror = (ae) => {
           O.value = JSON.stringify(ae, !1, 4);
         }, W;
@@ -1291,7 +1291,7 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
       return i.value === S ? "preview-file selected" : "preview-file";
     }
     function N() {
-      w.value = !1, M.value = [], O.value = null, i.value = 0;
+      w.value = !1, F.value = [], O.value = null, i.value = 0;
     }
     function X(S) {
       S.preventDefault(), S.stopImmediatePropagation(), !l.disabled && (l.multiple ? f("update:modelValue", []) : f("update:modelValue", null));
@@ -1358,7 +1358,7 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
             class: "clean-toggle",
             onClick: X,
             onKeydown: $(X, ["enter"])
-          }, Ka, 40, Ma)
+          }, Ka, 40, Fa)
         ])
       ], 42, wa),
       e.errorMessage.length > 0 ? (u(), d("div", Oa, k(e.errorMessage), 1)) : R("", !0),
@@ -1375,7 +1375,7 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
           }, {
             body: _e(() => [
               O.value ? R("", !0) : (u(), d("div", Ba, [
-                (u(!0), d(U, null, J(M.value, (H, W) => (u(), d("div", {
+                (u(!0), d(U, null, J(F.value, (H, W) => (u(), d("div", {
                   key: W,
                   class: T(g(W)),
                   onClick: (ae) => c(ae, W)
@@ -1383,7 +1383,7 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
                   t("div", La, k(H.name), 1)
                 ], 10, Aa))), 128))
               ])),
-              (u(!0), d(U, null, J(M.value, (H, W) => (u(), d("div", {
+              (u(!0), d(U, null, J(F.value, (H, W) => (u(), d("div", {
                 key: W,
                 class: T(C(W))
               }, [
@@ -1408,7 +1408,7 @@ const mt = (e) => (we("data-v-611f8005"), e = e(), xe(), e), ka = { class: "inpu
       })
     ], 2));
   }
-}, Ds = /* @__PURE__ */ te(za, [["__scopeId", "data-v-611f8005"]]);
+}, Ds = /* @__PURE__ */ te(za, [["__scopeId", "data-v-51c0bd85"]]);
 const ja = (e) => (we("data-v-273f6d12"), e = e(), xe(), e), Ya = { class: "input-label" }, Ea = { class: "wrapper" }, Wa = ["type", "step", "value", "disabled"], Ha = {
   key: 0,
   class: "number-spin-button"
@@ -1461,7 +1461,7 @@ const ja = (e) => (we("data-v-273f6d12"), e = e(), xe(), e), Ya = { class: "inpu
     function w() {
       isNaN(+l.modelValue) || f("update:modelValue", parseFloat(+l.modelValue) - parseFloat(l.step));
     }
-    function M(K) {
+    function F(K) {
       l.type === "number" ? isNaN(+K) || K === "" ? f("update:modelValue", null) : f("update:modelValue", +K) : f("update:modelValue", K);
     }
     function O() {
@@ -1482,7 +1482,7 @@ const ja = (e) => (we("data-v-273f6d12"), e = e(), xe(), e), Ya = { class: "inpu
             step: e.step,
             value: o(_),
             disabled: e.disabled,
-            onInput: B[0] || (B[0] = (D) => M(D.target.value))
+            onInput: B[0] || (B[0] = (D) => F(D.target.value))
           }, null, 40, Wa),
           e.type === "number" ? (u(), d("div", Ha, [
             t("i", {
@@ -1591,7 +1591,7 @@ const yt = (e) => (we("data-v-8a3d5e85"), e = e(), xe(), e), tn = { class: "inpu
   },
   emits: ["update:modelValue"],
   setup(e, { emit: f }) {
-    const l = e, s = m("collapsed"), y = m("inputField"), _ = m("selectField"), v = m("cleanToggle"), b = m("searchInput"), h = m(""), w = n(() => l.modelValue), M = n(() => {
+    const l = e, s = m("collapsed"), y = m("inputField"), _ = m("selectField"), v = m("cleanToggle"), b = m("searchInput"), h = m(""), w = n(() => l.modelValue), F = n(() => {
       const i = [];
       return i.push("input-control"), l.size && i.push(l.size), l.disabled && i.push("disabled"), i.push(s.value), i.join(" ");
     }), O = n(() => `input-field ${s.value}`.trim()), K = n(() => {
@@ -1630,7 +1630,7 @@ const yt = (e) => (we("data-v-8a3d5e85"), e = e(), xe(), e), tn = { class: "inpu
       i.preventDefault(), i.stopImmediatePropagation(), f("update:modelValue", null);
     }
     return (i, c) => (u(), d("div", {
-      class: T(o(M))
+      class: T(o(F))
     }, [
       t("div", tn, k(e.label), 1),
       t("div", {
@@ -1724,9 +1724,9 @@ const mn = { class: "progress-bar" }, yn = {
       return D ? parseInt(D.style.width.split("%")[0]) : 0;
     }
     function w() {
-      f.bidirection ? O() : M();
+      f.bidirection ? O() : F();
     }
-    function M() {
+    function F() {
       const D = h(s.value);
       D === 100 ? f.indefinite ? K(s.value) : clearInterval(_.value) : B(s.value, "forward", D);
     }
@@ -1772,7 +1772,7 @@ const Vt = (e) => (we("data-v-53af0c32"), e = e(), xe(), e), gn = ["onKeydown"],
 }, Vn = ["colspan"], In = {
   key: 1,
   class: "body"
-}, Pn = ["onKeydown"], Mn = ["onClick"], Fn = {
+}, Pn = ["onKeydown"], Fn = ["onClick"], Mn = {
   key: 0,
   class: "col"
 }, Kn = { class: "actions" }, On = ["onClick"], Bn = { class: "tooltip" }, An = ["onKeydown"], Ln = /* @__PURE__ */ Vt(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-chevron-left" }, null, -1)), Rn = { class: "page-number" }, Nn = {
@@ -1844,7 +1844,7 @@ const Vt = (e) => (we("data-v-53af0c32"), e = e(), xe(), e), gn = ["onKeydown"],
     "offsetChange"
   ],
   setup(e, { emit: f }) {
-    const l = e, s = m("tableContainer"), y = m("pagerLeft"), _ = m("pagerRight"), v = n(() => l.pagination.offset), b = n(() => l.pagination.limit), h = n(() => l.pagination.client ? !1 : l.loading), w = n(() => l.headers.length + (l.actions.length > 0 ? 1 : 0)), M = n(() => l.name && l.name.length > 0 ? "table-name show" : "table-name hide"), O = n(() => l.dense ? "table dense" : "table");
+    const l = e, s = m("tableContainer"), y = m("pagerLeft"), _ = m("pagerRight"), v = n(() => l.pagination.offset), b = n(() => l.pagination.limit), h = n(() => l.pagination.client ? !1 : l.loading), w = n(() => l.headers.length + (l.actions.length > 0 ? 1 : 0)), F = n(() => l.name && l.name.length > 0 ? "table-name show" : "table-name hide"), O = n(() => l.dense ? "table dense" : "table");
     function K(c) {
       const g = [];
       return g.push("row"), c % 2 === 0 ? g.push("even") : g.push("odd"), l.rowAction && g.push("clickable"), g.join(" ");
@@ -1875,7 +1875,7 @@ const Vt = (e) => (we("data-v-53af0c32"), e = e(), xe(), e), gn = ["onKeydown"],
       t("div", _n, [
         Z(c.$slots, "table-actions", ue(re({ name: e.name, actions: e.tableActions })), () => [
           t("div", {
-            class: T(o(M))
+            class: T(o(F))
           }, [
             Z(c.$slots, "table-name", ue(re({ name: e.name })), () => [
               Ne(k(e.name), 1)
@@ -1951,9 +1951,9 @@ const Vt = (e) => (we("data-v-53af0c32"), e = e(), xe(), e), gn = ["onKeydown"],
                   Z(c.$slots, `data-col.${X.key}`, ue(re({ header: X, row: C, i: N })), () => [
                     Ne(k(C[X.key]), 1)
                   ], !0)
-                ], 8, Mn))), 128))
+                ], 8, Fn))), 128))
               ], !0),
-              e.actions.length > 0 ? (u(), d("td", Fn, [
+              e.actions.length > 0 ? (u(), d("td", Mn, [
                 Z(c.$slots, "data-actions", ue(re({ row: C, actions: e.actions, i: N })), () => [
                   t("div", Kn, [
                     (u(!0), d(U, null, J(e.actions, (X, S) => (u(), d("div", {
@@ -2096,7 +2096,7 @@ const It = (e) => (we("data-v-f79f000e"), e = e(), xe(), e), Hn = { class: "inpu
       const i = [];
       return i.push("input-control"), l.size && i.push(l.size), l.disabled && i.push("disabled"), i.join(" ");
     });
-    function M(i) {
+    function F(i) {
       return O.value.find((g) => g === i.value) ? "checkbox checked" : "checkbox";
     }
     const O = n(() => (l.modelValue ?? []).map((i) => i.value)), K = n(() => (l.modelValue ?? []).map((i) => i.label));
@@ -2206,7 +2206,7 @@ const It = (e) => (we("data-v-f79f000e"), e = e(), xe(), e), Hn = { class: "inpu
               }, {
                 ["data-col.selected"]: _e(({ row: g }) => [
                   t("div", {
-                    class: T(M(g))
+                    class: T(F(g))
                   }, null, 2)
                 ]),
                 _: 2
@@ -2300,7 +2300,7 @@ const ns = (e) => (we("data-v-596ed0f7"), e = e(), xe(), e), ss = { class: "inpu
       e.errorMessage.length > 0 ? (u(), d("div", fs, k(e.errorMessage), 1)) : R("", !0)
     ], 2));
   }
-}, Ms = /* @__PURE__ */ te(vs, [["__scopeId", "data-v-596ed0f7"]]);
+}, Fs = /* @__PURE__ */ te(vs, [["__scopeId", "data-v-596ed0f7"]]);
 const ps = { class: "chart-container" }, ms = {
   __name: "TBar",
   props: {
@@ -2318,7 +2318,7 @@ const ps = { class: "chart-container" }, ms = {
     }
   },
   setup(e) {
-    const f = e, l = m("canvas"), s = n(() => l.value.getContext("2d")), y = n(() => (h + b + V) * f.data.length), _ = n(() => (Se.value - $e.value) * v.value + M + D + B + X.value), v = n(() => Pe.value - Ie.value > 3e3 ? 0.05 : Pe.value - Ie.value > 1e3 ? 0.3 : Pe.value - Ie.value < 200 ? 3 : 1), b = 100, h = 100, w = 30, M = 80, O = 10, K = 60, B = 40, D = 100, V = 80, Y = n(() => (b + V) * f.data.length + h), P = n(() => f.config.yScale || 100), le = n(() => document.body.computedStyleMap().get("font-family").toString()), E = 600, z = n(() => parseFloat(getComputedStyle(document.body).getPropertyValue("font-size"))), i = n(() => z.value * 0.8), c = n(() => z.value * 0.8), g = n(() => z.value), C = n(() => z.value * 1.2), N = n(() => z.value * 1.2), X = n(() => z.value * 1.4), S = n(() => H.value), ee = n(() => W.value), H = n(() => (f.config.colors || {}).highlightColor || getComputedStyle(document.documentElement).getPropertyValue("--color-text")), W = n(() => (f.config.colors || {}).lineColor || getComputedStyle(document.documentElement).getPropertyValue("--color-border-hover"));
+    const f = e, l = m("canvas"), s = n(() => l.value.getContext("2d")), y = n(() => (h + b + V) * f.data.length), _ = n(() => (Se.value - $e.value) * v.value + F + D + B + X.value), v = n(() => Pe.value - Ie.value > 3e3 ? 0.05 : Pe.value - Ie.value > 1e3 ? 0.3 : Pe.value - Ie.value < 200 ? 3 : 1), b = 100, h = 100, w = 30, F = 80, O = 10, K = 60, B = 40, D = 100, V = 80, Y = n(() => (b + V) * f.data.length + h), P = n(() => f.config.yScale || 100), le = n(() => document.body.computedStyleMap().get("font-family").toString()), E = 600, z = n(() => parseFloat(getComputedStyle(document.body).getPropertyValue("font-size"))), i = n(() => z.value * 0.8), c = n(() => z.value * 0.8), g = n(() => z.value), C = n(() => z.value * 1.2), N = n(() => z.value * 1.2), X = n(() => z.value * 1.4), S = n(() => H.value), ee = n(() => W.value), H = n(() => (f.config.colors || {}).highlightColor || getComputedStyle(document.documentElement).getPropertyValue("--color-text")), W = n(() => (f.config.colors || {}).lineColor || getComputedStyle(document.documentElement).getPropertyValue("--color-border-hover"));
     Ve(H, (x, I) => {
       s.value.clearRect(0, 0, y.value, _.value), Be();
     }), Ve(W, (x, I) => {
@@ -2330,9 +2330,9 @@ const ps = { class: "chart-container" }, ms = {
     }), Pe = n(() => ae.value[ae.value.length - 1] || P.value), $e = n(() => Ie.value < 0 ? -1 * (parseInt(Math.abs(Ie.value) / P.value) * P.value + P.value) : 0), Se = n(() => {
       const x = Pe.value - Pe.value % P.value;
       return x <= P.value / 2 ? x : x + P.value;
-    }), Me = n(() => Math.ceil((Se.value - $e.value) / P.value) + 1), Ce = n(() => {
+    }), Fe = n(() => Math.ceil((Se.value - $e.value) / P.value) + 1), Ce = n(() => {
       const x = P.value;
-      return Array.from(new Array(Me.value)).map((I, L) => $e.value + L * x).sort((I, L) => I < L ? 1 : I > L ? -1 : 0);
+      return Array.from(new Array(Fe.value)).map((I, L) => $e.value + L * x).sort((I, L) => I < L ? 1 : I > L ? -1 : 0);
     }), A = n(() => {
       if (ve.value.length > 0) {
         const x = ne.value[ne.value.length - 1], I = Math.floor(Y.value / 2), L = x.y + w + 30;
@@ -2353,11 +2353,11 @@ const ps = { class: "chart-container" }, ms = {
         return { x: 0, y: 0 };
     }), oe = n(() => f.config.title), ce = n(() => f.config.xAxisLabel), fe = n(() => f.config.yAxisLabel), ve = n(() => f.data.map((x, I) => {
       const L = I * h + b + V, G = parseFloat(
-        (_.value - x.yValue * v.value - M - D).toFixed(2)
+        (_.value - x.yValue * v.value - F - D).toFixed(2)
       ), Q = V, ye = parseFloat((x.yValue * v.value).toFixed(2)), De = x.xValue, Ye = x.yValue.toFixed(2);
       return { x: L, y: G, width: Q, height: ye, xValue: De, yValue: Ye };
     })), ne = n(() => Ce.value.map((x, I) => {
-      const L = b, G = _.value - x * v.value - M - D;
+      const L = b, G = _.value - x * v.value - F - D;
       return { scale: x, x: L, y: G };
     }));
     function se() {
@@ -2464,7 +2464,7 @@ const ps = { class: "chart-container" }, ms = {
       }, null, 512)
     ]));
   }
-}, Fs = /* @__PURE__ */ te(ms, [["__scopeId", "data-v-a1c4594a"]]);
+}, Ms = /* @__PURE__ */ te(ms, [["__scopeId", "data-v-a1c4594a"]]);
 const ys = { class: "y-container" }, hs = { class: "y-axis" }, gs = { class: "bars" }, _s = { class: "x-axis" }, bs = { class: "x-axis-lines" }, ks = {
   __name: "THorizontalBar",
   props: {
@@ -2482,10 +2482,10 @@ const ys = { class: "y-container" }, hs = { class: "y-axis" }, gs = { class: "ba
     }
   },
   setup(e) {
-    const f = e, l = n(() => window.innerWidth - 200), s = n(() => `max-width: ${l.value}px`), y = n(() => (f.config.colors || {}).highlightColor || getComputedStyle(document.documentElement).getPropertyValue("--color-text")), _ = n(() => (f.config.colors || {}).lineColor || getComputedStyle(document.documentElement).getPropertyValue("--color-border-hover")), v = n(() => y.value), b = n(() => _.value), h = n(() => M.value > l.value ? 0.5 : M.value < 200 ? 6 : 1.5), w = n(() => f.config.xScale || 100), M = n(() => {
+    const f = e, l = n(() => window.innerWidth - 200), s = n(() => `max-width: ${l.value}px`), y = n(() => (f.config.colors || {}).highlightColor || getComputedStyle(document.documentElement).getPropertyValue("--color-text")), _ = n(() => (f.config.colors || {}).lineColor || getComputedStyle(document.documentElement).getPropertyValue("--color-border-hover")), v = n(() => y.value), b = n(() => _.value), h = n(() => F.value > l.value ? 0.5 : F.value < 200 ? 6 : 1.5), w = n(() => f.config.xScale || 100), F = n(() => {
       const i = f.data.map((c) => parseFloat(c.xValue)).sort((c, g) => c < g ? -1 : c > g ? 1 : 0);
       return i[i.length - 1] || w.value;
-    }), O = n(() => Math.ceil(M.value / w.value)), K = n(() => Array.from(new Array(O.value)).map((i, c) => (c + 1) * w.value)), B = n(() => `border-left: 2px solid ${b.value}`);
+    }), O = n(() => Math.ceil(F.value / w.value)), K = n(() => Array.from(new Array(O.value)).map((i, c) => (c + 1) * w.value)), B = n(() => `border-left: 2px solid ${b.value}`);
     function D(i, c) {
       return `width: ${`${i.xValue * h.value}px`}; background-color: ${v.value};`;
     }
@@ -2558,7 +2558,7 @@ const ys = { class: "y-container" }, hs = { class: "y-axis" }, gs = { class: "ba
 }, Ks = /* @__PURE__ */ te(ks, [["__scopeId", "data-v-6c9d47d1"]]);
 export {
   xs as TAlert,
-  Fs as TBar,
+  Ms as TBar,
   ze as TButton,
   Ss as TCheckbox,
   $s as TConfirmDialog,
@@ -2575,5 +2575,5 @@ export {
   Is as TSelect,
   Ps as TSelectTable,
   Wn as TTable,
-  Ms as TTextarea
+  Fs as TTextarea
 };
