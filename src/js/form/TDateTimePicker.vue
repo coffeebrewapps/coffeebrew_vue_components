@@ -870,14 +870,14 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  observer.unobserve(yearPicker.value.element);
-  observer.unobserve(monthPicker.value.element);
-  observer.unobserve(dayPicker.value.element);
+  observer.unobserve(yearPicker.value);
+  observer.unobserve(monthPicker.value);
+  observer.unobserve(dayPicker.value);
 
   if (props.displayTime) {
-    observer.unobserve(hourPicker.value.element);
-    observer.unobserve(minutePicker.value.element);
-    observer.unobserve(secondPicker.value.element);
+    observer.unobserve(hourPicker.value);
+    observer.unobserve(minutePicker.value);
+    observer.unobserve(secondPicker.value);
   }
 
   initDateFromModelValue();
