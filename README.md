@@ -2,52 +2,6 @@
 
 A library of Vue components custom-made for Coffee Brew Apps.
 
-## Dialogs
-
-TODO
-
-### TDialog
-
-TODO
-
-### TConfirmDialog
-
-## Form
-
-### TButton
-
-TODO
-
-### TCheckbox
-
-TODO
-
-### TDatePicker
-
-TODO
-
-### TInput
-
-TODO
-
-### TOption
-
-TODO
-
-### TSelect
-
-TODO
-
-## Table
-
-### TTable
-
-TODO
-
-## NavMenu
-
-## TProgressBar
-
 # Development
 
 ## Nodejs version
@@ -68,13 +22,55 @@ yarn install
 yarn dev
 ```
 
+Served at http://localhost:5173 by default.
+
 ## Build assets
 
 ```sh
 yarn build
 ```
 
-Served at http://localhost:5173
+Assets are built to `/dist`.
+
+## Build demo page
+
+```sh
+yarn build-demo
+```
+
+Demo page assets are built to `/docs`.
+
+## Test cases
+
+```sh
+yarn test
+```
+
+## Test coverage
+
+```sh
+yarn test-coverage
+```
+
+Coverage metrics report served at http://localhost:51205.
+
+# Documentation
+
+## Dialogs
+
+[Dialogs Components](/src/js/dialog/README.md)
+
+## Form
+
+[Form Components](/src/js/form/README.md)
+
+## Table
+
+[Table Components](/src/js/table/README.md)
+
+## Others
+
+[Other Components](/src/js/README.md)
 
 # Disclaimer
 

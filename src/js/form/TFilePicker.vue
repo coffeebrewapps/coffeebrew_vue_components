@@ -23,7 +23,7 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: 'Input',
+    default: 'File',
   },
   disabled: {
     type: Boolean,
@@ -35,7 +35,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'offsetChange']);
+const emit = defineEmits(['update:modelValue']);
 
 const selectField = ref('selectField');
 const fileInput = ref('fileInput');
