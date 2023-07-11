@@ -1,36 +1,44 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
-import TProgressBar from '../TProgressBar.vue'
+import TProgressBar from '../TProgressBar.vue';
 
 const props = defineProps({
   name: {
     type: String,
-    default: ''
+    default: '',
   },
   headers: {
     type: Array,
-    default: []
+    default() {
+      return [];
+    },
   },
   data: {
     type: Array,
-    default: []
+    default() {
+      return [];
+    },
   },
   totalData: {
     type: Number,
-    default: 0
+    default: 0,
   },
   actions: {
     type: Array,
-    default: []
+    default() {
+      return [];
+    },
   },
   tableActions: {
     type: Object,
-    default: {}
+    default() {
+      return {};
+    },
   },
   rowAction: {
     type: Function,
-    default: null
+    default: null,
   },
   pagination: {
     type: Object,
@@ -38,185 +46,188 @@ const props = defineProps({
       return {
         offset: 0,
         limit: 5,
-        client: true
-      }
-    }
+        client: true,
+      };
+    },
   },
   loading: {
     type: Boolean,
-    default: true
+    default: true,
   },
   dense: {
     type: Boolean,
-    default: true
+    default: true,
   },
   noDataText: {
     type: String,
-    default: 'No data'
-  }
-})
+    default: 'No data',
+  },
+});
 
 const emit = defineEmits([
-  'offsetChange'
-])
+  'offsetChange',
+]);
 
-const tableContainer = ref('tableContainer')
-const pagerLeft = ref('pagerLeft')
-const pagerRight = ref('pagerRight')
+const tableContainer = ref('tableContainer');
+const pagerLeft = ref('pagerLeft');
+const pagerRight = ref('pagerRight');
 
 const offset = computed(() => {
-  return props.pagination.offset
-})
+  return props.pagination.offset;
+});
 
 const limit = computed(() => {
-  return props.pagination.limit
-})
+  return props.pagination.limit;
+});
 
 const computedLoading = computed(() => {
   if (props.pagination.client) {
-    return false
+    return false;
   } else {
-    return props.loading
+    return props.loading;
   }
-})
+});
 
 const computedLoadingSpan = computed(() => {
-  return props.headers.length + (props.actions.length > 0 ? 1 : 0)
-})
+  return props.headers.length + (props.actions.length > 0 ? 1 : 0);
+});
 
 const computedTableNameClass = computed(() => {
   if (props.name && props.name.length > 0) {
-    return `table-name show`
+    return `table-name show`;
   } else {
-    return `table-name hide`
+    return `table-name hide`;
   }
-})
+});
 
 const computedTableClass = computed(() => {
   if (props.dense) {
-    return `table dense`
+    return `table dense`;
   } else {
-    return `table`
+    return `table`;
   }
-})
+});
 
 function currentRowClass(i) {
-  const className = []
-  className.push(`row`)
+  const className = [];
+  className.push(`row`);
 
   if (i % 2 === 0) {
-    className.push(`even`)
+    className.push(`even`);
   } else {
-    className.push(`odd`)
+    className.push(`odd`);
   }
 
   if (props.rowAction) {
-    className.push(`clickable`)
+    className.push(`clickable`);
   }
 
-  return className.join(' ')
+  return className.join(' ');
 }
 
-function clickRow(row, i) {
+function clickRow(row, i, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  }
+
   if (props.rowAction) {
-    props.rowAction(row, i)
+    props.rowAction(row, i);
   }
 }
 
 const computedPaginationClass = computed(() => {
   if (computedTotalData.value > 0) {
-    return `pagination show`
+    return `pagination show`;
   } else {
-    return `pagination hide`
+    return `pagination hide`;
   }
-})
+});
 
 const computedTotalData = computed(() => {
   if (props.pagination.client) {
-    return props.data.length
+    return props.data.length;
   } else {
-    return props.totalData
+    return props.totalData;
   }
-})
+});
 
 const computedPaginatedData = computed(() => {
   if (props.pagination.client) {
-    return props.data.slice(offset.value, offset.value + limit.value)
+    return props.data.slice(offset.value, offset.value + limit.value);
   } else {
-    return props.data
+    return props.data;
   }
-})
+});
 
 const computedCurrentIndexes = computed(() => {
   return {
     start: offset.value + 1,
-    end: offset.value + computedPaginatedData.value.length
-  }
-})
+    end: offset.value + computedPaginatedData.value.length,
+  };
+});
 
 const computedPagerLeftClass = computed(() => {
   if (computedCurrentIndexes.value.start === 1) {
-    return `pager left`
+    return `pager left`;
   } else {
-    return `pager left show`
+    return `pager left show`;
   }
-})
+});
 
 const computedPagerRightClass = computed(() => {
   if (computedCurrentIndexes.value.end === computedTotalData.value) {
-    return `pager right`
+    return `pager right`;
   } else {
-    return `pager right show`
+    return `pager right show`;
   }
-})
+});
 
 function pageLeft(event) {
-  if (
-    event instanceof KeyboardEvent &&
-    event.target !== pagerLeft.value &&
-    event.target !== tableContainer.value
-  ) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
   if (computedCurrentIndexes.value.start === 1) {
     // do nothing
   } else if (offset.value - limit.value < 0) {
-    emit('offsetChange', 0)
+    emit('offsetChange', 0);
   } else {
-    emit('offsetChange', offset.value - limit.value)
+    emit('offsetChange', offset.value - limit.value);
   }
 }
 
 function pageRight(event) {
-  if (
-    event instanceof KeyboardEvent &&
-    event.target !== pagerRight.value &&
-    event.target !== tableContainer.value
-  ) { return }
+  event.preventDefault();
+  event.stopImmediatePropagation();
 
-  if (computedCurrentIndexes.value.end === computedTotalData.value) {
-    // do nothing
-  } else {
-    emit('offsetChange', offset.value + limit.value)
+  if (computedCurrentIndexes.value.end !== computedTotalData.value) {
+    emit('offsetChange', offset.value + limit.value);
   }
 }
 </script>
 
 <template>
   <div
-    tabindex="0"
     ref="tableContainer"
+    tabindex="0"
     class="table-container"
-    @keydown.arrow-left="pageLeft($event)"
-    @keydown.arrow-right="pageRight($event)"
+    @keydown.arrow-left="pageLeft"
+    @keydown.arrow-right="pageRight"
   >
     <div
       class="table-actions"
     >
-      <slot name="table-actions" v-bind="{ name, actions: tableActions }">
+      <slot
+        name="table-actions"
+        v-bind="{ name, actions: tableActions }"
+      >
         <div
           :class="computedTableNameClass"
         >
-          <slot name="table-name" v-bind="{ name }">
+          <slot
+            name="table-name"
+            v-bind="{ name }"
+          >
             {{ name }}
           </slot>
         </div>
@@ -225,12 +236,16 @@ function pageRight(event) {
           class="actions"
         >
           <div
-            v-for="action in tableActions"
+            v-for="(action, i) in tableActions"
+            :key="i"
             class="action"
             @click="action.click(data)"
           >
-            <slot name="table-action" v-bind="{ action, data }">
-              <i :class="action.icon"></i>
+            <slot
+              name="table-action"
+              v-bind="{ action, data }"
+            >
+              <i :class="action.icon" />
               <span
                 class="tooltip"
               >
@@ -251,12 +266,19 @@ function pageRight(event) {
         <tr
           class="row"
         >
-          <slot name="header-row" v-bind="{ headers, actions }">
+          <slot
+            name="header-row"
+            v-bind="{ headers, actions }"
+          >
             <th
               v-for="(header, i) in headers"
+              :key="i"
               class="col"
             >
-              <slot :name="`header-col.${header.key}`" v-bind="{ header, i }">
+              <slot
+                :name="`header-col.${header.key}`"
+                v-bind="{ header, i }"
+              >
                 {{ header.label }}
               </slot> <!-- slot:header-col -->
             </th>
@@ -265,29 +287,34 @@ function pageRight(event) {
               v-if="actions.length > 0"
               class="col"
             >
-              <slot name="header-actions" v-bind="{ actions }">
-              </slot> <!-- slot:header-actions -->
+              <slot
+                name="header-actions"
+                v-bind="{ actions }"
+              /> <!-- slot:header-actions -->
             </th>
           </slot> <!-- slot:header-row -->
         </tr>
 
         <tr
-          class="loading"
           v-if="computedLoading"
+          class="loading"
         >
-          <slot name="progress-bar" v-bind="{ headers, actions, span: computedLoadingSpan }">
+          <slot
+            name="progress-bar"
+            v-bind="{ headers, actions, span: computedLoadingSpan }"
+          >
             <th
               :colspan="computedLoadingSpan"
             >
-              <TProgressBar/>
+              <TProgressBar />
             </th>
           </slot> <!-- slot:progress-bar -->
         </tr>
       </thead>
 
       <tbody
-        class="body"
         v-if="computedTotalData === 0"
+        class="body"
       >
         <tr
           :class="currentRowClass(0)"
@@ -302,24 +329,35 @@ function pageRight(event) {
       </tbody>
 
       <tbody
-        class="body"
         v-if="computedTotalData > 0"
+        class="body"
       >
         <tr
-          tabindex="0"
           v-for="(row, i) in computedPaginatedData"
-          :class="currentRowClass(i)"
           v-if="!computedLoading"
-          @keydown.enter="clickRow(row, i)"
+          :key="i"
+          tabindex="0"
+          :class="currentRowClass(i)"
+          @keydown.enter="clickRow(row, i, $event)"
         >
-          <slot name="data-row" v-bind="{ headers, row, actions, i }">
-            <slot name="data-content" v-bind="{ headers, row, i }">
+          <slot
+            name="data-row"
+            v-bind="{ headers, row, actions, i }"
+          >
+            <slot
+              name="data-content"
+              v-bind="{ headers, row, i }"
+            >
               <td
-                v-for="header in headers"
+                v-for="(header, h) in headers"
+                :key="h"
                 class="col"
                 @click="clickRow(row, i)"
               >
-                <slot :name="`data-col.${header.key}`" v-bind="{ header, row, i }">
+                <slot
+                  :name="`data-col.${header.key}`"
+                  v-bind="{ header, row, i }"
+                >
                   {{ row[header.key] }}
                 </slot>
               </td>
@@ -329,17 +367,24 @@ function pageRight(event) {
               v-if="actions.length > 0"
               class="col"
             >
-              <slot name="data-actions" v-bind="{ row, actions, i }">
+              <slot
+                name="data-actions"
+                v-bind="{ row, actions, i }"
+              >
                 <div
                   class="actions"
                 >
                   <div
-                    v-for="action in actions"
+                    v-for="(action, a) in actions"
+                    :key="a"
                     class="action"
                     @click="action.click(row, i)"
                   >
-                    <slot name="data-action" v-bind="{ row, action, i }">
-                      <i :class="action.icon"></i>
+                    <slot
+                      name="data-action"
+                      v-bind="{ row, action, i }"
+                    >
+                      <i :class="action.icon" />
                       <span
                         class="tooltip"
                       >
@@ -360,16 +405,18 @@ function pageRight(event) {
     >
       <slot
         name="pagination"
-        v-bind="{ pageLeft: pageLeft, pageRight: pageRight, start: computedCurrentIndexes.start, end: computedCurrentIndexes.end, total: computedTotalData }"
+        v-bind="{ pageLeft, pageRight, start: computedCurrentIndexes.start, end: computedCurrentIndexes.end,
+                  total: computedTotalData }"
       >
         <div
-          tabindex="0"
           ref="pagerLeft"
+          tabindex="0"
           :class="computedPagerLeftClass"
-          @click="pageLeft($event)"
+          @click="pageLeft"
+          @keydown.enter="pageLeft"
         >
           <slot name="pager-left">
-            <i class="fa-solid fa-chevron-left"></i>
+            <i class="fa-solid fa-chevron-left" />
           </slot>
         </div>
 
@@ -394,14 +441,14 @@ function pageRight(event) {
         </div>
 
         <div
-          tabindex="0"
           ref="pagerRight"
+          tabindex="0"
           :class="computedPagerRightClass"
-          @click="pageRight($event)"
-          @keydown.enter="pageRight($event)"
+          @click="pageRight"
+          @keydown.enter="pageRight"
         >
           <slot name="pager-right">
-            <i class="fa-solid fa-chevron-right"></i>
+            <i class="fa-solid fa-chevron-right" />
           </slot>
         </div>
       </slot> <!-- slot:pagination -->
