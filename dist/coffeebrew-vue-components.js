@@ -320,7 +320,7 @@ const al = { class: "input-field" }, nl = ["onKeydown"], sl = { class: "input-la
     ], 2));
   }
 }, Ss = /* @__PURE__ */ te(il, [["__scopeId", "data-v-30bdd926"]]);
-const be = (e) => (we("data-v-d94565aa"), e = e(), xe(), e), ul = { class: "input-label" }, rl = ["onKeydown"], dl = { class: "wrapper" }, cl = { class: "selected" }, fl = ["value"], vl = ["value"], pl = ["value"], ml = ["value"], yl = ["value"], hl = ["value"], gl = ["value"], _l = /* @__PURE__ */ be(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
+const be = (e) => (we("data-v-8f81fc60"), e = e(), xe(), e), ul = { class: "input-label" }, rl = ["onKeydown"], dl = { class: "wrapper" }, cl = { class: "selected" }, fl = ["value"], vl = ["value"], pl = ["value"], ml = ["value"], yl = ["value"], hl = ["value"], gl = ["value"], _l = /* @__PURE__ */ be(() => /* @__PURE__ */ t("div", { class: "toggle" }, [
   /* @__PURE__ */ t("i", { class: "fa-solid fa-calendar-days" })
 ], -1)), bl = ["onKeydown"], kl = /* @__PURE__ */ be(() => /* @__PURE__ */ t("i", { class: "fa-solid fa-circle-xmark" }, null, -1)), wl = [
   kl
@@ -633,7 +633,7 @@ const be = (e) => (we("data-v-d94565aa"), e = e(), xe(), e), ul = { class: "inpu
     }), Qe(() => {
       he.observe(E.value), he.observe(z.value), he.observe(i.value), l.displayTime && (he.observe(c.value), he.observe(g.value), he.observe(C.value)), Ge();
     }), vt(() => {
-      he.unobserve(E.value.element), he.unobserve(z.value.element), he.unobserve(i.value.element), l.displayTime && (he.unobserve(c.value.element), he.unobserve(g.value.element), he.unobserve(C.value.element)), Ge();
+      he.unobserve(E.value), he.unobserve(z.value), he.unobserve(i.value), l.displayTime && (he.unobserve(c.value), he.unobserve(g.value), he.unobserve(C.value)), Ge();
     }), (a, r) => (u(), d("div", {
       class: T(o(Be))
     }, [
@@ -960,7 +960,7 @@ const be = (e) => (we("data-v-d94565aa"), e = e(), xe(), e), ul = { class: "inpu
       e.errorMessage.length > 0 ? (u(), d("div", sa, k(e.errorMessage), 1)) : R("", !0)
     ], 2));
   }
-}, ft = /* @__PURE__ */ te(oa, [["__scopeId", "data-v-d94565aa"]]), Dt = {
+}, ft = /* @__PURE__ */ te(oa, [["__scopeId", "data-v-8f81fc60"]]), Dt = {
   __name: "TDatePicker",
   props: {
     modelValue: {
