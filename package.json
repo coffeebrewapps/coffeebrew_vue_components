@@ -21,6 +21,7 @@
     "dev": "vite --config demo.config.js",
     "build": "vite build --config vite.config.js",
     "build-demo": "vite build --config demo.config.js --base=\"/coffeebrew_vue_components/\"",
+    "build-cf": "vite build --config demo.config.js --base=/ && cp public/favicon.ico docs/favicon.ico",
     "test": "vitest __tests__ --config vitest.config.js",
     "test-coverage": "vitest __tests__ --coverage --ui --api.port 51205 --config vitest.config.js"
   },
